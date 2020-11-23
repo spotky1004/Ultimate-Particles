@@ -1,5 +1,4 @@
-var playing = 0;
-
 setInterval( function () {
+  updatePlayer();
   updateScreen();
 }, 15)

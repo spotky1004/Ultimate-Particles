@@ -10,6 +10,7 @@ class Particle {
     this.size = attrs.size || [0.015, 0.015];
     this.sides = attrs.sides || 4;
     this.deg = attrs.deg || 0;
+    this.hitboxSize = attrs.hitboxSize || 1;
   }
 
   moveTo(position=[0,0]) {
