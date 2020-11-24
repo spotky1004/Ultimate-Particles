@@ -12,20 +12,20 @@ function updatePlayer() {
     if (keypress['38']) particles[i].position[1] += playerSpeed;
     if (keypress['39']) particles[i].position[0] += playerSpeed;
     if (keypress['40']) particles[i].position[1] -= playerSpeed;
-    if (particles[i].position[0] < -screenAbsSize+particles[i].size[0]) particles[i].position[0] = -screenAbsSize+particles[i].size[0];
-    if (particles[i].position[0] > screenAbsSize-particles[i].size[0]) particles[i].position[0] = screenAbsSize-particles[i].size[0];
-    if (particles[i].position[1] < -screenAbsSize+particles[i].size[1]) particles[i].position[1] = -screenAbsSize+particles[i].size[1];
-    if (particles[i].position[1] > screenAbsSize-particles[i].size[1]) particles[i].position[1] = screenAbsSize-particles[i].size[1];
+    if (particles[i].position[0] < -screenAbsSize+particles[i].size[0]*particles[i].absSize) particles[i].position[0] = -screenAbsSize+particles[i].size[0]*particles[i].absSize;
+    if (particles[i].position[0] > screenAbsSize-particles[i].size[0]*particles[i].absSize) particles[i].position[0] = screenAbsSize-particles[i].size[0]*particles[i].absSize;
+    if (particles[i].position[1] < -screenAbsSize+particles[i].size[1]*particles[i].absSize) particles[i].position[1] = -screenAbsSize+particles[i].size[1]*particles[i].absSize;
+    if (particles[i].position[1] > screenAbsSize-particles[i].size[1]*particles[i].absSize) particles[i].position[1] = screenAbsSize-particles[i].size[1]*particles[i].absSize;
     for (var j in particles) {
       if (particles[j].type == 'player' || particles[j].type != 'enemy') continue;
       if (
-        particles[i].position[0]+particles[i].size[0] > particles[j].position[0]-particles[j].size[0]*particles[j].hitboxSize &&
-        particles[i].position[0]-particles[i].size[0] < particles[j].position[0]+particles[j].size[0]*particles[j].hitboxSize &&
-        particles[i].position[1]+particles[i].size[1] > particles[j].position[1]-particles[j].size[1]*particles[j].hitboxSize &&
-        particles[i].position[1]-particles[i].size[1] < particles[j].position[1]+particles[j].size[1]*particles[j].hitboxSize
+        Math.abs(particles[i].position[0]-particles[j].position[0]) < Math.abs(particles[i].size[0]*particles[i].absSize*particles[i].hitboxSize+particles[j].size[0]*particles[j].hitboxSize*particles[j].absSize) &&
+        Math.abs(particles[i].position[1]-particles[j].position[1]) < Math.abs(particles[i].size[1]*particles[i].absSize*particles[i].hitboxSize+particles[j].size[1]*particles[j].hitboxSize*particles[j].absSize)
       ) {
         particles = {};
         levelTasks.cancelAll();
+        levelFunctions.cancelAll();
+        clearInterval(levelLoop);
         return;
       }
     }

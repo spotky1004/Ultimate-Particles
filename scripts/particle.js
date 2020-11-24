@@ -2,37 +2,75 @@ var particles = {};
 
 class Particle {
   constructor(attrs={}) {
+    //important attrs
     this.type = attrs.type || 'enemy';
-    this.position = attrs.posision || [0,0];
-    this.speed = attrs.speed || 0;
+
+    //view
     this.color = attrs.color || '#000';
-    this.absSize = attrs.absSize || 1;
-    this.size = attrs.size || [0.015, 0.015];
     this.sides = attrs.sides || 4;
+
+    //move
+    this.position = attrs.posision || [0,0];
     this.deg = attrs.deg || 0;
+    this.speed = attrs.speed || 0;
+    this.linearSpeed = attrs.linearSpeed || [0, 0];
+
+    //size
+    this.absSize = attrs.absSize || 1; this.absSizeI = attrs.absSizeI || 0; this.absSizeIType = attrs.absSizeIType || 'increment'; this.absSizeC = attrs.absSizeC || [0.001, 999];
+    this.size = attrs.size || [0.015, 0.015]; this.sizeI = attrs.sizeI || [0, 0];  this.sizeIType = attrs.sizeIType || 'increment'; this.sizeC = attrs.sizeC || [[0.001, 999], [0.001, 999]];
     this.hitboxSize = attrs.hitboxSize || 1;
+
+    //etc
+    this.spanPer = attrs.spanPer || 10;
+  }
+
+  update() {
+    this.position[0] += (this.speed*Math.sin(Math.rad(this.deg))+this.linearSpeed[0])/1000*levelSettings.particleSpeed;
+    this.position[1] -= (this.speed*Math.cos(Math.rad(this.deg))+this.linearSpeed[1])/1000*levelSettings.particleSpeed;
+    var speedI = 1/tps;
+    switch (this.absSizeIType) {
+      case 'increment':
+      this.absSize = Math.min(Math.max(this.absSize+this.absSizeI*speedI, this.absSizeC[0]), this.absSizeC[1]);
+        break;
+      case 'multiply':
+      this.absSize = Math.min(Math.max(this.absSize*this.absSizeI^speedI, this.absSizeC[0]), this.absSizeC[1]);
+        break;
+      case 'span':
+      this.absSize = (this.absSizeI+this.absSize*this.spanPer)/(this.spanPer+1);
+        break;
+    }
+    switch (this.sizeIType) {
+      case 'increment':
+      this.size[0] = Math.min(Math.max(this.size[0]+this.sizeI[0]*speedI, this.sizeC[0][0]), this.sizeC[0][1]);
+      this.size[1] = Math.min(Math.max(this.size[1]+this.sizeI[1]*speedI, this.sizeC[1][0]), this.sizeC[1][1]);
+        break;
+      case 'multiply':
+      this.size[0] = Math.min(Math.max(this.size[0]*this.sizeI[0]^speedI, this.sizeC[0][0]), this.sizeC[0][1]);
+      this.size[1] = Math.min(Math.max(this.size[1]*this.sizeI[1]^speedI, this.sizeC[1][0]), this.sizeC[1][1]);
+        break;
+      case 'span':
+      this.size[0] = (this.sizeI[0]+this.size[0]*this.spanPer)/(this.spanPer+1);
+      this.size[1] = (this.sizeI[1]+this.size[1]*this.spanPer)/(this.spanPer+1);
+        break;
+    }
   }
 
   moveTo(position=[0,0]) {
     this.position = position;
     return this;
   }
-
   setSpeed(speed=0) {
     this.speed = speed;
     return this;
   }
-
   setDeg(deg=0) {
     this.deg = deg;
     return this;
   }
-
   setSides(sides=4) {
     this.sides = sides;
     return this;
   }
-
   setSize(size=4) {
     this.absSize = size;
     return this;

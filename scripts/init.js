@@ -1,2 +1,3 @@
 playing = 1;
-levelTest();
+levelInit();
+levelTest2();

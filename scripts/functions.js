@@ -1,4 +1,4 @@
-//tasks (ty CrackTrough for made this class for me!)
+//tasks (ty CrackTrough for made this for me!)
 class Task {
   constructor(v1, v2) {
     if (typeof v1 == "function") {
@@ -58,4 +58,24 @@ function keyUp(e) {
 }
 function keyDown(e) {
   keypress[e.keyCode] = false;
+}
+
+//spanFunctions
+async function screenSizeSpan(size=1, per=1, loop=100) {
+  screenSettings.size = (size+screenSettings.size*per)/(per+1);
+  if(loop == 0 || Math.abs(screenSettings.size[0]-size) < 0.001) return;
+  await timer(tickSpeed);
+  screenSizeSpan(size, per, loop-1);
+}
+async function screenScaleSpan(scale=1, per=1, loop=100) {
+  screenSettings.scale = (scale+screenSettings.scale*per)/(per+1);
+  if(loop == 0 || Math.abs(screenSettings.scale[0]-scale) < 0.001) return;
+  await timer(tickSpeed);
+  screenScaleSpan(scale, per, loop-1);
+}
+async function particleSpeedSpan(speed=1, per=1, loop=100) {
+  levelSettings.particleSpeed = (speed+levelSettings.particleSpeed*per)/(per+1);
+  if(loop == 0 || Math.abs(levelSettings.particleSpeed-speed) < 0.001) return;
+  await timer(tickSpeed);
+  particleSpeedSpan(speed, per, loop-1);
 }

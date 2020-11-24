@@ -24,10 +24,7 @@ function updateScreen() {
   switch (screenState) {
     case 'game':
       for (var name in particles) {
-        if (particles[name].type != 'player') {
-          particles[name].position[0] += particles[name].speed * Math.sin(Math.rad(particles[name].deg)) / 1000;
-          particles[name].position[1] -= particles[name].speed * Math.cos(Math.rad(particles[name].deg)) / 1000;
-        }
+        particles[name].update();
         c.beginPath();
         c.lineWidth = 1;
         c.fillStyle = particles[name].color;
@@ -60,19 +57,6 @@ function updateScreen() {
     default:
       break;
   }
-}
-
-async function screenSizeSpan(size=1, per=1, loop=100) {
-  screenSettings.size = (size+screenSettings.size*per)/(per+1);
-  if(loop == 0 || Math.abs(screenSettings.size[0]-size) < 0.001) return;
-  await timer(15);
-  screenSizeSpan(size, per, loop-1);
-}
-async function screenScaleSpan(scale=1, per=1, loop=100) {
-  screenSettings.scale = (scale+screenSettings.scale*per)/(per+1);
-  if(loop == 0 || Math.abs(screenSettings.scale[0]-scale) < 0.001) return;
-  await timer(15);
-  screenScaleSpan(scale, per, loop-1);
 }
 
 //override
