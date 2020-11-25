@@ -88,7 +88,7 @@ function levelTest3() {
     for (var i = 0; i < 15+levelLoopCount*3; i++) {
       var genPos = [Math.random()*2-1, Math.random()*2-1];
       if (Math.abs(particles.player.position[0]-genPos[0]) < 0.5 && Math.abs(particles.player.position[1]-genPos[1]) < 0.5) continue;
-      particles[`Phase${levelLoopCount}-TraceParticle${i}`] = new Particle({'color': `#${(Math.floor(Math.random()*4)+8).toString(16)}${(Math.floor(Math.random()*4)+8).toString(16)}${(Math.floor(Math.random()*4)+8).toString(16)}`, 'moveType': ['trace', 'player']}).setSpeed(Math.random()*3+0.7).moveTo(genPos);
+      particles[`Phase${levelLoopCount}-TraceParticle${i}`] = new Particle({'color': `#${(Math.floor(Math.random()*4)+8).toString(16)}${(Math.floor(Math.random()*4)+8).toString(16)}${(Math.floor(Math.random()*4)+8).toString(16)}`, 'hitboxSize': 0.8, 'moveType': ['trace', 'player']}).setSpeed(Math.random()*3+0.7).moveTo(genPos);
     }
     particles.player.hp++;
     document.getElementById('scroe').innerHTML = `Phase: ${levelLoopCount}`;
