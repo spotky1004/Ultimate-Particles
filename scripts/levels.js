@@ -80,13 +80,31 @@ function levelTest2() {
     document.getElementById('scroe').innerHTML = `Phase: ${levelLoopCount}`
   }, tickSpeed*30);
 }
+function levelTest3() {
+  levelInit();
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    for (var i = 0; i < 15+levelLoopCount*3; i++) {
+      var genPos = [Math.random()*2-1, Math.random()*2-1];
+      if (Math.abs(particles.player.position[0]-genPos[0]) < 0.5 && Math.abs(particles.player.position[1]-genPos[1]) < 0.5) continue;
+      particles[`Phase${levelLoopCount}-TraceParticle${i}`] = new Particle({'color': `#${(Math.floor(Math.random()*4)+8).toString(16)}${(Math.floor(Math.random()*4)+8).toString(16)}${(Math.floor(Math.random()*4)+8).toString(16)}`, 'moveType': ['trace', 'player']}).setSpeed(Math.random()*3+0.7).moveTo(genPos);
+    }
+    particles.player.hp++;
+    document.getElementById('scroe').innerHTML = `Phase: ${levelLoopCount}`;
+    document.getElementById('hp').innerHTML = `HP: ${particles.player.hp}`;
+  }, tickSpeed*150);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#00f', 'hitboxSize': 0.8, 'absSize': 1.5});
+}
+
 function levelTemplate() {
   levelInit();
 
   levelFunctions = new Task(
     [
       {callback: function(){
-        console.log(1);
+        //some functions here!
       }, time: 0, activated: false},
     ]
   );
@@ -102,6 +120,9 @@ function levelTemplate() {
       }, time: 0, activated: false},
     ]
   );
+  levelLoop = setInterval( function () {
+    //some functions here!
+  }, tickSpeed*10);
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
   levelTasks.activateAll();
 }

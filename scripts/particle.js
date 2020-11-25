@@ -12,7 +12,7 @@ class Particle {
     //move
     this.position = attrs.posision || [0,0];
     this.deg = attrs.deg || 0;
-    this.speed = attrs.speed || 0;
+    this.speed = attrs.speed || 0; this.playerSpeed = attrs.playerSpeed || 0.01;
     this.linearSpeed = attrs.linearSpeed || [0, 0];
 
     //size
@@ -22,11 +22,35 @@ class Particle {
 
     //etc
     this.spanPer = attrs.spanPer || 10;
+    this.hp = attrs.hp || 10; this.hpMax = this.hp;
+    this.atk = attrs.atk || 1; this.breakOnAtttack = attrs.breakOnAtttack || 1; 
+    this.moveType = attrs.moveType || ['normal', null];
   }
 
   update() {
+    switch (this.moveType[0]) {
+      case 'trace':
+      var toTrace = particles[this.moveType[1]];
+      if (toTrace !== undefined) {
+        this.deg = (Math.atan2(this.position[1]-toTrace.position[1], this.position[0]-toTrace.position[0])/Math.PI*180+270)%360;
+      }
+        break;
+      case 'traceAvoid':
+      var toTrace = particles[this.moveType[1]];
+      if (toTrace !== undefined) {
+        this.deg = Math.atan2(toTrace.position[1]-this.position[1], -(toTrace.position[0]-this.position[0]))/Math.PI*180;
+      }
+        break;
+      case 'traceCircle':
+      var toTrace = particles[this.moveType[1]];
+      if (toTrace !== undefined) {
+        this.deg = Math.atan2(toTrace.position[1]-this.position[1], toTrace.position[0]-this.position[0])/Math.PI*180;
+      }
+        break;
+    }
     this.position[0] += (this.speed*Math.sin(Math.rad(this.deg))+this.linearSpeed[0])/1000*levelSettings.particleSpeed;
     this.position[1] -= (this.speed*Math.cos(Math.rad(this.deg))+this.linearSpeed[1])/1000*levelSettings.particleSpeed;
+
     var speedI = 1/tps;
     switch (this.absSizeIType) {
       case 'increment':

@@ -17,16 +17,23 @@ function updatePlayer() {
     if (particles[i].position[1] < -screenAbsSize+particles[i].size[1]*particles[i].absSize) particles[i].position[1] = -screenAbsSize+particles[i].size[1]*particles[i].absSize;
     if (particles[i].position[1] > screenAbsSize-particles[i].size[1]*particles[i].absSize) particles[i].position[1] = screenAbsSize-particles[i].size[1]*particles[i].absSize;
     for (var j in particles) {
-      if (particles[j].type == 'player' || particles[j].type != 'enemy') continue;
+      if (particles[j].type == 'player' || particles[j].type != 'enemy' || i == j) continue;
       if (
         Math.abs(particles[i].position[0]-particles[j].position[0]) < Math.abs(particles[i].size[0]*particles[i].absSize*particles[i].hitboxSize+particles[j].size[0]*particles[j].hitboxSize*particles[j].absSize) &&
         Math.abs(particles[i].position[1]-particles[j].position[1]) < Math.abs(particles[i].size[1]*particles[i].absSize*particles[i].hitboxSize+particles[j].size[1]*particles[j].hitboxSize*particles[j].absSize)
       ) {
-        particles = {};
-        levelTasks.cancelAll();
-        levelFunctions.cancelAll();
-        clearInterval(levelLoop);
-        return;
+        particles[i].hp -= particles[j].atk;
+        if (particles[j].breakOnAtttack == 1) {
+          delete particles[j];
+        }
+        document.getElementById('hp').innerHTML = `HP: ${particles.player.hp}`;
+        if (particles[i].hp <= 0) {
+          particles = {};
+          levelTasks.cancelAll();
+          levelFunctions.cancelAll();
+          clearInterval(levelLoop);
+          return;
+        }
       }
     }
   }
