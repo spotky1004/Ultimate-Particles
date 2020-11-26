@@ -8,11 +8,14 @@ class Particle {
     //view
     this.color = attrs.color || '#000';
     this.sides = attrs.sides || 4;
+    this.rotateDeg = attrs.rotateDeg || 180;
+    this.zIndex = attrs.zIndex || 2;
+    this.opacity = attrs.opacity || 0;
 
     //move
     this.position = attrs.posision || [0,0];
     this.deg = attrs.deg || 0;
-    this.speed = attrs.speed || 0; this.playerSpeed = attrs.playerSpeed || 0.01;
+    this.speed = attrs.speed || 0; this.playerSpeed = attrs.playerSpeed || 0.01; this.screenParallaxPer = attrs.screenParallaxPer || 0;
     this.linearSpeed = attrs.linearSpeed || [0, 0];
 
     //size
@@ -23,7 +26,7 @@ class Particle {
     //etc
     this.spanPer = attrs.spanPer || 10;
     this.hp = attrs.hp || 10; this.hpMax = this.hp;
-    this.atk = attrs.atk || 1; this.breakOnAtttack = attrs.breakOnAtttack || 1; 
+    this.atk = attrs.atk || 1; this.breakOnAtttack = attrs.breakOnAtttack || 1;
     this.moveType = attrs.moveType || ['normal', null];
   }
 
@@ -43,8 +46,9 @@ class Particle {
         break;
       case 'traceCircle':
       var toTrace = particles[this.moveType[1]];
+      var dist = this.moveType[2] || 1;
       if (toTrace !== undefined) {
-        this.deg = Math.atan2(toTrace.position[1]-this.position[1], toTrace.position[0]-this.position[0])/Math.PI*180;
+        this.deg = Math.atan2(toTrace.position[1]-this.position[1], toTrace.position[0]-this.position[0])/Math.PI*180*dist;
       }
         break;
     }
@@ -104,19 +108,35 @@ class Particle {
     type = type.replace(/R/g, Math.floor(Math.random()*4).toString()); //change 'R' to '0' ~ '3', so that change sides random easily!
     switch (type) {
       case 'r0': //top random
-      this.position = [Math.random()*2-1, -1];
+      this.position = [Math.random()*getScreenAbsSize()*2-getScreenAbsSize()+screenSettings.p[0], -getScreenAbsSize()+screenSettings.p[1]];
       this.deg = (Math.random()*180+90)%360;
         break;
       case 'r1': //bottom random
-      this.position = [Math.random()*2-1, 1];
+      this.position = [Math.random()*getScreenAbsSize()*2-getScreenAbsSize()+screenSettings.p[0], getScreenAbsSize()+screenSettings.p[1]];
       this.deg = (Math.random()*180+270)%360;
         break;
       case 'r2': //left random
-      this.position = [-1, Math.random()*2-1];
+      this.position = [-getScreenAbsSize()+screenSettings.p[0], Math.random()*getScreenAbsSize()*2-getScreenAbsSize()+screenSettings.p[1]];
       this.deg = (Math.random()*180)%360;
         break;
       case 'r3': //right random
-      this.position = [1, Math.random()*2-1];
+      this.position = [getScreenAbsSize()+screenSettings.p[0], Math.random()*getScreenAbsSize()*2-getScreenAbsSize()+screenSettings.p[1]];
+      this.deg = (Math.random()*180+180)%360;
+        break;
+      case 's0': //top speared
+      this.position = [Math.random()*getScreenAbsSize()*2-getScreenAbsSize()+screenSettings.p[0], -getScreenAbsSize()+screenSettings.p[1]-0.5];
+      this.deg = (Math.random()*180+90)%360;
+        break;
+      case 's1': //bottom speared
+      this.position = [Math.random()*getScreenAbsSize()*2-getScreenAbsSize()+screenSettings.p[0], getScreenAbsSize()+screenSettings.p[1]+0.5];
+      this.deg = (Math.random()*180+270)%360;
+        break;
+      case 's2': //left speared
+      this.position = [-getScreenAbsSize()+screenSettings.p[0]-0.5, Math.random()*getScreenAbsSize()*2-getScreenAbsSize()+screenSettings.p[1]];
+      this.deg = (Math.random()*180)%360;
+        break;
+      case 's3': //right speared
+      this.position = [getScreenAbsSize()+screenSettings.p[0]+0.5, Math.random()*getScreenAbsSize()*2-getScreenAbsSize()+screenSettings.p[1]];
       this.deg = (Math.random()*180+180)%360;
         break;
       default:

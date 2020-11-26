@@ -8,6 +8,10 @@ function levelInit() {
   for (var i in levelSettingsCopy) {
     levelSettings[i] = levelSettingsCopy[i];
   }
+  screenSettings = {
+    'size': 1,
+    'p': [0, 0], 'scale': 1
+  }
 
   levelFunctions = new Task();
   levelTasks = new Task();
@@ -97,6 +101,37 @@ function levelTest3() {
 
   particles['player'] = new Particle({'type': 'player', 'color': '#00f', 'hitboxSize': 0.8, 'absSize': 1.5});
 }
+function levelTest4() {
+  levelInit();
+  screenSettings.size = 0;
+
+  levelFunctions = new Task(
+    [
+      {callback: function(){
+        var movePoint = [Math.random()*(0.5-Math.sqrt(levelLoopCount)/100)*2-0.5-Math.sqrt(levelLoopCount)/100, Math.random()*(0.5-Math.sqrt(levelLoopCount)/100)*2-0.5-Math.sqrt(levelLoopCount)/100];
+        screenSettings.p = [movePoint[0], movePoint[1]];
+        particles['player'].position = [movePoint[0], movePoint[1]];
+        screenSizeSpan(Math.max(0.5-Math.sqrt(levelLoopCount)/100, 0.25), 4, 30);
+        for (var i = 0; i < 10+Math.sqrt(Math.sqrt(levelLoopCount)); i++) {
+          particles[`particle${i}`] = new Particle({'color': '#f00', 'speed': Math.min(Math.random()*(2+Math.sqrt(levelLoopCount**0.9)/5)+4, 10), 'atk': 4}).randMove('sR');
+        }
+        for (var i = 0; i < 100; i++) {
+          //particles[`blocker${i}`] = new Particle({'color': '#eee', 'speed': 100, 'atk': 1, 'moveType': ['traceCircle', 'player', 1]}).randMove('rR');
+        }
+      }, time: tickSpeed*20, activated: false},
+    ]
+  );
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    screenSizeSpan(0, 3, 20);
+    levelFunctions.activate(0);
+    document.getElementById('scroe').innerHTML = `Phase: ${levelLoopCount}`;
+    document.getElementById('hp').innerHTML = `HP: ${particles.player.hp}`;
+  }, tickSpeed*150);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#a98b0e', 'hitboxSize': 0.8, 'absSize': 1.5, 'playerSpeed': 0.015, 'screenParallaxPer': 2});
+}
 
 function levelTemplate() {
   levelInit();
@@ -112,11 +147,7 @@ function levelTemplate() {
   levelTasks = new Task(
     [
       {callback: function(){
-        //phase1
-        for (var i = 0; i < 50; i++) {
-          particles[`Phase1-Shape${i}`] = new Particle().randMove('rR').setSpeed(10);
-        }
-        levelFunctions.activate(0);
+        //some functions here!
       }, time: 0, activated: false},
     ]
   );
@@ -125,4 +156,14 @@ function levelTemplate() {
   }, tickSpeed*10);
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
   levelTasks.activateAll();
+}
+function levelPlayer() {
+  levelInit();
+  var s = 20;
+  for (var i = 0; i < s; i++) {
+    for (var j = 0; j < s; j++) {
+      particles[`player${i}_${j}`] = new Particle({'type': 'player', 'color': `#${Math.floor(16/s*i).toString(16)}${Math.floor(16/s*j).toString(16)}${Math.floor(0).toString(16)}`})
+      .moveTo([(2/s*i-1+2/s*(i+1)-1)/2, (2/s*j-1+2/s*(j+1)-1)/2]);
+    }
+  }
 }

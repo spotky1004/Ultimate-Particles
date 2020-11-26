@@ -63,7 +63,7 @@ function keyDown(e) {
 //spanFunctions
 async function screenSizeSpan(size=1, per=1, loop=100) {
   screenSettings.size = (size+screenSettings.size*per)/(per+1);
-  if(loop == 0 || Math.abs(screenSettings.size[0]-size) < 0.001) return;
+  if(loop == 0 || Math.abs(screenSettings.size-size) < 0.001) return;
   await timer(tickSpeed);
   screenSizeSpan(size, per, loop-1);
 }
@@ -73,9 +73,21 @@ async function screenScaleSpan(scale=1, per=1, loop=100) {
   await timer(tickSpeed);
   screenScaleSpan(scale, per, loop-1);
 }
+async function screenPositionSpan(position=[0, 0], per=1, loop=100) {
+  screenSettings.p[0] = (position[0]+screenSettings.p[0]*per)/(per+1);
+  screenSettings.p[1] = (position[1]+screenSettings.p[1]*per)/(per+1);
+  if(loop == 0 || (Math.abs(screenSettings.p[0]-position[0]) < 0.001 && Math.abs(screenSettings.p[1]-position[1]) < 0.001)) return;
+  await timer(tickSpeed);
+  screenPositionSpan(position, per, loop-1);
+}
 async function particleSpeedSpan(speed=1, per=1, loop=100) {
   levelSettings.particleSpeed = (speed+levelSettings.particleSpeed*per)/(per+1);
   if(loop == 0 || Math.abs(levelSettings.particleSpeed-speed) < 0.001) return;
   await timer(tickSpeed);
   particleSpeedSpan(speed, per, loop-1);
+}
+
+//get funtcions
+function getScreenAbsSize() {
+  return screenSettings.size*(1/screenSettings.scale);
 }

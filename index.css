@@ -5,7 +5,7 @@
 
 #canvasBorder {
   --thisLen: min(100vh, 100vw);
-  position: absolute; top: calc(50vh - var(--thisLen) / 2); left: calc(50vw - var(--thisLen)/2);
+  position: absolute; /*top: calc(50vh - var(--thisLen) / 2); left: calc(50vw - var(--thisLen)/2);*/
   width: calc(0.96 * var(--thisLen)); height: calc(0.96 * var(--thisLen));
   padding: calc(0.02 * var(--thisLen));
   box-shadow: 0 0 calc(0.03* var(--thisLen)) #666; background-color: #666;
