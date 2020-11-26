@@ -118,13 +118,13 @@ function levelTest4() {
         for (var i = 0; i < 100; i++) {
           //particles[`blocker${i}`] = new Particle({'color': '#eee', 'speed': 100, 'atk': 1, 'moveType': ['traceCircle', 'player', 1]}).randMove('rR');
         }
-      }, time: tickSpeed*20, activated: false},
+      }, time: tickSpeed*Math.max(20, 50-levelLoopCount), activated: false},
     ]
   );
 
   levelLoop = setInterval( function () {
     levelLoopCount++;
-    screenSizeSpan(0, 3, 20);
+    screenSizeSpan(0, Math.max(20-levelLoopCount, 3), Math.max(20, 50-levelLoopCount));
     levelFunctions.activate(0);
     document.getElementById('scroe').innerHTML = `Phase: ${levelLoopCount}`;
     document.getElementById('hp').innerHTML = `HP: ${particles.player.hp}`;
