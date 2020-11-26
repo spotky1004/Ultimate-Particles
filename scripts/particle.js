@@ -11,8 +11,10 @@ class Particle {
     this.rotateDeg = attrs.rotateDeg || 180;
     this.zIndex = attrs.zIndex || 2;
     this.opacity = attrs.opacity || 0;
+    this.spanPer = attrs.spanPer || 10;
 
     //move
+    this.moveType = attrs.moveType || ['normal', null];
     this.position = attrs.posision || [0,0];
     this.deg = attrs.deg || 0;
     this.speed = attrs.speed || 0; this.playerSpeed = attrs.playerSpeed || 0.01; this.screenParallaxPer = attrs.screenParallaxPer || 0;
@@ -24,10 +26,8 @@ class Particle {
     this.hitboxSize = attrs.hitboxSize || 1;
 
     //etc
-    this.spanPer = attrs.spanPer || 10;
     this.hp = attrs.hp || 10; this.hpMax = this.hp;
     this.atk = attrs.atk || 1; this.breakOnAtttack = attrs.breakOnAtttack || 1;
-    this.moveType = attrs.moveType || ['normal', null];
   }
 
   update() {
