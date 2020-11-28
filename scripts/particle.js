@@ -17,8 +17,9 @@ class Particle {
     this.moveType = attrs.moveType || ['normal', null];
     this.position = attrs.posision || [0,0];
     this.deg = attrs.deg || 0;
-    this.speed = attrs.speed || 0; this.playerSpeed = attrs.playerSpeed || 0.01; this.screenParallaxPer = attrs.screenParallaxPer || 0;
-    this.linearSpeed = attrs.linearSpeed || [0, 0];
+    this.speed = attrs.speed || 0; this.speedI = attrs.speedI || 0; this.speedIType = attrs.speedIType || 'increment'; this.speedC = attrs.speedC || [0.001, 999];
+    this.playerSpeed = attrs.playerSpeed || 0.01; this.screenParallaxPer = attrs.screenParallaxPer || 0;
+    this.linearSpeed = attrs.linearSpeed || [0, 0]; this.linearSpeedI = attrs.linearSpeedI || [0, 0]; this.linearSpeedIType = attrs.linearSpeedIType || 'increment'; this.linearSpeedC = attrs.linearSpeedC || [[0.001, 999], [0.001, 999]];
 
     //size
     this.absSize = attrs.absSize || 1; this.absSizeI = attrs.absSizeI || 0; this.absSizeIType = attrs.absSizeIType || 'increment'; this.absSizeC = attrs.absSizeC || [0.001, 999];
@@ -38,6 +39,12 @@ class Particle {
         this.deg = (Math.atan2(this.position[1]-toTrace.position[1], this.position[0]-toTrace.position[0])/Math.PI*180+270)%360;
       }
         break;
+      case 'avoid':
+      var toTrace = particles[this.moveType[1]];
+      if (toTrace !== undefined) {
+        this.deg = (Math.atan2(this.position[1]-toTrace.position[1], this.position[0]-toTrace.position[0])/Math.PI*180+90)%360;
+      }
+        break;
       case 'traceAvoid':
       var toTrace = particles[this.moveType[1]];
       if (toTrace !== undefined) {
@@ -50,6 +57,12 @@ class Particle {
       if (toTrace !== undefined) {
         this.deg = Math.atan2(toTrace.position[1]-this.position[1], toTrace.position[0]-this.position[0])/Math.PI*180*dist;
       }
+        break;
+      case 'circle':
+      var center = this.moveType[1] || [0, 0];
+      var dist = Math.sqrt((this.position[0]-center[0])**2+(this.position[1]-center[1])**2);
+      var centerDeg = (Math.atan2(this.position[1]-center[1], this.position[0]-center[0])/Math.PI*180+270+this.speed)%360;
+      this.position = [-Math.sin(Math.rad(centerDeg))*dist, Math.cos(Math.rad(centerDeg))*dist];
         break;
     }
     this.position[0] += (this.speed*Math.sin(Math.rad(this.deg))+this.linearSpeed[0])/1000*levelSettings.particleSpeed;
@@ -79,6 +92,28 @@ class Particle {
       case 'span':
       this.size[0] = (this.sizeI[0]+this.size[0]*this.spanPer)/(this.spanPer+1);
       this.size[1] = (this.sizeI[1]+this.size[1]*this.spanPer)/(this.spanPer+1);
+        break;
+    }
+    switch (this.speedIType) {
+      case 'increment':
+      this.speed = Math.min(Math.max(this.speed+this.speedI*speedI, this.speedC[0]), this.speedC[1]);
+        break;
+      case 'multiply':
+      this.speed = Math.min(Math.max(this.speed*this.speedI^speedI, this.speedC[0]), this.speedC[1]);
+        break;
+    }
+    switch (this.linearSpeedIType) {
+      case 'increment':
+      this.linearSpeed[0] = Math.min(Math.max(this.linearSpeed[0]+this.linearSpeedI[0]*speedI, this.linearSpeedC[0][0]), this.linearSpeedC[0][1]);
+      this.linearSpeed[1] = Math.min(Math.max(this.linearSpeed[1]+this.linearSpeedI[1]*speedI, this.linearSpeedC[1][0]), this.linearSpeedC[1][1]);
+        break;
+      case 'multiply':
+      this.linearSpeed[0] = Math.min(Math.max(this.linearSpeed[0]*this.linearSpeedI[0]^speedI, this.linearSpeedC[0][0]), this.linearSpeedC[0][1]);
+      this.linearSpeed[1] = Math.min(Math.max(this.linearSpeed[1]*this.linearSpeedI[1]^speedI, this.linearSpeedC[1][0]), this.linearSpeedC[1][1]);
+        break;
+      case 'span':
+      this.linearSpeed[0] = (this.linearSpeedI[0]+this.linearSpeed[0]*this.spanPer)/(this.spanPer+1);
+      this.linearSpeed[1] = (this.linearSpeedI[1]+this.linearSpeed[1]*this.spanPer)/(this.spanPer+1);
         break;
     }
   }
