@@ -142,7 +142,7 @@ function levelTest5() {
       var dist = 1.2;
       for (var i = 0; i < 10+Math.sqrt(levelLoopCount)/3; i++) {
         var deg = Math.random()*360;
-        particles[`P${levelLoopCount}S${i}`] = new Particle({'color': hsvToRgb(levelLoopCount*0.0097, 0.8, 0.5), 'speed': 0.5, 'moveType': ['circle']}).moveTo([Math.sin(Math.rad(deg))*dist, -Math.cos(Math.rad(deg))*dist]);
+        particles[`P${levelLoopCount}S${i}`] = new Particle({'color': hsvToRgb(levelLoopCount*(0.001*(levelLoopCount/30+1)), 0.8, 0.5), 'speed': 0.5, 'moveType': ['circle']}).moveTo([Math.sin(Math.rad(deg))*dist, -Math.cos(Math.rad(deg))*dist]);
       }
       if (levelLoopCount > 1) {
         for (var i = 0; i < 10+Math.sqrt(levelLoopCount)/5; i++) {
