@@ -12,12 +12,15 @@ var levelSelected = -1;
 
 //updateScreen
 function updateScreen() {
-  document.getElementById('canvasBorder').style.setProperty('--thisLen', `min(${screenSettings.size*100}vw,${screenSettings.size*100}vh)`);
-  document.getElementById('canvasBorder').style.left = `calc(${50*(1+screenSettings.p[0])}vw - var(--thisLen) / 2)`;
-  document.getElementById('canvasBorder').style.top = `calc(${50*(1-screenSettings.p[1])}vh - var(--thisLen) / 2)`;
-  //top: calc(50vh - var(--thisLen) / 2); left: calc(50vw - var(--thisLen)/2);
+  screenMaxLeng = Math.min(innerWidth, innerHeight);
+  maxLeng = screenMaxLeng*0.96;
 
-  maxLeng = Math.min(innerWidth, innerHeight)*0.96;
+  document.getElementById('canvasBorder').style.setProperty('--thisLen', `${screenMaxLeng*screenSettings.size}px`);
+  //document.getElementById('canvasBorder').style.left = `calc(${50*(1+screenSettings.p[0])}vw - var(--thisLen) / 2)`;
+  //document.getElementById('canvasBorder').style.top = `calc(${50*(1-screenSettings.p[1])}vh - var(--thisLen) / 2)`;
+  document.getElementById('canvasBorder').style.left = `${(innerWidth-(screenMaxLeng*(-screenSettings.p[0]+1-(1-screenSettings.size))))/2}px`;
+  document.getElementById('canvasBorder').style.top = `${(innerHeight-(screenMaxLeng*(screenSettings.p[1]+1-(1-screenSettings.size))))/2}px`;
+
   canvasSize = maxLeng*screenSettings.size;
   canvas.width = canvasSize;
   canvas.height = canvasSize
@@ -34,7 +37,7 @@ function updateScreen() {
     for (var i = 0; i < 5; i++) {
       for (var j = 0; j < 5; j++) {
         var blockOn = 0;
-        levelScreenOffset = [(screenSettings.p[0]+(1-screenSettings.size)/2)*maxLeng, -(screenSettings.p[1]-(1-screenSettings.size))*maxLeng/2];
+        levelScreenOffset = [maxLeng*(screenSettings.p[0]+1-screenSettings.size)/2, -(maxLeng*(screenSettings.p[1]-1+screenSettings.size))/2];
         if (levelSelected != -1 && levelSelected == i+j*5) {
           blockOn = 1;
         }
@@ -43,7 +46,7 @@ function updateScreen() {
           levelOn = i+j*5;
           if (keypress['13'] && levelSelected == -1) {
             levelSelected = levelOn;
-            screenPositionSpan([1*((i+0.5)/5)-0.5, -2*((j+0.5)/5)+1], 10);
+            screenPositionSpan([2*((i+0.5)/5)-1, -2*((j+0.5)/5)+1], 10);
             screenSizeSpan(0.2, 10);
           }
         }
