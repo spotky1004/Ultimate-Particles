@@ -1,3 +1,3 @@
-playing = 1;
+playing = 0;
 levelInit();
-levelTest5();
+particles['player'] = new Particle({'type': 'player', 'color': '#f00'});

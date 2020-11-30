@@ -12,6 +12,7 @@ class Particle {
     this.zIndex = attrs.zIndex || 2;
     this.opacity = attrs.opacity || 0;
     this.spanPer = attrs.spanPer || 10;
+    this.alpha = attrs.alpha || 1;
 
     //move
     this.moveType = attrs.moveType || ['normal', null];

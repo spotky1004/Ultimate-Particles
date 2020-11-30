@@ -1,5 +1,5 @@
 function updatePlayer() {
-  if (!playing) return;
+  //if (!playing) return;
   for (var i in particles) {
     if (particles[i].type != 'player') continue;
     if ((keypress['37'] || keypress['39']) && (keypress['38'] || keypress['40'])) {

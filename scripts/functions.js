@@ -112,3 +112,18 @@ function hsvToRgb(h, s, v) {
   }
   return '#' + Math.floor(r*255).toString(16) + Math.floor(g*255).toString(16) + Math.floor(b*255).toString(16);
 }
+
+//document events
+document.onmousemove = getMousePos;
+var mousePos = [-150145150145, -167150141164];
+function getMousePos(event) {
+  mousePos = [event.clientX, event.clientY]
+}
+
+//canvas
+function resetCanvasSettings() {
+  c.lineWidth = 1;
+  c.fillStyle = '#000';
+  c.strokeStyle = '#000';
+  c.globalAlpha = 1;
+}
