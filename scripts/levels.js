@@ -81,7 +81,6 @@ function levelTest2() {
     particleSpeedSpan(0.3, 20, 30);
     screenSettings.size = 1.03+Math.log(levelLoopCount)/100;
     screenSizeSpan(0.97, 20, 30);
-    document.getElementById('scroe').innerHTML = `Phase: ${levelLoopCount}`
   }, tickSpeed*30);
 }
 function levelTest3() {
@@ -95,8 +94,6 @@ function levelTest3() {
       particles[`Phase${levelLoopCount}-TraceParticle${i}`] = new Particle({'color': `#${(Math.floor(Math.random()*4)+8).toString(16)}${(Math.floor(Math.random()*4)+8).toString(16)}${(Math.floor(Math.random()*4)+8).toString(16)}`, 'hitboxSize': 0.8, 'moveType': ['trace', 'player']}).setSpeed(Math.random()*3+0.7).moveTo(genPos);
     }
     particles.player.hp++;
-    document.getElementById('scroe').innerHTML = `Phase: ${levelLoopCount}`;
-    document.getElementById('hp').innerHTML = `HP: ${particles.player.hp}`;
   }, tickSpeed*150);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#00f', 'hitboxSize': 0.8, 'absSize': 1.5});
@@ -126,8 +123,6 @@ function levelTest4() {
     levelLoopCount++;
     screenSizeSpan(0, Math.max(20-levelLoopCount, 3), Math.max(20, 50-levelLoopCount));
     levelFunctions.activate(0);
-    document.getElementById('scroe').innerHTML = `Phase: ${levelLoopCount}`;
-    document.getElementById('hp').innerHTML = `HP: ${particles.player.hp}`;
   }, tickSpeed*150);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#a98b0e', 'hitboxSize': 0.8, 'absSize': 1.5, 'playerSpeed': 0.015, 'screenParallaxPer': 2});
@@ -163,8 +158,6 @@ function levelTest5() {
   levelLoop = setInterval( function () {
     levelLoopCount++;
     levelFunctions.activate(0);
-    document.getElementById('scroe').innerHTML = `Phase: ${levelLoopCount}`;
-    document.getElementById('hp').innerHTML = `HP: ${particles.player.hp}`;
   }, tickSpeed*100);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
@@ -188,8 +181,6 @@ function levelTemplate() {
 
   levelLoop = setInterval( function () {
     //some functions here!
-    document.getElementById('scroe').innerHTML = `Phase: ${levelLoopCount}`;
-    document.getElementById('hp').innerHTML = `HP: ${particles.player.hp}`;
   }, tickSpeed*10);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});

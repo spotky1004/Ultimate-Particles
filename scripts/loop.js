@@ -4,4 +4,5 @@ var tps = 1000/tickSpeed;
 setInterval( function () {
   updatePlayer();
   updateScreen();
+  gameStatusUpdate();
 }, tickSpeed);

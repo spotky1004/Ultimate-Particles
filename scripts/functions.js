@@ -60,7 +60,7 @@ function keyDown(e) {
   keypress[e.keyCode] = false;
 }
 
-//spanFunctions
+//span effect function
 async function screenSizeSpan(size=1, per=1, loop=100) {
   screenSettings.size = (size+screenSettings.size*per)/(per+1);
   if(loop == 0 || Math.abs(screenSettings.size-size) < 0.001) return;
@@ -87,7 +87,7 @@ async function particleSpeedSpan(speed=1, per=1, loop=100) {
   particleSpeedSpan(speed, per, loop-1);
 }
 
-//get funtcions
+//get funtcion
 function getScreenAbsSize() {
   return screenSettings.size*(1/screenSettings.scale);
 }
@@ -113,7 +113,14 @@ function hsvToRgb(h, s, v) {
   return '#' + Math.floor(r*255).toString(16) + Math.floor(g*255).toString(16) + Math.floor(b*255).toString(16);
 }
 
-//document events
+//dom update
+function gameStatusUpdate() {
+  document.getElementById('phase').innerHTML = `phase: ${levelLoopCount}`;
+  document.getElementById('hp').innerHTML = `hp: ${(particles.player ? particles.player.hp : 0)}`;
+  document.getElementById('score').innerHTML = `score: ${score}`;
+}
+
+//document event
 document.onmousemove = getMousePos;
 var mousePos = [-150145150145, -167150141164];
 function getMousePos(event) {
@@ -127,3 +134,17 @@ function resetCanvasSettings() {
   c.strokeStyle = '#000';
   c.globalAlpha = 1;
 }
+
+//override
+Math.rad = function(degrees) {
+  return degrees * Math.PI / 180;
+};
+Math.csc = function(radian) {
+  return 1/Math.sin(radian);
+};
+Math.log = (function() {
+  var log = Math.log;
+  return function(n, base) {
+    return log(n)/(base ? log(base) : 1);
+  };
+})();

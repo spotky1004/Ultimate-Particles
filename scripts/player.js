@@ -32,7 +32,6 @@ function updatePlayer() {
         if (particles[j].breakOnAtttack == 1) {
           delete particles[j];
         }
-        document.getElementById('hp').innerHTML = `HP: ${particles.player.hp}`;
         if (particles[i].hp <= 0) {
           particles = {};
           levelTasks.cancelAll();
