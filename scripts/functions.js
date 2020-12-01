@@ -135,6 +135,13 @@ function resetCanvasSettings() {
   c.globalAlpha = 1;
 }
 
+//screen change
+function goMain() {
+  screenState = 'main';
+  playing = 0;
+  screenSettings.size = 0;
+}
+
 //override
 Math.rad = function(degrees) {
   return degrees * Math.PI / 180;
