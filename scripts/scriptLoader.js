@@ -1,3 +1,4 @@
+//scripts to load
 var gameScripts = [
   'scripts/functions.js',
   'scripts/saveload.js',
@@ -72,12 +73,11 @@ var cScriptLoader = (function ()
             _this.log('Loading script "' + _this.m_js_files[i] + '".');
             _this.m_head.appendChild(script);
         };
-        this.loadFiles = function ()
+        this.loadFiles = async function ()
         {
-            // this.log(this.m_css_files);
-            // this.log(this.m_js_files);
-            for (var i = 0; i < _this.m_css_files.length; ++i)
-                _this.loadStyle(_this.m_css_files[i]);
+            //this.log(this.m_css_files);
+            //this.log(this.m_js_files);
+            for (var i = 0; i < _this.m_css_files.length; ++i) _this.loadStyle(_this.m_css_files[i]);
             _this.loadScript(0);
         };
         this.m_js_files = [];
@@ -108,4 +108,8 @@ var cScriptLoader = (function ()
 })();
 
 var scripts = new cScriptLoader(gameScripts.concat(levelScripts).concat(['scripts/init.js', 'scripts/loop.js']));
-scripts.loadFiles();
+
+//load scripts
+(async () => {
+  await scripts.loadFiles();
+})();

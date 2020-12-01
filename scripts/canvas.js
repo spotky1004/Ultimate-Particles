@@ -42,7 +42,7 @@ function updateScreen() {
     if (levelSelected == -1) {
       screenSizeSpan((1/ijc)*Math.log(Math.max(2, score), 10), 10, 1);
       screenSettings.p = [screenSettings.size-1, -screenSettings.size+1];
-      particles.player.playerSpeed = screenSettings.size/40;
+      particles.player.playerSpeed = screenSettings.size/30;
     }
 
     for (var i = 0; i < ic; i++) {
