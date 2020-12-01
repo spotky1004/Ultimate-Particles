@@ -16,8 +16,6 @@ function updateScreen() {
   maxLeng = screenMaxLeng*0.96;
 
   document.getElementById('canvasBorder').style.setProperty('--thisLen', `${screenMaxLeng*screenSettings.size}px`);
-  //document.getElementById('canvasBorder').style.left = `calc(${50*(1+screenSettings.p[0])}vw - var(--thisLen) / 2)`;
-  //document.getElementById('canvasBorder').style.top = `calc(${50*(1-screenSettings.p[1])}vh - var(--thisLen) / 2)`;
   document.getElementById('canvasBorder').style.left = `${(innerWidth-(screenMaxLeng*(-screenSettings.p[0]+1-(1-screenSettings.size))))/2}px`;
   document.getElementById('canvasBorder').style.top = `${(innerHeight-(screenMaxLeng*(screenSettings.p[1]+1-(1-screenSettings.size))))/2}px`;
 
