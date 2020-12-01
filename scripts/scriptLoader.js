@@ -1,3 +1,16 @@
+var gameScripts = [
+  'scripts/functions.js',
+  'scripts/saveload.js',
+  'scripts/particle.js',
+  'scripts/player.js',
+  'scripts/canvas.js',
+  'scripts/player.js'
+];
+var levelScripts = [
+  'scripts/levels/testLevels.js',
+  'scripts/levels/level1.js'
+];
+
 //script loader (https://stackoverflow.com/questions/14521108/dynamically-load-js-inside-js)
 var cScriptLoader = (function ()
 {
@@ -94,16 +107,5 @@ var cScriptLoader = (function ()
     return cScriptLoader;
 })();
 
-var scripts = new cScriptLoader([
-  'scripts/functions.js',
-  'scripts/saveload.js',
-  'scripts/particle.js',
-  'scripts/player.js',
-  'scripts/canvas.js',
-  'scripts/player.js',
-  'scripts/levels/testLevels.js',
-  'scripts/levels/level1.js',
-  'scripts/init.js',
-  'scripts/loop.js'
-]);
+var scripts = new cScriptLoader(gameScripts.concat(levelScripts).concat(['scripts/init.js', 'scripts/loop.js']));
 scripts.loadFiles();
