@@ -41,30 +41,3 @@ function level_41() {
 function level_51() {
   console.log(51);
 }
-
-function levelPillowTest() {
-  levelInit();
-
-  levelFunctions = new Task([
-    {callback: function(){
-      //some functions here!
-    }, time: 0, activated: false},
-  ]);
-
-  levelTasks = new Task([
-    {callback: function(){
-      screenSizeSpan(0.8, 200);
-    }, time: 0, activated: false},
-  ]);
-
-  levelLoop = setInterval( function () {
-    levelLoopCount++;
-    for (var i = 0; i < 9; i++) {
-      particles[`PPhase${levelLoopCount}with${i}`] = new Particle({'color': hsvToRgb(Math.random(), 0.5, 0.5), 'speed': Math.random()*10+55, 'speedI': 1, 'speedIType': 'span', 'spanPer': 27, 'hitboxSize': 0.66}).randMove('r1')
-      .setDeg((Math.random()*30+345)%360);
-    }
-  }, tickSpeed*20);
-
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [0,-0.75], 'playerSpeed': 0.005});
-  levelTasks.activateAll();
-}
