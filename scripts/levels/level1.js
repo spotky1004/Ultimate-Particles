@@ -7,7 +7,7 @@ function level_11() {
       for (var i = 0; i < 5+Math.sqrt(levelLoopCount); i++) {
         particles[`Phase${levelLoopCount}Shape${i}`] = new Particle({'color': hsvToRgb(Math.random(), 0.5, 0.6), 'speed': 2+levelLoopCount/10}).randMove('rR');
       }
-      screenSizeSpan(1-0.005*levelLoopCount, 10, 50);
+      screenSizeSpan(Math.max(1-0.005*levelLoopCount, 0.6), 10, 50);
       levelTasks.activate(0);
     }, time: tickSpeed*100, activated: false},
   ]);
@@ -19,6 +19,7 @@ function level_11() {
   ]);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.15, 'text': 'welcome!', 'color': '#c49b29', 'zIndex': 1})
   levelTasks.activateAll();
 }
 function level_12() {

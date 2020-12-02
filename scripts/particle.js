@@ -13,6 +13,7 @@ class Particle {
     this.opacity = attrs.opacity || 0;
     this.spanPer = attrs.spanPer || 10;
     this.alpha = attrs.alpha || 1;
+    this.text = attrs.text || 'text'; //this.type = 'text'
 
     //move
     this.moveType = attrs.moveType || ['normal', null];

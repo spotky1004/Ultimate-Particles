@@ -1,24 +1,3 @@
-var levelSettingsCopy = {
-  'particleSpeed': 1
-}
-var levelSettings, levelLoopCount;
-var levelLoop = 0;
-function levelInit() {
-  levelSettings = {};
-  for (var i in levelSettingsCopy) {
-    levelSettings[i] = levelSettingsCopy[i];
-  }
-  screenSettings = {
-    'size': 1,
-    'p': [0, 0], 'scale': 1
-  }
-
-  levelFunctions = new Task();
-  levelTasks = new Task();
-  levelLoop = 0;
-  levelLoopCount = 0;
-}
-
 function levelTest() {
   levelInit();
 

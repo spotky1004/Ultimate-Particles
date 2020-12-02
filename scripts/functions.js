@@ -142,6 +142,27 @@ function resetCanvasSettings() {
   c.strokeStyle = '#000';
   c.globalAlpha = 1;
 }
+var levelSettingsCopy = {
+  'particleSpeed': 1
+}
+var levelSettings, levelLoopCount;
+var levelLoop = 0;
+function levelInit() {
+  levelSettings = {};
+  for (var i in levelSettingsCopy) {
+    levelSettings[i] = levelSettingsCopy[i];
+  }
+  screenSettings = {
+    'size': 1,
+    'p': [0, 0], 'scale': 1,
+    'color': '#f5c542'
+  }
+
+  levelFunctions = new Task();
+  levelTasks = new Task();
+  levelLoop = 0;
+  levelLoopCount = 0;
+}
 
 //screen change
 function goMain() {

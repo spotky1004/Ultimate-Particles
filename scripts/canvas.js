@@ -5,7 +5,8 @@ var c = canvas.getContext('2d');
 var screenState = 'main';
 var screenSettings = {
   'size': 1,
-  'p': [0, 0], 'scale': 1
+  'p': [0, 0], 'scale': 1,
+  'color': '#f5c542'
 }
 var levelOn = -1;
 var levelSelected = -1;
@@ -26,7 +27,7 @@ function updateScreen() {
   canvas.height = canvasSize
   c.clearRect(0, 0, canvas.width, canvas.height);
   c.beginPath();
-  c.fillStyle = '#f5c542';
+  c.fillStyle = screenSettings.color;
   c.rect(0, 0, canvas.width, canvas.height);
   c.fill();
 
@@ -171,6 +172,7 @@ function updateScreen() {
         if (particles[name].zIndex != z) continue;
         particles[name].update();
         c.beginPath();
+        resetCanvasSettings();
         c.lineWidth = 1;
         c.fillStyle = particles[name].color;
         c.strokeStyle = particles[name].color;
@@ -179,22 +181,34 @@ function updateScreen() {
         var s = particles[name].sides;
         //var d = particles[name].deg;
         var d = particles[name].rotateDeg;
-        var d1 = (-d + 180 / s) % 360;
-        var sScale = 1/(particles[name].sides/2*Math.cos(Math.rad((180-(180/particles[name].sides*(particles[name].sides-2)))/2)))/0.7071067811865475;
-        var centerL = Math.csc(Math.rad(180 / s)) / 2 * particles[name].absSize*sScale;
-        var lastPos = [
-          maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale - Math.sin(Math.rad(d1)) * centerL * particles[name].size[0] * screenSettings.scale),
-          maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale - Math.cos(Math.rad(d1)) * centerL * particles[name].size[1] * screenSettings.scale)
-        ];
-        c.moveTo(lastPos[0], lastPos[1]);
-        for (var i = 0; i < particles[name].sides; i++) {
-          lastPos[0] += Math.sin(Math.PI * 2 / particles[name].sides * i + Math.rad(d + 90)) * (maxLeng * particles[name].absSize) * particles[name].size[0] * screenSettings.scale * sScale;
-          lastPos[1] -= Math.cos(Math.PI * 2 / particles[name].sides * i + Math.rad(d + 90)) * (maxLeng * particles[name].absSize) * particles[name].size[1] * screenSettings.scale * sScale;
-          c.lineTo(lastPos[0], lastPos[1]);
+        switch (particles[name].type) {
+          case 'text':
+          c.font = `bold ${maxLeng*particles[name].absSize}px Major Mono Display`;
+          c.textBaseline = 'middle';
+          var lastPos = [
+            maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale)-c.measureText(particles[name].text).width/2,
+            maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale)
+          ];
+          c.fillText(particles[name].text, lastPos[0], lastPos[1]);
+            break;
+          default:
+          var d1 = (-d + 180 / s) % 360;
+          var sScale = 1/(particles[name].sides/2*Math.cos(Math.rad((180-(180/particles[name].sides*(particles[name].sides-2)))/2)))/0.7071067811865475;
+          var centerL = Math.csc(Math.rad(180 / s)) / 2 * particles[name].absSize*sScale;
+          var lastPos = [
+            maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale - Math.sin(Math.rad(d1)) * centerL * particles[name].size[0] * screenSettings.scale),
+            maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale - Math.cos(Math.rad(d1)) * centerL * particles[name].size[1] * screenSettings.scale)
+          ];
+          c.moveTo(lastPos[0], lastPos[1]);
+          for (var i = 0; i < particles[name].sides; i++) {
+            lastPos[0] += Math.sin(Math.PI * 2 / particles[name].sides * i + Math.rad(d + 90)) * (maxLeng * particles[name].absSize) * particles[name].size[0] * screenSettings.scale * sScale;
+            lastPos[1] -= Math.cos(Math.PI * 2 / particles[name].sides * i + Math.rad(d + 90)) * (maxLeng * particles[name].absSize) * particles[name].size[1] * screenSettings.scale * sScale;
+            c.lineTo(lastPos[0], lastPos[1]);
+          }
+          c.closePath();
+          c.fill();
+          c.stroke();
         }
-        c.closePath();
-        c.fill();
-        c.stroke();
       }
     }
   }
