@@ -91,6 +91,13 @@ async function particleSpeedSpan(speed=1, per=1, loop=100) {
 function getScreenAbsSize() {
   return screenSettings.size*(1/screenSettings.scale);
 }
+function getScore() {
+  var tempScore = 0;
+  for (var i in saveData.levelData) {
+    tempScore += Math.min(90, saveData.levelData[i].phase);
+  }
+  return tempScore;
+}
 
 //color
 function hsvToRgb(h, s, v) {
@@ -117,6 +124,7 @@ function hsvToRgb(h, s, v) {
 function gameStatusUpdate() {
   document.getElementById('phase').innerHTML = `phase: ${levelLoopCount}`;
   document.getElementById('hp').innerHTML = `hp: ${(particles.player ? particles.player.hp : 0)}`;
+  score = getScore();
   document.getElementById('score').innerHTML = `score: ${score}`;
 }
 
@@ -140,6 +148,8 @@ function goMain() {
   screenState = 'main';
   playing = 0;
   screenSettings.size = 0;
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [parseInt('-hi there... AAaAAAaAAA', 36), -3009059676390311]});
+  levelSelected = -1;
 }
 
 //override

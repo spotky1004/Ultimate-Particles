@@ -180,12 +180,14 @@ function levelTemplate() {
   ]);
 
   levelLoop = setInterval( function () {
+    levelLoopCount++;
     //some functions here!
   }, tickSpeed*10);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
   levelTasks.activateAll();
 }
+
 function levelPlayer() {
   levelInit();
   var s = 20;

@@ -16,7 +16,7 @@ class Particle {
 
     //move
     this.moveType = attrs.moveType || ['normal', null];
-    this.position = attrs.posision || [0,0];
+    this.position = attrs.position || [0,0];
     this.deg = attrs.deg || 0;
     this.speed = attrs.speed || 0; this.speedI = attrs.speedI || 0; this.speedIType = attrs.speedIType || 'increment'; this.speedC = attrs.speedC || [0.001, 999];
     this.playerSpeed = attrs.playerSpeed || 0.01; this.screenParallaxPer = attrs.screenParallaxPer || 0;
@@ -101,6 +101,9 @@ class Particle {
         break;
       case 'multiply':
       this.speed = Math.min(Math.max(this.speed*this.speedI^speedI, this.speedC[0]), this.speedC[1]);
+        break;
+      case 'span':
+      this.speed = (this.speedI+this.speed*this.spanPer)/(this.spanPer+1);
         break;
     }
     switch (this.linearSpeedIType) {

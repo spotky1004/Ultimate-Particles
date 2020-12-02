@@ -34,9 +34,21 @@ function updatePlayer() {
         }
         if (particles[i].hp <= 0) {
           particles = {};
-          levelTasks.cancelAll();
-          levelFunctions.cancelAll();
+          try {
+            levelTasks.cancelAll();
+          } catch (e) {
+
+          }
+          try {
+            levelFunctions.cancelAll();
+          } catch (e) {
+
+          }
           clearInterval(levelLoop);
+          if (saveData.levelData[`level${levelSelected}`] !== undefined) {
+            saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, levelLoopCount);
+          }
+          goMain();
           return;
         }
       }

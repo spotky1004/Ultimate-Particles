@@ -40,9 +40,10 @@ function updateScreen() {
     var jc = ijc;
 
     if (levelSelected == -1) {
-      screenSizeSpan((1/ijc)*Math.log(Math.max(2, score), 10), 10, 1);
+      var sSizeMax = (1/ijc)*Math.pow(Math.max(score/20, 1), 1/3);
+      screenSizeSpan(sSizeMax, 10, 1);
       screenSettings.p = [screenSettings.size-1, -screenSettings.size+1];
-      particles.player.playerSpeed = screenSettings.size/30;
+      particles.player.playerSpeed = sSizeMax/30;
     }
 
     for (var i = 0; i < ic; i++) {
@@ -55,10 +56,19 @@ function updateScreen() {
         if (Math.abs(maxLeng*(i+.5)/ic-maxLeng*(particles.player.position[0]+1)/2) < maxLeng/ic/2 && Math.abs(maxLeng*(j+.5)/ic+maxLeng*(particles.player.position[1]-1)/2) < maxLeng/jc/2) {
           blockOn = 1;
           levelOn = i+j*ic;
-          if (keypress['13'] && levelSelected == -1) {
+          if (keypress['13'] && levelSelected == -1 && (i <= 0 && j <= 0)) {
             levelSelected = levelOn;
             screenPositionSpan([2*((i+0.5)/ic)-1, -2*((j+0.5)/jc)+1], 10);
             screenSizeSpan(1/ijc, 10);
+            setTimeout( function () {
+              screenSizeSpan(1/ijc+.02, 5, 24);
+              setTimeout( function () {
+                screenSizeSpan(0, 7, 30);
+                setTimeout( function () {
+                  startLevel(levelSelected);
+                }, tickSpeed*50);
+              }, tickSpeed*25);
+            }, 1000);
           }
         }
         var colSet = [Math.floor(256*(ic-1-i)/ic), Math.floor(256*(i+j)/(ic+jc)), Math.floor(256*(jc-1-j)/jc)];
@@ -82,6 +92,16 @@ function updateScreen() {
         if (blockOn) {
           c.fillStyle = onFill;
         }
+        c.fill();
+
+        //rank rect 2
+        resetCanvasSettings();
+        c.beginPath();
+        c.rect(maxLeng*(i+0.05)/ic-levelScreenOffset[0], maxLeng*(j+0.85)/jc-levelScreenOffset[1], maxLeng/ic*Math.min(1, saveData.levelData[`level${i+j*5}`].phase/90)*0.9, maxLeng/jc*0.1);
+        c.fillStyle = `#666`;
+        /*if (blockOn) {
+          c.fillStyle = onFill;
+        }*/
         c.fill();
 
         //rank txt
@@ -118,7 +138,7 @@ function updateScreen() {
         if (blockOn) {
           c.fillStyle = onFill;
         }
-        var txtToWrite = `${0}`;
+        var txtToWrite = `${saveData.levelData[`level${i+j*5}`].phase}`;
         c.fillText(txtToWrite, maxLeng*(i+.05)/ic-levelScreenOffset[0], maxLeng*(j+.05)/jc-levelScreenOffset[1]);
 
         //stage text
