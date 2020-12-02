@@ -130,7 +130,7 @@ function gameStatusUpdate() {
 
 //document event
 document.onmousemove = getMousePos;
-var mousePos = [-150145150145, -167150141164];
+var mousePos = [-150145150145, -167150141164]; //oct -> ascii?
 function getMousePos(event) {
   mousePos = [event.clientX, event.clientY]
 }
@@ -169,7 +169,7 @@ function goMain() {
   screenState = 'main';
   playing = 0;
   screenSettings.size = 0;
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [parseInt('-hi there... AAaAAAaAAA', 36), -3009059676390311]});
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [parseInt('-hi there... AAaAAAaAAA', 36), -3009059676390311]}); //base10 -> base36?
   levelSelected = -1;
 }
 
