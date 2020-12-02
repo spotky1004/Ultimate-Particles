@@ -3,37 +3,37 @@ var particles = {};
 class Particle {
   constructor(attrs={}) {
     //important attrs
-    this.type = attrs.type || 'enemy';
+    this.type = attrs.type || 'enemy'; // 'enemy' for enemy, 'player' for controlable player, 'text' for text, 'decoration' for decoration
 
     //view
-    this.color = attrs.color || '#000';
-    this.sides = attrs.sides || 4;
-    this.rotateDeg = attrs.rotateDeg || 180;
-    this.zIndex = attrs.zIndex || 2;
-    this.opacity = attrs.opacity || 0;
-    this.spanPer = attrs.spanPer || 10;
-    this.alpha = attrs.alpha || 1;
-    this.text = attrs.text || 'text'; //this.type = 'text'
+    this.color = attrs.color || '#000'; // fill color for particle and text
+    this.sides = attrs.sides || 4; // set sides of shaped particle
+    this.rotateDeg = attrs.rotateDeg || 180; // set rotated for shaped particle (this property won't affect to hitbox/collision for now)
+    this.zIndex = attrs.zIndex || 2; // z-index (0~5)
+    this.spanPer = attrs.spanPer || 10; // spanPer for ~IType = 'span', ratio - 1 : spanPer
+    this.alpha = attrs.alpha || 1; // alpha/opacity
+    this.text = attrs.text || 'text'; // text property for for text
 
     //move
-    this.moveType = attrs.moveType || ['normal', null];
-    this.position = attrs.position || [0,0];
-    this.deg = attrs.deg || 0;
-    this.speed = attrs.speed || 0; this.speedI = attrs.speedI || 0; this.speedIType = attrs.speedIType || 'increment'; this.speedC = attrs.speedC || [0.001, 999];
-    this.playerSpeed = attrs.playerSpeed || 0.01; this.screenParallaxPer = attrs.screenParallaxPer || 0;
-    this.linearSpeed = attrs.linearSpeed || [0, 0]; this.linearSpeedI = attrs.linearSpeedI || [0, 0]; this.linearSpeedIType = attrs.linearSpeedIType || 'increment'; this.linearSpeedC = attrs.linearSpeedC || [[0.001, 999], [0.001, 999]];
+    this.moveType = attrs.moveType || ['normal', null]; // moveType - 'trace', 'avoid', 'circle', 'teaceCircle', 'traceAvoid'
+    this.position = attrs.position || [0,0]; // position
+    this.deg = attrs.deg || 0; // degree to move
+    this.speed = attrs.speed || 0; this.speedI = attrs.speedI || 0; this.speedIType = attrs.speedIType || 'increment'; this.speedC = attrs.speedC || [0.001, 999]; // speed
+    this.playerSpeed = attrs.playerSpeed || 0.01; this.screenParallaxPer = attrs.screenParallaxPer || 0; // propertys for player: playerSpeed is player move speed with keyboard, screenParallaxPer is screen position move based on playerSpeed
+    this.linearSpeed = attrs.linearSpeed || [0, 0]; this.linearSpeedI = attrs.linearSpeedI || [0, 0]; this.linearSpeedIType = attrs.linearSpeedIType || 'increment'; this.linearSpeedC = attrs.linearSpeedC || [[0.001, 999], [0.001, 999]]; //linear speed for make 'Constant velocity linear motion' easily
 
     //size
-    this.absSize = attrs.absSize || 1; this.absSizeI = attrs.absSizeI || 0; this.absSizeIType = attrs.absSizeIType || 'increment'; this.absSizeC = attrs.absSizeC || [0.001, 999];
-    this.size = attrs.size || [0.015, 0.015]; this.sizeI = attrs.sizeI || [0, 0];  this.sizeIType = attrs.sizeIType || 'increment'; this.sizeC = attrs.sizeC || [[0.001, 999], [0.001, 999]];
-    this.hitboxSize = attrs.hitboxSize || 1;
+    this.absSize = attrs.absSize || 1; this.absSizeI = attrs.absSizeI || 0; this.absSizeIType = attrs.absSizeIType || 'increment'; this.absSizeC = attrs.absSizeC || [0.001, 999]; // absSize multiplies both x and y size (or this property set text size)
+    this.size = attrs.size || [0.015, 0.015]; this.sizeI = attrs.sizeI || [0, 0];  this.sizeIType = attrs.sizeIType || 'increment'; this.sizeC = attrs.sizeC || [[0.001, 999], [0.001, 999]]; // size for shaped particles
+    this.hitboxSize = attrs.hitboxSize || 1; // hitbox, multiplies to final calculate
 
     //etc
-    this.hp = attrs.hp || 10; this.hpMax = this.hp;
-    this.atk = attrs.atk || 1; this.breakOnAtttack = attrs.breakOnAtttack || 1;
+    this.hp = attrs.hp || 10; this.hpMax = this.hp; // hp for player
+    this.atk = attrs.atk || 1; this.breakOnAtttack = attrs.breakOnAtttack || 1; // propertys for enemy, when 'player' is collisionWith 'enemy' player's hp will decreased based on atk, also if breakOnAtttack is true: 'enemy' particle will disappear
   }
 
   update() {
+    // moveType
     switch (this.moveType[0]) {
       case 'trace':
       var toTrace = particles[this.moveType[1]];
@@ -67,9 +67,12 @@ class Particle {
       this.position = [-Math.sin(Math.rad(centerDeg))*dist, Math.cos(Math.rad(centerDeg))*dist];
         break;
     }
+
+    // move
     this.position[0] += (this.speed*Math.sin(Math.rad(this.deg))+this.linearSpeed[0])/1000*levelSettings.particleSpeed;
     this.position[1] -= (this.speed*Math.cos(Math.rad(this.deg))+this.linearSpeed[1])/1000*levelSettings.particleSpeed;
 
+    // increment properties
     var speedI = 1/tps;
     switch (this.absSizeIType) {
       case 'increment':
@@ -123,25 +126,14 @@ class Particle {
     }
   }
 
-  moveTo(position=[0,0]) {
-    this.position = position;
-    return this;
-  }
-  setSpeed(speed=0) {
-    this.speed = speed;
-    return this;
-  }
-  setDeg(deg=0) {
-    this.deg = deg;
-    return this;
-  }
-  setSides(sides=4) {
-    this.sides = sides;
-    return this;
-  }
-  setSize(size=4) {
-    this.absSize = size;
-    return this;
+  collisionWith(particle) {
+    if (
+      Math.abs(this.position[0]-particle.position[0]) < Math.abs(this.size[0]*particle.absSize*this.hitboxSize+particle.size[0]*particle.hitboxSize*particle.absSize) &&
+      Math.abs(this.position[1]-particle.position[1]) < Math.abs(this.size[1]*particle.absSize*this.hitboxSize+particle.size[1]*particle.hitboxSize*particle.absSize)
+    ) {
+      return 1;
+    }
+    return 0;
   }
 
   randMove(type='') {
@@ -182,6 +174,27 @@ class Particle {
       default:
 
     }
+    return this;
+  }
+
+  moveTo(position=[0,0]) {
+    this.position = position;
+    return this;
+  }
+  setSpeed(speed=0) {
+    this.speed = speed;
+    return this;
+  }
+  setDeg(deg=0) {
+    this.deg = deg;
+    return this;
+  }
+  setSides(sides=4) {
+    this.sides = sides;
+    return this;
+  }
+  setSize(size=4) {
+    this.absSize = size;
     return this;
   }
 }

@@ -24,10 +24,7 @@ function updatePlayer() {
     if (particles[i].position[1] > getScreenAbsSize()-particles[i].size[1]*particles[i].absSize+screenSettings.p[1]) particles[i].position[1] = getScreenAbsSize()-particles[i].size[1]*particles[i].absSize+screenSettings.p[1];
     for (var j in particles) {
       if (particles[j].type == 'player' || particles[j].type != 'enemy' || i == j) continue;
-      if (
-        Math.abs(particles[i].position[0]-particles[j].position[0]) < Math.abs(particles[i].size[0]*particles[i].absSize*particles[i].hitboxSize+particles[j].size[0]*particles[j].hitboxSize*particles[j].absSize) &&
-        Math.abs(particles[i].position[1]-particles[j].position[1]) < Math.abs(particles[i].size[1]*particles[i].absSize*particles[i].hitboxSize+particles[j].size[1]*particles[j].hitboxSize*particles[j].absSize)
-      ) {
+      if (particles[i].collisionWith(particles[j])) {
         particles[i].hp -= particles[j].atk;
         if (particles[j].breakOnAtttack == 1) {
           delete particles[j];
