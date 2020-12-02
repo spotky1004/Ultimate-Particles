@@ -97,11 +97,17 @@ function updateScreen() {
         //rank rect 2
         resetCanvasSettings();
         c.beginPath();
-        c.rect(maxLeng*(i+0.05)/ic-levelScreenOffset[0], maxLeng*(j+0.85)/jc-levelScreenOffset[1], maxLeng/ic*Math.min(1, saveData.levelData[`level${i+j*5}`].phase/90)*0.9, maxLeng/jc*0.1);
-        c.fillStyle = `#666`;
-        /*if (blockOn) {
-          c.fillStyle = onFill;
-        }*/
+        var partScore = saveData.levelData[`level${i+j*5}`].phase;
+        c.rect(maxLeng*(i+0.05)/ic-levelScreenOffset[0], maxLeng*(j+0.85)/jc-levelScreenOffset[1], maxLeng/ic*Math.min(1, partScore/90)*0.9, maxLeng/jc*0.1);
+        if (partScore >= 90) {
+          c.fillStyle = `#e3e139`;
+        } else if (partScore >= 60) {
+          c.fillStyle = `#b0b0b0`;
+        } else if (partScore >= 30) {
+          c.fillStyle = `#c2902d`;
+        } else {
+          c.fillStyle = `#666`;
+        }
         c.fill();
 
         //rank txt
