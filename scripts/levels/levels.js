@@ -134,6 +134,7 @@ function level_21() {
   }, tickSpeed*100);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'circle!', 'color': '#c49b29', 'zIndex': 1})
   //levelTasks.activateAll();
 }
 //level 2-2, made by PillowPrism
