@@ -27,9 +27,12 @@ class Particle {
     this.size = attrs.size || [0.015, 0.015]; this.sizeI = attrs.sizeI || [0, 0];  this.sizeIType = attrs.sizeIType || 'increment'; this.sizeC = attrs.sizeC || [[0.001, 999], [0.001, 999]]; // size for shaped particles
     this.hitboxSize = attrs.hitboxSize || 1; // hitbox, multiplies to final calculate
 
-    //etc
+    //game
     this.hp = attrs.hp || 10; this.hpMax = this.hp; // hp for player
     this.atk = attrs.atk || 1; this.breakOnAtttack = attrs.breakOnAtttack || 1; // propertys for enemy, when 'player' is collisionWith 'enemy' player's hp will decreased based on atk, also if breakOnAtttack is true: 'enemy' particle will disappear
+
+    //etc
+    this.outOfBounds = [[-2, 2], [-2, 2]]; // this is vaild position of particle. if particle's potition is out of this square it'll be deleted
   }
 
   update() {
@@ -123,6 +126,11 @@ class Particle {
       this.linearSpeed[0] = (this.linearSpeedI[0]+this.linearSpeed[0]*this.spanPer)/(this.spanPer+1);
       this.linearSpeed[1] = (this.linearSpeedI[1]+this.linearSpeed[1]*this.spanPer)/(this.spanPer+1);
         break;
+    }
+
+    //outOfBounds
+    if (!(this.outOfBounds[0][0] <= this.position[0] && this.position[0] <= this.outOfBounds[0][1] && this.outOfBounds[1][0] <= this.position[1] && this.position[1] <= this.outOfBounds[1][1])) {
+      delete this;
     }
   }
 
