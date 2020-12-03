@@ -9,7 +9,7 @@ class Particle {
     this.color = attrs.color || '#000'; // fill color for particle and text
     this.sides = attrs.sides || 4; // set sides of shaped particle
     this.rotateDeg = attrs.rotateDeg || 180; // set rotated for shaped particle (this property won't affect to hitbox/collision for now)
-    this.zIndex = attrs.zIndex || 2; // z-index (0~5)
+    this.zIndex = attrs.zIndex || 2; // z-index (0~4)
     this.spanPer = attrs.spanPer || 10; // spanPer for ~IType = 'span', ratio - 1 : spanPer
     this.alpha = attrs.alpha || 1; // alpha/opacity
     this.text = attrs.text || 'text'; // text property for for text
