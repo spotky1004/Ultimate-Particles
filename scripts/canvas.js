@@ -41,7 +41,7 @@ function updateScreen() {
     var jc = ijc;
 
     if (levelSelected == -1) {
-      var sSizeMax = (1/ijc)*Math.pow(Math.max(score/20, 1), 1/3);
+      var sSizeMax = (1/ijc)*Math.pow(Math.max(score/(20-Math.log(Math.max(1, score), 10)), 1), 1/3);
       screenSizeSpan(sSizeMax, 10, 1);
       if (screenSettings.size > sSizeMax) {
         screenSettings.size = sSizeMax;
