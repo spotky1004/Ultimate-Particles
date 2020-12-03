@@ -9,7 +9,10 @@ function save() {
   localStorage[savePoint] = JSON.stringify(saveData);
 }
 function load() {
-  saveData = JSON.parse(localStorage[savePoint]);
+  if (localStorage[savePoint] !== undefined) {
+    saveData = JSON.parse(localStorage[savePoint]);
+  }
+
   for (var i in tempSaveData) {
     if (saveData[i] === undefined) {
       saveData[i] = tempSaveData[i];

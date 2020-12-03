@@ -126,6 +126,7 @@ function gameStatusUpdate() {
   document.getElementById('hp').innerHTML = `hp: ${(particles.player ? particles.player.hp : 0)}`;
   score = getScore();
   document.getElementById('score').innerHTML = `score: ${score}`;
+  document.getElementById('noControllTick').innerHTML = `con: ${noControllTick}/500`;
 }
 
 //document event
@@ -171,6 +172,25 @@ function goMain() {
   screenSettings.size = 0;
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [parseInt('-hi there... AAaAAAaAAA', 36), -3009059676390311]}); //base10 -> base36?
   levelSelected = -1;
+}
+function playerDead() {
+  particles = {};
+  try {
+    levelTasks.cancelAll();
+  } catch (e) {
+
+  }
+  try {
+    levelFunctions.cancelAll();
+  } catch (e) {
+
+  }
+  clearInterval(levelLoop);
+  if (saveData.levelData[`level${levelSelected}`] !== undefined) {
+    saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, levelLoopCount);
+  }
+  goMain();
+  save();
 }
 
 //override
