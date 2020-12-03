@@ -126,7 +126,7 @@ function gameStatusUpdate() {
   document.getElementById('hp').innerHTML = `hp: ${(particles.player ? particles.player.hp : 0)}`;
   score = getScore();
   document.getElementById('score').innerHTML = `score: ${score}`;
-  document.getElementById('noControllTick').innerHTML = `con: ${noControllTick}/500`;
+  document.getElementById('noControllTick').innerHTML = `c: ${noControllTick}/500`;
 }
 
 //document event
