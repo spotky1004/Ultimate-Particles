@@ -43,6 +43,9 @@ function updateScreen() {
     if (levelSelected == -1) {
       var sSizeMax = (1/ijc)*Math.pow(Math.max(score/20, 1), 1/3);
       screenSizeSpan(sSizeMax, 10, 1);
+      if (screenSettings.size > sSizeMax) {
+        screenSettings.size = sSizeMax;
+      }
       screenSettings.p = [screenSettings.size-1, -screenSettings.size+1];
       particles.player.playerSpeed = sSizeMax/30;
     }
