@@ -46,7 +46,7 @@ function level_12() {
   levelLoop = setInterval( function () {
     levelLoopCount++;
     screenSettings.size = 1.04;
-      screenSizeSpan(1, 10)
+      screenSizeSpan(1, 10, 30)
       particles[`${levelLoopCount}`] = new Particle({'speed': 30, 'spanper': 30, 'speedI': 9, 'speedIType': 'span', 'color': '#600', 'size': [0.03,0.03], 'position': [Math.random()*2-1,1]})
 
       if (levelLoopCount > 1) {
