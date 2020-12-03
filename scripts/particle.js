@@ -16,6 +16,7 @@ class Particle {
 
     //move
     this.moveType = attrs.moveType || ['normal', null]; // moveType - 'trace', 'avoid', 'circle', 'teaceCircle', 'traceAvoid'
+    this.specialAttrs = attrs.specialAttrs || []; // specialAttrs - 'bounce'
     this.position = attrs.position || [0,0]; // position
     this.deg = attrs.deg || 0; // degree to move
     this.speed = attrs.speed || 0; this.speedI = attrs.speedI || 0; this.speedIType = attrs.speedIType || 'increment'; this.speedC = attrs.speedC || [0.001, 999]; // speed
@@ -75,6 +76,27 @@ class Particle {
     this.position[0] += (this.speed*Math.sin(Math.rad(this.deg))+this.linearSpeed[0])/1000*levelSettings.particleSpeed;
     this.position[1] -= (this.speed*Math.cos(Math.rad(this.deg))+this.linearSpeed[1])/1000*levelSettings.particleSpeed;
 
+    // special
+    // bounce
+    if (this.specialAttrs.includes('bounce')) {
+      if (this.position[0]+this.getTotAbsSize()[0]/2 > getScreenAbsSize()+screenSettings.p[0] && (0 < this.deg && this.deg < 180)) {
+        this.position[0] = getScreenAbsSize()-this.getTotAbsSize()[0]/2;
+        this.deg = (360-this.deg)%360;
+      }
+      if (this.position[0]-this.getTotAbsSize()[0]/2 < -getScreenAbsSize()+screenSettings.p[0] && (180 < this.deg && this.deg < 360)) {
+        this.position[0] = -getScreenAbsSize()+this.getTotAbsSize()[0]/2;
+        this.deg = (360-this.deg)%360;
+      }
+      if (this.position[1]+this.getTotAbsSize()[1]/2 > getScreenAbsSize()+screenSettings.p[1] && (90 < this.deg && this.deg < 270)) {
+        this.position[1] = getScreenAbsSize()-this.getTotAbsSize()[1]/2;
+        this.deg = (540-this.deg)%360;
+      }
+      if (this.position[1]-this.getTotAbsSize()[1]/2 < -getScreenAbsSize()+screenSettings.p[1] && (270 < this.deg || this.deg < 90)) {
+        this.position[1] = -getScreenAbsSize()+this.getTotAbsSize()[1]/2;
+        this.deg = (540-this.deg)%360;
+      }
+    }
+
     // increment properties
     var speedI = 1/tps;
     switch (this.absSizeIType) {
@@ -88,7 +110,7 @@ class Particle {
       this.absSize = (this.absSizeI+this.absSize*this.spanPer)/(this.spanPer+1);
         break;
       case 'bump':
-      
+
         break;
     }
     switch (this.sizeIType) {
@@ -208,6 +230,10 @@ class Particle {
   setSize(size=4) {
     this.absSize = size;
     return this;
+  }
+
+  getTotAbsSize() {
+    return [this.absSize*this.size[0], this.absSize*this.size[1]];
   }
 }
 
