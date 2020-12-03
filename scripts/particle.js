@@ -131,6 +131,7 @@ class Particle {
     //outOfBounds
     if (!(this.outOfBounds[0][0] <= this.position[0] && this.position[0] <= this.outOfBounds[0][1] && this.outOfBounds[1][0] <= this.position[1] && this.position[1] <= this.outOfBounds[1][1])) {
       delete this;
+      return;
     }
   }
 
