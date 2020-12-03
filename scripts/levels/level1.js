@@ -87,6 +87,7 @@ function level_12() {
   }, tickSpeed*32);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.2, 'text': 'boom!', 'color': '#c49b29', 'zIndex': 1})
   levelTasks.activateAll();
 }
 function level_31() {
