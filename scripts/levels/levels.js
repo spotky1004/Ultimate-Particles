@@ -88,6 +88,84 @@ particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
 particles['text'] = new Particle({'type': 'text', 'absSize': 0.2, 'text': 'boom!', 'color': '#c49b29', 'zIndex': 1})
 levelTasks.activateAll();
 }
+//level 1-3, made by PillowPrism
+function level_13() {
+  levelInit();
+
+  PillowRand1 = 0;
+  PillowRand2 = 0;
+  PillowSwitch = 0;
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+
+
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+
+    PillowRand1 = (Math.random()-4)/4
+    PillowRand2 = (Math.random()-4)/4
+    if (levelLoopCount <= 90) {
+      for(var i = 0; i<8; i++) {
+        particles[`${levelLoopCount}With${i}`] = new Particle({'speed': 12, 'color': '#A00', 'position': [PillowRand1,1]})
+        PillowRand1 = PillowRand1 + 0.25;
+      }
+      if (levelLoopCount > 30) {
+        for(var i = 0; i<8; i++) {
+        particles[`${levelLoopCount}With${i}With2`] = new Particle({'speed': 12, 'color': '#00A', 'position': [-1,PillowRand2]})
+        .setDeg(90);
+        PillowRand2 = PillowRand2 + 0.25;
+        }
+      }
+    } else {
+      if (PillowSwitch == 1) {
+        for(var i = 0; i<8; i++) {
+          particles[`${levelLoopCount}With${i}`] = new Particle({'speed': 12, 'color': '#A00', 'position': [PillowRand1,1]})
+          PillowRand1 = PillowRand1 + 0.25;
+        }
+        for(var i = 0; i<8; i++) {
+          particles[`${levelLoopCount}With${i}With2`] = new Particle({'speed': 12, 'color': '#00A', 'position': [-1,PillowRand2]})
+          .setDeg(90);
+          PillowRand2 = PillowRand2 + 0.25;
+        }
+      } else {
+        for(var i = 0; i<8; i++) {
+          particles[`${levelLoopCount}With${i}`] = new Particle({'speed': 12, 'color': '#A00', 'position': [PillowRand1,-1]})
+          .setDeg(180);
+          PillowRand1 = PillowRand1 + 0.25;
+        }
+        for(var i = 0; i<8; i++) {
+          particles[`${levelLoopCount}With${i}With2`] = new Particle({'speed': 12, 'color': '#00A', 'position': [1,PillowRand2]})
+          .setDeg(270);
+          PillowRand2 = PillowRand2 + 0.25;
+        }
+      }
+      PillowSwitch = 1 - PillowSwitch
+    }
+  }, tickSpeed*35);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 24});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'grid!', 'color': '#c49b29', 'zIndex': 1})
+  levelTasks.activateAll();
+}
+function level_14() {
+
+}
+function level_15() {
+
+}
+function level_16() {
+
+}
+
 //level 2-1, made by Spotky1004
 function level_21() {
   levelInit();
@@ -202,74 +280,6 @@ function level_22() {
   levelFunctions.activate(1);
   levelFunctions.activate(2);
 }
-//level 1-3, made by PillowPrism
-function level_13() {
-  levelInit();
-
-  PillowRand1 = 0;
-  PillowRand2 = 0;
-  PillowSwitch = 0;
-  levelFunctions = new Task([
-    {callback: function(){
-      //some functions here!
-    }, time: 0, activated: false},
-  ]);
-
-  levelTasks = new Task([
-    {callback: function(){
-
-
-    }, time: 0, activated: false},
-  ]);
-
-  levelLoop = setInterval( function () {
-    levelLoopCount++;
-
-    PillowRand1 = (Math.random()-4)/4
-    PillowRand2 = (Math.random()-4)/4
-    if (levelLoopCount <= 90) {
-      for(var i = 0; i<8; i++) {
-        particles[`${levelLoopCount}With${i}`] = new Particle({'speed': 12, 'color': '#A00', 'position': [PillowRand1,1]})
-        PillowRand1 = PillowRand1 + 0.25;
-      }
-      if (levelLoopCount > 30) {
-        for(var i = 0; i<8; i++) {
-        particles[`${levelLoopCount}With${i}With2`] = new Particle({'speed': 12, 'color': '#00A', 'position': [-1,PillowRand2]})
-        .setDeg(90);
-        PillowRand2 = PillowRand2 + 0.25;
-        }
-      }
-    } else {
-      if (PillowSwitch == 1) {
-        for(var i = 0; i<8; i++) {
-          particles[`${levelLoopCount}With${i}`] = new Particle({'speed': 12, 'color': '#A00', 'position': [PillowRand1,1]})
-          PillowRand1 = PillowRand1 + 0.25;
-        }
-        for(var i = 0; i<8; i++) {
-          particles[`${levelLoopCount}With${i}With2`] = new Particle({'speed': 12, 'color': '#00A', 'position': [-1,PillowRand2]})
-          .setDeg(90);
-          PillowRand2 = PillowRand2 + 0.25;
-        }
-      } else {
-        for(var i = 0; i<8; i++) {
-          particles[`${levelLoopCount}With${i}`] = new Particle({'speed': 12, 'color': '#A00', 'position': [PillowRand1,-1]})
-          .setDeg(180);
-          PillowRand1 = PillowRand1 + 0.25;
-        }
-        for(var i = 0; i<8; i++) {
-          particles[`${levelLoopCount}With${i}With2`] = new Particle({'speed': 12, 'color': '#00A', 'position': [1,PillowRand2]})
-          .setDeg(270);
-          PillowRand2 = PillowRand2 + 0.25;
-        }
-      }
-      PillowSwitch = 1 - PillowSwitch
-    }
-  }, tickSpeed*35);
-
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 24});
-  particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'grid!', 'color': '#c49b29', 'zIndex': 1})
-  levelTasks.activateAll();
-}
 //level 2-3, made by PillowPrism
 function level_23() {
   levelInit();
@@ -322,4 +332,91 @@ function level_23() {
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'laser!', 'color': '#fff', 'zIndex': 1, 'alpha': 0.3})
   levelTasks.activateAll();
+}
+function level_24() {
+
+}
+function level_25() {
+
+}
+function level_26() {
+
+}
+
+function level_31() {
+
+}
+function level_32() {
+
+}
+function level_33() {
+
+}
+function level_34() {
+
+}
+function level_35() {
+
+}
+function level_36() {
+
+}
+
+function level_41() {
+
+}
+function level_42() {
+
+}
+function level_43() {
+
+}
+function level_44() {
+
+}
+function level_45() {
+
+}
+function level_46() {
+
+}
+
+
+function level_51() {
+
+}
+function level_52() {
+
+}
+function level_53() {
+
+}
+function level_54() {
+
+}
+function level_55() {
+
+}
+function level_56() {
+
+}
+
+
+function level_61() {
+
+}
+function level_62() {
+
+}
+function level_63() {
+
+}
+function level_64() {
+
+}
+function level_65() {
+
+}
+function level_66() {
+
 }
