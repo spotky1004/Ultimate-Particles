@@ -9,7 +9,7 @@ var gameScripts = [
 ];
 var levelScripts = [
   'scripts/levels/testLevels.js',
-  'scripts/levels/level1.js',
+  'scripts/levels/levels.js',
   'scripts/startLevel.js'
 ];
 
