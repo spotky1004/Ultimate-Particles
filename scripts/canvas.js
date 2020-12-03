@@ -57,7 +57,7 @@ function updateScreen() {
         if (Math.abs(maxLeng*(i+.5)/ic-maxLeng*(particles.player.position[0]+1)/2) < maxLeng/ic/2 && Math.abs(maxLeng*(j+.5)/ic+maxLeng*(particles.player.position[1]-1)/2) < maxLeng/jc/2) {
           blockOn = 1;
           levelOn = i+j*ic;
-          if (keypress['13'] && levelSelected == -1 && (i <= 0 && j <= 0)) {
+          if (keypress['13'] && levelSelected == -1 && ((i <= 0 && j <= 1))) {
             levelSelected = levelOn;
             screenPositionSpan([2*((i+0.5)/ic)-1, -2*((j+0.5)/jc)+1], 10);
             screenSizeSpan(1/ijc, 10);
@@ -98,7 +98,7 @@ function updateScreen() {
         //rank rect 2
         resetCanvasSettings();
         c.beginPath();
-        var partScore = saveData.levelData[`level${i+j*5}`].phase;
+        var partScore = saveData.levelData[`level${i+j*ijc}`].phase;
         c.rect(maxLeng*(i+0.05)/ic-levelScreenOffset[0], maxLeng*(j+0.85)/jc-levelScreenOffset[1], maxLeng/ic*Math.min(1, partScore/90)*0.9, maxLeng/jc*0.1);
         if (partScore >= 90) {
           c.fillStyle = `#e3e139`;
@@ -145,7 +145,7 @@ function updateScreen() {
         if (blockOn) {
           c.fillStyle = onFill;
         }
-        var txtToWrite = `${saveData.levelData[`level${i+j*5}`].phase}`;
+        var txtToWrite = `${saveData.levelData[`level${i+j*ijc}`].phase}`;
         c.fillText(txtToWrite, maxLeng*(i+.05)/ic-levelScreenOffset[0], maxLeng*(j+.05)/jc-levelScreenOffset[1]);
 
         //stage text

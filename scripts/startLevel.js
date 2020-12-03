@@ -6,7 +6,7 @@ function startLevel(num) {
     case 0:
     level_11();
       break;
-    case 1:
+    case 6:
     level_12();
       break;
     default:

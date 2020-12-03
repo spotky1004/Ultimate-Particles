@@ -46,6 +46,7 @@ function updatePlayer() {
             saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, levelLoopCount);
           }
           goMain();
+          save();
           return;
         }
       }

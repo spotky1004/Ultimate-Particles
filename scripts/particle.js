@@ -87,6 +87,9 @@ class Particle {
       case 'span':
       this.absSize = (this.absSizeI+this.absSize*this.spanPer)/(this.spanPer+1);
         break;
+      case 'bump':
+      
+        break;
     }
     switch (this.sizeIType) {
       case 'increment':

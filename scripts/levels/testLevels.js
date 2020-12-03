@@ -243,6 +243,99 @@ function levelPillowTest2() {
   levelFunctions.activate(1);
   levelFunctions.activate(2);
 }
+function levelPillowTest3() {
+  levelInit();
+
+  PillowX = 0;
+  PillowY = 0;
+  PillowDeg = 0;
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+
+
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+      particles[`${levelLoopCount}`] = new Particle({'speed': 30, 'spanper': 30, 'speedI': 9, 'speedIType': 'span', 'color': '#600', 'size': [0.03,0.03], 'position': [Math.random()*2-1,1]})
+
+      if (levelLoopCount > 1) {
+        PillowX = particles[`${levelLoopCount}` - 1].position[0]
+        PillowY = particles[`${levelLoopCount}` - 1].position[1]
+        PillowDeg = Math.random()*90
+
+        particles[`${levelLoopCount}with1`] = new Particle({'speed': 15, 'deg': PillowDeg, 'color': '#600', 'position': [PillowX,PillowY]})
+        particles[`${levelLoopCount}with2`] = new Particle({'speed': 15, 'deg': PillowDeg+90, 'color': '#600', 'position': [PillowX,PillowY]})
+        particles[`${levelLoopCount}with3`] = new Particle({'speed': 15, 'deg': PillowDeg+180, 'color': '#600', 'position': [PillowX,PillowY]})
+        particles[`${levelLoopCount}with4`] = new Particle({'speed': 15, 'deg': PillowDeg+270, 'color': '#600', 'position': [PillowX,PillowY]})
+
+        delete particles[`${levelLoopCount}` - 1]
+      }
+  }, tickSpeed*32);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  levelTasks.activateAll();
+}
+function levelPillowTest3_1() {
+  levelInit();
+
+  PillowX = 0;
+  PillowY = 0;
+  PillowDeg = 0;
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+
+
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+      particles[`${levelLoopCount}`] = new Particle({'speed': 30, 'spanper': 30, 'speedI': 9, 'speedIType': 'span', 'color': '#600', 'size': [0.03,0.03], 'position': [Math.random()*2-1,1]})
+
+      if (levelLoopCount > 1) {
+        PillowX = particles[`${levelLoopCount}` - 1].position[0]
+        PillowY = particles[`${levelLoopCount}` - 1].position[1]
+        PillowDeg = Math.random()*90
+
+        for (var i = 0; i < 4; i++) {
+          particles[`${levelLoopCount}with${i}`] = new Particle({'speed': 12, 'deg': PillowDeg + i*90, 'color': '#600', 'position': [PillowX,PillowY]})
+        }
+
+        if (levelLoopCount > 30) {
+          for (var i = 0; i < 4; i++) {
+            particles[`${levelLoopCount}with${i}withTwo`] = new Particle({'speed': 12, 'deg': (PillowDeg + i*90 + 45)%360, 'color': '#600', 'position': [PillowX,PillowY]})
+          }
+        }
+        if (levelLoopCount > 60) {
+          for (var i = 0; i < 8; i++) {
+            particles[`${levelLoopCount}with${i}withThree`] = new Particle({'speed': 15, 'deg': (PillowDeg + i*45)%360, 'color': '#600', 'position': [PillowX,PillowY]})
+            particles[`${levelLoopCount}with${i}withFour`] = new Particle({'speed': 18, 'deg': (PillowDeg + i*45)%360, 'color': '#600', 'position': [PillowX,PillowY]})
+          }
+          for (var i = 0; i < 4; i++) {
+            particles[`${levelLoopCount}with${i}withThree`] = new Particle({'speed': 15, 'deg': (PillowDeg + i*90+22.5)%360, 'color': '#600', 'position': [PillowX,PillowY]})
+          }
+        }
+        delete particles[`${levelLoopCount}` - 1]
+      }
+  }, tickSpeed*32);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  levelTasks.activateAll();
+}
 
 function levelTemplate() {
   levelInit();

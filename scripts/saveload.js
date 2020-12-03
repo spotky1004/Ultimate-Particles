@@ -6,9 +6,10 @@ var saveData = {};
 savePoint = localStorage['ultimateParticlesReworked_S1'];
 
 function save() {
-  localStorage[savePoint] = JSON.parse(JSON.stringify(saveData));
+  localStorage[savePoint] = JSON.stringify(saveData);
 }
 function load() {
+  saveData = JSON.parse(localStorage[savePoint]);
   for (var i in tempSaveData) {
     if (saveData[i] === undefined) {
       saveData[i] = tempSaveData[i];
