@@ -99,8 +99,42 @@ function level_41() {
 function level_51() {
   console.log(51);
 }
+//level 2-1, made by Spotky1004
 function level_21() {
+  levelInit();
 
+  levelFunctions = new Task([
+    {callback: function(){
+      screenSettings.size = 1.03;
+      screenSizeSpan(1, 10)
+      var dist = 1.2;
+      for (var i = 0; i < 10+Math.sqrt(levelLoopCount)/3; i++) {
+        var deg = Math.random()*360;
+        particles[`P${levelLoopCount}S${i}`] = new Particle({'color': hsvToRgb(levelLoopCount*(0.001*(levelLoopCount/30+1)), 0.8, 0.5), 'speed': 0.5, 'moveType': ['circle']}).moveTo([Math.sin(Math.rad(deg))*dist, -Math.cos(Math.rad(deg))*dist]);
+      }
+      if (levelLoopCount > 1) {
+        for (var i = 0; i < 10+Math.sqrt(levelLoopCount)/5; i++) {
+          particles[`P${levelLoopCount-1}S${i}`].moveType = ['trace', 'player'];
+          particles[`P${levelLoopCount-1}S${i}`].speed = 2+Math.sqrt(levelLoopCount)/3;
+          particles[`P${levelLoopCount-1}S${i}`].speedI = 0.3+Math.sqrt(levelLoopCount)/15;
+        }
+      }
+      if (levelLoopCount > 2) {
+        for (var i = 0; i < 10+Math.sqrt(levelLoopCount)/5; i++) {
+          particles[`P${levelLoopCount-2}S${i}`].moveType = ['normal'];
+          particles[`P${levelLoopCount-2}S${i}`].speedI = 0.7+Math.sqrt(levelLoopCount)/7;
+        }
+      }
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    levelFunctions.activate(0);
+  }, tickSpeed*100);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  //levelTasks.activateAll();
 }
 //level 2-2, made by PillowPrism
 function level_22() {
