@@ -177,59 +177,6 @@ class Particle {
         }
       }
     }
-    /*switch (this.absSizeIType) {
-      case 'increment':
-      this.absSize = Math.min(Math.max(this.absSize+this.absSizeI*speedI, this.absSizeC[0]), this.absSizeC[1]);
-        break;
-      case 'multiply':
-      this.absSize = Math.min(Math.max(this.absSize*this.absSizeI^speedI, this.absSizeC[0]), this.absSizeC[1]);
-        break;
-      case 'span':
-      this.absSize = (this.absSizeI+this.absSize*this.spanPer)/(this.spanPer+1);
-        break;
-      case 'bump':
-
-        break;
-    }
-    switch (this.sizeIType) {
-      case 'increment':
-      this.size[0] = Math.min(Math.max(this.size[0]+this.sizeI[0]*speedI, this.sizeC[0][0]), this.sizeC[0][1]);
-      this.size[1] = Math.min(Math.max(this.size[1]+this.sizeI[1]*speedI, this.sizeC[1][0]), this.sizeC[1][1]);
-        break;
-      case 'multiply':
-      this.size[0] = Math.min(Math.max(this.size[0]*this.sizeI[0]^speedI, this.sizeC[0][0]), this.sizeC[0][1]);
-      this.size[1] = Math.min(Math.max(this.size[1]*this.sizeI[1]^speedI, this.sizeC[1][0]), this.sizeC[1][1]);
-        break;
-      case 'span':
-      this.size[0] = (this.sizeI[0]+this.size[0]*this.spanPer)/(this.spanPer+1);
-      this.size[1] = (this.sizeI[1]+this.size[1]*this.spanPer)/(this.spanPer+1);
-        break;
-    }
-    switch (this.speedIType) {
-      case 'increment':
-      this.speed = Math.min(Math.max(this.speed+this.speedI*speedI, this.speedC[0]), this.speedC[1]);
-        break;
-      case 'multiply':
-      this.speed = Math.min(Math.max(this.speed*this.speedI^speedI, this.speedC[0]), this.speedC[1]);
-        break;
-      case 'span':
-      this.speed = (this.speedI+this.speed*this.spanPer)/(this.spanPer+1);
-        break;
-    }
-    switch (this.linearSpeedIType) {
-      case 'increment':
-      this.linearSpeed[0] = Math.min(Math.max(this.linearSpeed[0]+this.linearSpeedI[0]*speedI, this.linearSpeedC[0][0]), this.linearSpeedC[0][1]);
-      this.linearSpeed[1] = Math.min(Math.max(this.linearSpeed[1]+this.linearSpeedI[1]*speedI, this.linearSpeedC[1][0]), this.linearSpeedC[1][1]);
-        break;
-      case 'multiply':
-      this.linearSpeed[0] = Math.min(Math.max(this.linearSpeed[0]*this.linearSpeedI[0]^speedI, this.linearSpeedC[0][0]), this.linearSpeedC[0][1]);
-      this.linearSpeed[1] = Math.min(Math.max(this.linearSpeed[1]*this.linearSpeedI[1]^speedI, this.linearSpeedC[1][0]), this.linearSpeedC[1][1]);
-        break;
-      case 'span':
-      this.linearSpeed[0] = (this.linearSpeedI[0]+this.linearSpeed[0]*this.spanPer)/(this.spanPer+1);
-      this.linearSpeed[1] = (this.linearSpeedI[1]+this.linearSpeed[1]*this.spanPer)/(this.spanPer+1);
-        break;
-    }*/
 
     //delete
     if (!(this.outOfBounds[0][0] <= this.position[0] && this.position[0] <= this.outOfBounds[0][1] && this.outOfBounds[1][0] <= this.position[1] && this.position[1] <= this.outOfBounds[1][1]) || this.deleteTick == 0) {

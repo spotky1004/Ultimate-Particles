@@ -202,13 +202,17 @@ function updateScreen() {
             maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale - Math.sin(Math.rad(d1)) * centerL * particles[name].size[0] * screenSettings.scale),
             maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale - Math.cos(Math.rad(d1)) * centerL * particles[name].size[1] * screenSettings.scale)
           ];
-          c.moveTo(lastPos[0], lastPos[1]);
-          for (var i = 0; i < particles[name].sides; i++) {
-            lastPos[0] += Math.sin(Math.PI * 2 / particles[name].sides * i + Math.rad(d + 90)) * (maxLeng * particles[name].absSize) * particles[name].size[0] * screenSettings.scale * sScale;
-            lastPos[1] -= Math.cos(Math.PI * 2 / particles[name].sides * i + Math.rad(d + 90)) * (maxLeng * particles[name].absSize) * particles[name].size[1] * screenSettings.scale * sScale;
-            c.lineTo(lastPos[0], lastPos[1]);
+          if (s == 4) {
+            c.rect(lastPos[0]-maxLeng*particles[name].getTotAbsSize()[0], lastPos[1]-maxLeng*particles[name].getTotAbsSize()[1], maxLeng*particles[name].getTotAbsSize()[0], maxLeng*particles[name].getTotAbsSize()[1]);
+          } else {
+            c.moveTo(lastPos[0], lastPos[1]);
+            for (var i = 0; i < particles[name].sides; i++) {
+              lastPos[0] += Math.sin(Math.PI * 2 / particles[name].sides * i + Math.rad(d + 90)) * (maxLeng * particles[name].absSize) * particles[name].size[0] * screenSettings.scale * sScale;
+              lastPos[1] -= Math.cos(Math.PI * 2 / particles[name].sides * i + Math.rad(d + 90)) * (maxLeng * particles[name].absSize) * particles[name].size[1] * screenSettings.scale * sScale;
+              c.lineTo(lastPos[0], lastPos[1]);
+            }
+            c.closePath();
           }
-          c.closePath();
           c.fill();
           c.stroke();
         }

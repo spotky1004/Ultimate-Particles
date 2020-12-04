@@ -420,3 +420,24 @@ function level_65() {
 function level_66() {
 
 }
+
+function lagTest() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      for (var i = 0; i < 2000; i++) {
+        particles[`t${i}`] = new Particle({'speed': 3}).randMove('rR');
+      }
+    }, time: 0, activated: false},
+  ]);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  levelTasks.activateAll();
+}
