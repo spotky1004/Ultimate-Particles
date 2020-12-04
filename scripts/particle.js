@@ -1,11 +1,22 @@
 var particles = {};
 
+var propertyI = [
+  'sides', 'rotateDeg', 'zIndex', 'spanPer', 'alpha', 'text',
+  'position', 'deg', 'speed', 'playerSpeed', 'screenParallaxPer', 'linearSpeed',
+  'absSize', 'size', 'hitboxSize',
+  'hp', 'atk',
+  'outOfBounds'
+];
+var iTypes = [
+  'I', 'IType', 'C'
+];
+
 class Particle {
   constructor(attrs={}) {
-    //important attrs
+    // important
     this.type = attrs.type || 'enemy'; // 'enemy' for enemy, 'player' for controlable player, 'text' for text, 'decoration' for decoration
 
-    //view
+    // view
     this.color = attrs.color || '#000'; // fill color for particle and text
     this.sides = attrs.sides || 4; // set sides of shaped particle
     this.rotateDeg = attrs.rotateDeg || 180; // set rotated for shaped particle (this property won't affect to hitbox/collision for now)
@@ -14,26 +25,57 @@ class Particle {
     this.alpha = attrs.alpha || 1; // alpha/opacity
     this.text = attrs.text || 'text'; // text property for for text
 
-    //move
+    // move
     this.moveType = attrs.moveType || ['normal', null]; // moveType - 'trace', 'avoid', 'circle', 'teaceCircle', 'traceAvoid'
     this.specialAttrs = attrs.specialAttrs || []; // specialAttrs - 'bounce'
-    this.position = attrs.position || [0,0]; this.positionC = attrs.positionC || [[-1e308, 1e308], [-1e308, 1e308]];// position
+    this.position = attrs.position || [0,0]; // position
     this.deg = attrs.deg || 0; // degree to move
-    this.speed = attrs.speed || 0; this.speedI = attrs.speedI || 0; this.speedIType = attrs.speedIType || 'increment'; this.speedC = attrs.speedC || [0.001, 999]; // speed
-    this.playerSpeed = attrs.playerSpeed || 0.01; this.screenParallaxPer = attrs.screenParallaxPer || 0; // propertys for player: playerSpeed is player move speed with keyboard, screenParallaxPer is screen position move based on playerSpeed
-    this.linearSpeed = attrs.linearSpeed || [0, 0]; this.linearSpeedI = attrs.linearSpeedI || [0, 0]; this.linearSpeedIType = attrs.linearSpeedIType || 'increment'; this.linearSpeedC = attrs.linearSpeedC || [[0.001, 999], [0.001, 999]]; //linear speed for make 'Constant velocity linear motion' easily
+    this.speed = attrs.speed || 0; // speed
+    this.playerSpeed = attrs.playerSpeed || 0.01; // property for player: player move speed with keyboard
+    this.screenParallaxPer = attrs.screenParallaxPer || 0; // property for player: screen position move based on playerSpeed
+    this.linearSpeed = attrs.linearSpeed || [0, 0]; //linear speed for make 'Constant velocity linear motion' easily
 
-    //size
-    this.absSize = attrs.absSize || 1; this.absSizeI = attrs.absSizeI || 0; this.absSizeIType = attrs.absSizeIType || 'increment'; this.absSizeC = attrs.absSizeC || [0.001, 999]; // absSize multiplies both x and y size (or this property set text size)
+    // size
+    this.absSize = attrs.absSize || 1; // absSize multiplies both x and y size (or this property set text size)
     this.size = attrs.size || [0.015, 0.015]; this.sizeI = attrs.sizeI || [0, 0];  this.sizeIType = attrs.sizeIType || 'increment'; this.sizeC = attrs.sizeC || [[0.001, 999], [0.001, 999]]; // size for shaped particles
     this.hitboxSize = attrs.hitboxSize || 1; // hitbox, multiplies to final calculate
 
-    //game
+    // game
     this.hp = attrs.hp || 10; this.hpMax = this.hp; // hp for player
     this.atk = attrs.atk || 1; this.breakOnAtttack = attrs.breakOnAtttack || 1; // propertys for enemy, when 'player' is collisionWith 'enemy' player's hp will decreased based on atk, also if breakOnAtttack is true: 'enemy' particle will disappear
 
-    //etc
+    // etc
     this.outOfBounds = [[-2, 2], [-2, 2]]; // this is vaild position of particle. if particle's potition is out of this square it'll be deleted
+
+    // Increments
+    for (var i = 0; i < propertyI.length; i++) {
+      if (typeof this[propertyI[i]] == 'number') {
+        this[`${propertyI[i]}I`] = attrs[`${propertyI[i]}I`] || 0;
+        this[`${propertyI[i]}IType`] = attrs[`${propertyI[i]}IType`] || 'increment';
+        this[`${propertyI[i]}C`] = attrs[`${propertyI[i]}C`] || [-999, 999];
+      } else {
+        this[`${propertyI[i]}I`] = [];
+        this[`${propertyI[i]}IType`] = [];
+        this[`${propertyI[i]}C`] = [];
+        for (var j = 0; j < this[propertyI[i]].length; j++) {
+          if (attrs[`${propertyI[i]}I`] === undefined) {
+            this[`${propertyI[i]}I`][j] = 0;
+          } else {
+            this[`${propertyI[i]}I`][j] = attrs[`${propertyI[i]}I`][j] || 0;
+          }
+          if (attrs[`${propertyI[i]}IType`] === undefined) {
+            this[`${propertyI[i]}IType`][j] = 'increment';
+          } else {
+            this[`${propertyI[i]}IType`][j] = attrs[`${propertyI[i]}IType`][j] || 'increment';
+          }
+          if (attrs[`${propertyI[i]}C`] === undefined) {
+            this[`${propertyI[i]}C`][j] = [-999, 999];
+          } else {
+            this[`${propertyI[i]}C`][j] = attrs[`${propertyI[i]}C`][j] || [-999, 999];
+          }
+        }
+      }
+    }
   }
 
   update() {
@@ -99,7 +141,42 @@ class Particle {
 
     // increment properties
     var speedI = 1/tps;
-    switch (this.absSizeIType) {
+    for (var i = 0; i < propertyI.length; i++) {
+      if (typeof this[`${propertyI[i]}`] == 'number') {
+        switch (this[`${propertyI[i]}IType`]) {
+          case 'increment':
+          this[`${propertyI[i]}`] = Math.min(this[`${propertyI[i]}C`][1], Math.max(this[`${propertyI[i]}C`][0], incrementCalc(this[`${propertyI[i]}`], this[`${propertyI[i]}I`], speedI)));
+            break;
+          case 'multiply':
+          this[`${propertyI[i]}`] = Math.min(this[`${propertyI[i]}C`][1], Math.max(this[`${propertyI[i]}C`][0], multiplyCalc(this[`${propertyI[i]}`], this[`${propertyI[i]}I`], speedI)));
+            break;
+          case 'span':
+          this[`${propertyI[i]}`] = spanCalc(this[`${propertyI[i]}`], this[`${propertyI[i]}I`], this.spanPer);
+            break;
+          case 'bump':
+
+            break;
+        }
+      } else {
+        for (var j = 0; j < this[`${propertyI[i]}`].length; j++) {
+          switch (this[`${propertyI[i]}IType`]) {
+            case 'increment':
+            this[`${propertyI[i]}`][j] = Math.min(this[`${propertyI[i]}C`][j][1], Math.max(this[`${propertyI[i]}C`][j][0], incrementCalc(this[`${propertyI[i]}`][j], this[`${propertyI[i]}I`][j], speedI)));
+              break;
+            case 'multiply':
+            this[`${propertyI[i]}`][j] = Math.min(this[`${propertyI[i]}C`][j][1], Math.max(this[`${propertyI[i]}C`][j][0], multiplyCalc(this[`${propertyI[i]}`][j], this[`${propertyI[i]}I`][j], speedI)));
+              break;
+            case 'span':
+            this[`${propertyI[i]}`][j] = spanCalc(this[`${propertyI[i]}`][j], this[`${propertyI[i]}I`][j], this.spanPer);
+              break;
+            case 'bump':
+
+              break;
+          }
+        }
+      }
+    }
+    /*switch (this.absSizeIType) {
       case 'increment':
       this.absSize = Math.min(Math.max(this.absSize+this.absSizeI*speedI, this.absSizeC[0]), this.absSizeC[1]);
         break;
@@ -151,7 +228,7 @@ class Particle {
       this.linearSpeed[0] = (this.linearSpeedI[0]+this.linearSpeed[0]*this.spanPer)/(this.spanPer+1);
       this.linearSpeed[1] = (this.linearSpeedI[1]+this.linearSpeed[1]*this.spanPer)/(this.spanPer+1);
         break;
-    }
+    }*/
 
     //outOfBounds
     if (!(this.outOfBounds[0][0] <= this.position[0] && this.position[0] <= this.outOfBounds[0][1] && this.outOfBounds[1][0] <= this.position[1] && this.position[1] <= this.outOfBounds[1][1])) {

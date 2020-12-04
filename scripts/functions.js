@@ -120,6 +120,17 @@ function hsvToRgb(h, s, v) {
   return '#' + Math.floor(r*255).toString(16) + Math.floor(g*255).toString(16) + Math.floor(b*255).toString(16);
 }
 
+//calculate
+function incrementCalc(a, b, p) {
+  return a+b*p;
+}
+function multiplyCalc(a, b, p) {
+  return a*b**p;
+}
+function spanCalc(a, b, p) {
+  return (b+a*p)/(p+1);
+}
+
 //dom update
 function gameStatusUpdate() {
   document.getElementById('phase').innerHTML = `phase: ${levelLoopCount}`;
