@@ -44,8 +44,9 @@ class Particle {
     this.hp = attrs.hp || 10; this.hpMax = this.hp; // hp for player
     this.atk = attrs.atk || 1; this.breakOnAtttack = attrs.breakOnAtttack || 1; // propertys for enemy, when 'player' is collisionWith 'enemy' player's hp will decreased based on atk, also if breakOnAtttack is true: 'enemy' particle will disappear
 
-    // etc
-    this.outOfBounds = [[-2, 2], [-2, 2]]; // this is vaild position of particle. if particle's potition is out of this square it'll be deleted
+    // delete
+    this.outOfBounds = attrs.outOfBounds || [[-2, 2], [-2, 2]]; // this is vaild position of particle. if particle's potition is out of this square it'll be deleted
+    this.deleteTick = attrs.deleteTick || -1; // particle will be deleted after n tick (-1 to disable)
 
     // Increments
     for (var i = 0; i < propertyI.length; i++) {
@@ -230,10 +231,13 @@ class Particle {
         break;
     }*/
 
-    //outOfBounds
-    if (!(this.outOfBounds[0][0] <= this.position[0] && this.position[0] <= this.outOfBounds[0][1] && this.outOfBounds[1][0] <= this.position[1] && this.position[1] <= this.outOfBounds[1][1])) {
+    //delete
+    if (!(this.outOfBounds[0][0] <= this.position[0] && this.position[0] <= this.outOfBounds[0][1] && this.outOfBounds[1][0] <= this.position[1] && this.position[1] <= this.outOfBounds[1][1]) || deleteTick == 0) {
       delete this;
       return;
+    }
+    if (this.deleteTick != -1) {
+      this.deleteTick--;
     }
   }
 
