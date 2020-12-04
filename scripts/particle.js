@@ -1,11 +1,9 @@
 var particles = {};
 
 var propertyI = [
-  'sides', 'rotateDeg', 'zIndex', 'spanPer', 'alpha', 'text',
-  'position', 'deg', 'speed', 'playerSpeed', 'screenParallaxPer', 'linearSpeed',
-  'absSize', 'size', 'hitboxSize',
-  'hp', 'atk',
-  'outOfBounds'
+  'rotateDeg', 'alpha',
+  'deg', 'speed', 'playerSpeed', 'linearSpeed',
+  'absSize', 'size', 'position'
 ];
 var iTypes = [
   'I', 'IType', 'C'
@@ -143,6 +141,7 @@ class Particle {
     // increment properties
     var speedI = 1/tps;
     for (var i = 0; i < propertyI.length; i++) {
+      if ((this[`${propertyI[i]}I`] == 0 || this[`${propertyI[i]}I`] == [0, 0]) && this[`${propertyI[i]}IType`] == 'increment') continue;
       if (typeof this[`${propertyI[i]}`] == 'number') {
         switch (this[`${propertyI[i]}IType`]) {
           case 'increment':
