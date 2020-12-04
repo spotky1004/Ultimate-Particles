@@ -39,7 +39,7 @@ class Particle {
     this.hitboxSize = attrs.hitboxSize || 1; // hitbox, multiplies to final calculate
 
     // game
-    this.hp = attrs.hp || 10; this.hpMax = this.hp; // hp for player
+    this.hp = attrs.hp || 10; // hp for player
     this.atk = attrs.atk || 1; this.breakOnAtttack = attrs.breakOnAtttack || 1; // propertys for enemy, when 'player' is collisionWith 'enemy' player's hp will decreased based on atk, also if breakOnAtttack is true: 'enemy' particle will disappear
 
     // delete
