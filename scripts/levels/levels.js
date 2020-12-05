@@ -385,7 +385,7 @@ function level_34() {
         }
         particles[`S${i}`] = new Particle({'color': hsvToRgb(Math.random(), 0.5, 0.8), 'size': [Math.random()*0.04+0.06, Math.random()*0.04+0.06], 'position': [tempP[0], tempP[1]]});
       }
-      if (levelLoopCount >= 30) {
+      if (levelLoopCount >= 30 && levelLoopCount%3 = 0) {
         particles.player.hp++;
       }
       levelFunctions.activate(0);
