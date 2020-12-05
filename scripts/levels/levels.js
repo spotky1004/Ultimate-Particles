@@ -344,7 +344,7 @@ function level_33() {
   levelLoop = setInterval( function () {
     levelLoopCount++;
     for (var i = 0; i < 4+Math.sqrt(levelLoopCount)/2; i++) {
-      particles[`P${levelLoopCount}S${i}`] = new Particle({'specialAttrs': ['bounce'], 'speed': 5+Math.log(levelLoopCount, 10), 'speedC': [0, 40], 'color': '#250e99', 'deleteTick': 400+levelLoopCount*8, 'alphaI': 0.7/(400+levelLoopCount*8)*-1000/tickSpeed}).randMove('rR');
+      particles[`P${levelLoopCount}S${i}`] = new Particle({'specialAttrs': ['bounce'], 'speed': 4+Math.log(levelLoopCount, 10), 'speedC': [0, 40], 'color': '#250e99', 'deleteTick': 400+levelLoopCount*6, 'alphaI': 0.7/(400+levelLoopCount*6)*-1000/tickSpeed}).randMove('rR');
     }
   }, tickSpeed*100);
 
