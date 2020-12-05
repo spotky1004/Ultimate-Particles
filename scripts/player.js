@@ -12,14 +12,14 @@ function updatePlayer() {
     if (keypress['38']) axisMult[1] += 1;
     if (keypress['39']) axisMult[0] += 1;
     if (keypress['40']) axisMult[1] += -1;
-    if (keypress['37'] || keypress['38'] || keypress['39'] || keypress['40'] || playing == 0) {
+    /*if (keypress['37'] || keypress['38'] || keypress['39'] || keypress['40'] || playing == 0) {
       noControllTick = 0;
     } else {
       noControllTick++;
       if (noControllTick > 500) {
-        playerDead();
+        //playerDead();
       }
-    }
+    }*/
     particles[i].position[0] += playerSpeed*axisMult[0];
     particles[i].position[1] += playerSpeed*axisMult[1];
     if (particles[i].screenParallaxPer > 0) {

@@ -23,8 +23,9 @@ function level_11() {
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.15, 'text': 'welcome!', 'color': '#c49b29', 'zIndex': 1})
   levelTasks.activateAll();
 }
-//level 1-2, made by PillowPrism
-function level_12() {
+
+//level 2-1, made by PillowPrism
+function level_21() {
   levelInit();
 
 PillowX = 0;
@@ -88,86 +89,8 @@ particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
 particles['text'] = new Particle({'type': 'text', 'absSize': 0.2, 'text': 'boom!', 'color': '#c49b29', 'zIndex': 1})
 levelTasks.activateAll();
 }
-//level 1-3, made by PillowPrism
-function level_13() {
-  levelInit();
-
-  PillowRand1 = 0;
-  PillowRand2 = 0;
-  PillowSwitch = 0;
-  levelFunctions = new Task([
-    {callback: function(){
-      //some functions here!
-    }, time: 0, activated: false},
-  ]);
-
-  levelTasks = new Task([
-    {callback: function(){
-
-
-    }, time: 0, activated: false},
-  ]);
-
-  levelLoop = setInterval( function () {
-    levelLoopCount++;
-
-    PillowRand1 = (Math.random()-4)/4
-    PillowRand2 = (Math.random()-4)/4
-    if (levelLoopCount <= 90) {
-      for(var i = 0; i<8; i++) {
-        particles[`${levelLoopCount}With${i}`] = new Particle({'speed': 12, 'color': '#A00', 'position': [PillowRand1,1]})
-        PillowRand1 = PillowRand1 + 0.25;
-      }
-      if (levelLoopCount > 30) {
-        for(var i = 0; i<8; i++) {
-        particles[`${levelLoopCount}With${i}With2`] = new Particle({'speed': 12, 'color': '#00A', 'position': [-1,PillowRand2]})
-        .setDeg(90);
-        PillowRand2 = PillowRand2 + 0.25;
-        }
-      }
-    } else {
-      if (PillowSwitch == 1) {
-        for(var i = 0; i<8; i++) {
-          particles[`${levelLoopCount}With${i}`] = new Particle({'speed': 12, 'color': '#A00', 'position': [PillowRand1,1]})
-          PillowRand1 = PillowRand1 + 0.25;
-        }
-        for(var i = 0; i<8; i++) {
-          particles[`${levelLoopCount}With${i}With2`] = new Particle({'speed': 12, 'color': '#00A', 'position': [-1,PillowRand2]})
-          .setDeg(90);
-          PillowRand2 = PillowRand2 + 0.25;
-        }
-      } else {
-        for(var i = 0; i<8; i++) {
-          particles[`${levelLoopCount}With${i}`] = new Particle({'speed': 12, 'color': '#A00', 'position': [PillowRand1,-1]})
-          .setDeg(180);
-          PillowRand1 = PillowRand1 + 0.25;
-        }
-        for(var i = 0; i<8; i++) {
-          particles[`${levelLoopCount}With${i}With2`] = new Particle({'speed': 12, 'color': '#00A', 'position': [1,PillowRand2]})
-          .setDeg(270);
-          PillowRand2 = PillowRand2 + 0.25;
-        }
-      }
-      PillowSwitch = 1 - PillowSwitch
-    }
-  }, tickSpeed*35);
-
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 24});
-  particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'grid!', 'color': '#c49b29', 'zIndex': 1})
-  levelTasks.activateAll();
-}
-function level_14() {
-
-}
-function level_15() {
-
-}
-function level_16() {
-
-}
-
-//level 2-1, made by Spotky1004
-function level_21() {
+//level 2-2, made by Spotky1004
+function level_22() {
   levelInit();
 
   levelFunctions = new Task([
@@ -200,12 +123,12 @@ function level_21() {
     levelFunctions.activate(0);
   }, tickSpeed*100);
 
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 15});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'circle!', 'color': '#c49b29', 'zIndex': 1})
   //levelTasks.activateAll();
 }
-//level 2-2, made by PillowPrism
-function level_22() {
+//level 2-3, made by PillowPrism
+function level_23() {
   levelInit();
   pillowx = 0;
   pillowindex = 0;
@@ -280,8 +203,77 @@ function level_22() {
   levelFunctions.activate(1);
   levelFunctions.activate(2);
 }
-//level 2-3, made by PillowPrism
-function level_23() {
+
+//level 3-1, made by PillowPrism
+function level_31() {
+  levelInit();
+
+  PillowRand1 = 0;
+  PillowRand2 = 0;
+  PillowSwitch = 0;
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+
+
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+
+    PillowRand1 = (Math.random()-4)/4
+    PillowRand2 = (Math.random()-4)/4
+    if (levelLoopCount <= 90) {
+      for(var i = 0; i<8; i++) {
+        particles[`${levelLoopCount}With${i}`] = new Particle({'speed': 12, 'color': '#A00', 'position': [PillowRand1,1]})
+        PillowRand1 = PillowRand1 + 0.25;
+      }
+      if (levelLoopCount > 30) {
+        for(var i = 0; i<8; i++) {
+        particles[`${levelLoopCount}With${i}With2`] = new Particle({'speed': 12, 'color': '#00A', 'position': [-1,PillowRand2]})
+        .setDeg(90);
+        PillowRand2 = PillowRand2 + 0.25;
+        }
+      }
+    } else {
+      if (PillowSwitch == 1) {
+        for(var i = 0; i<8; i++) {
+          particles[`${levelLoopCount}With${i}`] = new Particle({'speed': 12, 'color': '#A00', 'position': [PillowRand1,1]})
+          PillowRand1 = PillowRand1 + 0.25;
+        }
+        for(var i = 0; i<8; i++) {
+          particles[`${levelLoopCount}With${i}With2`] = new Particle({'speed': 12, 'color': '#00A', 'position': [-1,PillowRand2]})
+          .setDeg(90);
+          PillowRand2 = PillowRand2 + 0.25;
+        }
+      } else {
+        for(var i = 0; i<8; i++) {
+          particles[`${levelLoopCount}With${i}`] = new Particle({'speed': 12, 'color': '#A00', 'position': [PillowRand1,-1]})
+          .setDeg(180);
+          PillowRand1 = PillowRand1 + 0.25;
+        }
+        for(var i = 0; i<8; i++) {
+          particles[`${levelLoopCount}With${i}With2`] = new Particle({'speed': 12, 'color': '#00A', 'position': [1,PillowRand2]})
+          .setDeg(270);
+          PillowRand2 = PillowRand2 + 0.25;
+        }
+      }
+      PillowSwitch = 1 - PillowSwitch
+    }
+  }, tickSpeed*35);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 24});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'grid!', 'color': '#c49b29', 'zIndex': 1})
+  levelTasks.activateAll();
+}
+//level 3-2, made by PillowPrism
+function level_32() {
   levelInit();
 
   screenSettings.color = '#000'
@@ -290,7 +282,7 @@ function level_23() {
       particles['player'].playerSpeed = (1+levelLoopCount/90)/100;
       particles[`P${levelLoopCount}LC`] = new Particle({'type': 'decoration', 'alpha': 0.2, 'color': '#fff', 'size': [1.2, 0.05+levelLoopCount/1000], 'position': [0, Math.random()*((levelLoopCount%2) ? 1 : -1 )]});
       if (levelLoopCount > 1) {
-        particles[`P${levelLoopCount-1}L`] = new Particle({'color': '#fff', 'size': [1.2, (0.05+(levelLoopCount-1)/1000)], 'hitboxSize': 0.95, 'position': [2.5, particles[`P${levelLoopCount-1}LC`].position[1]], 'outOfBounds': [[-10, 10], [-2, 2]], 'deg': 270, 'speed': 100, 'speedI': 6, 'speedIType': 'multiply'});
+        particles[`P${levelLoopCount-1}L`] = new Particle({'atk': 5, 'color': '#fff', 'size': [1.2, (0.05+(levelLoopCount-1)/1000)], 'hitboxSize': 0.95, 'position': [2.5, particles[`P${levelLoopCount-1}LC`].position[1]], 'outOfBounds': [[-10, 10], [-2, 2]], 'deg': 270, 'speed': 100, 'speedI': 6, 'speedIType': 'multiply'});
         particles[`P${levelLoopCount-1}L`].positionC[0][0] = 0;
         levelFunctions.activate(1);
         var pow = (8+levelLoopCount)/1000;
@@ -329,96 +321,58 @@ function level_23() {
     levelFunctions.activate(0);
   }, tickSpeed*40);
 
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 15});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'laser!', 'color': '#fff', 'zIndex': 1, 'alpha': 0.3})
   levelTasks.activateAll();
 }
-function level_24() {
-
-}
-function level_25() {
-
-}
-function level_26() {
-
-}
-
-function level_31() {
-
-}
-function level_32() {
-
-}
+//level 3-3, made by Spotky1004
 function level_33() {
+  levelInit();
 
-}
-function level_34() {
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
 
-}
-function level_35() {
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
 
-}
-function level_36() {
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    //some functions here!
+  }, tickSpeed*10);
 
-}
-
-function level_41() {
-
-}
-function level_42() {
-
-}
-function level_43() {
-
-}
-function level_44() {
-
-}
-function level_45() {
-
-}
-function level_46() {
-
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  levelTasks.activateAll();
 }
 
-function level_51() {
+function levelTemplate() {
+  levelInit();
 
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    //some functions here!
+  }, tickSpeed*10);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  levelTasks.activateAll();
 }
-function level_52() {
-
-}
-function level_53() {
-
-}
-function level_54() {
-
-}
-function level_55() {
-
-}
-function level_56() {
-
-}
-
-function level_61() {
-
-}
-function level_62() {
-
-}
-function level_63() {
-
-}
-function level_64() {
-
-}
-function level_65() {
-
-}
-function level_66() {
-
-}
-
 function lagTest() {
   levelInit();
 

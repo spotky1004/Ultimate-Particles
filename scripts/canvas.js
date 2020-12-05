@@ -62,6 +62,7 @@ function updateScreen() {
           levelOn = i+j*ic;
           if (keypress['13'] && levelSelected == -1 && ((i <= 1 && j <= 2) || (i == 0 && j == 2))) {
             levelSelected = levelOn;
+            playing = 1;
             screenPositionSpan([2*((i+0.5)/ic)-1, -2*((j+0.5)/jc)+1], 10);
             screenSizeSpan(1/ijc, 10);
             setTimeout( function () {
@@ -160,10 +161,13 @@ function updateScreen() {
         if (blockOn) {
           c.fillStyle = onFill;
         }
+        var txtToWrite = `${Math.max(i,j)+1}-${((i!=j)?(Math.min(i,j)+((i>j)?i:0)):i*2)+1}`;
+        //123 456: `${Math.max(i,j)+1}-${((i!=j)?(Math.min(i,j)+((i>j)?i:0)):i*2)+1}`
+        //135 246: `${Math.max(i,j)+1}-${((i!=j)?((i>j)?j*2+1:i*2):i*2)+1}`
         if (blockOn) {
-          c.fillText(`${i+1}-${j+1}`, maxLeng*(i+.5)/ic-c.measureText((`${i+1}-${j+1}`).toString()).width/2-levelScreenOffset[0], maxLeng*(j+.45)/jc-levelScreenOffset[1]);
+          c.fillText(txtToWrite, maxLeng*(i+.5)/ic-c.measureText((txtToWrite).toString()).width/2-levelScreenOffset[0], maxLeng*(j+.45)/jc-levelScreenOffset[1]);
         } else {
-          c.fillText(`${i+1}-${j+1}`, maxLeng*(i+.5)/ic-c.measureText((`${i+1}-${j+1}`).toString()).width/2-levelScreenOffset[0], maxLeng*(j+.5)/jc-levelScreenOffset[1]);
+          c.fillText(txtToWrite, maxLeng*(i+.5)/ic-c.measureText((txtToWrite).toString()).width/2-levelScreenOffset[0], maxLeng*(j+.5)/jc-levelScreenOffset[1]);
         }
       }
     }

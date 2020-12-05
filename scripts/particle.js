@@ -47,7 +47,7 @@ class Particle {
     this.deleteTick = attrs.deleteTick || -1; // particle will be deleted after n tick (-1 to disable)
 
     // Increments
-    for (var i = 0; i < propertyI.length; i++) {
+    for (var i = 0, l = propertyI.length; i < l; i++) {
       if (typeof this[propertyI[i]] == 'number') {
         this[`${propertyI[i]}I`] = attrs[`${propertyI[i]}I`] || 0;
         this[`${propertyI[i]}IType`] = attrs[`${propertyI[i]}IType`] || 'increment';
@@ -56,7 +56,7 @@ class Particle {
         this[`${propertyI[i]}I`] = [];
         this[`${propertyI[i]}IType`] = [];
         this[`${propertyI[i]}C`] = [];
-        for (var j = 0; j < this[propertyI[i]].length; j++) {
+        for (var j = 0, l2 = this[propertyI[i]].length; j < l2; j++) {
           if (attrs[`${propertyI[i]}I`] === undefined) {
             this[`${propertyI[i]}I`][j] = 0;
           } else {
@@ -140,7 +140,8 @@ class Particle {
 
     // increment properties
     var speedI = 1/tps;
-    for (var i = 0; i < propertyI.length; i++) {
+
+    for (var i = 0, l = propertyI.length; i < l; i++) {
       if ((this[`${propertyI[i]}I`] == 0 || this[`${propertyI[i]}I`] == [0, 0]) && this[`${propertyI[i]}IType`] == 'increment') continue;
       if (typeof this[`${propertyI[i]}`] == 'number') {
         switch (this[`${propertyI[i]}IType`]) {
@@ -153,12 +154,15 @@ class Particle {
           case 'span':
           this[`${propertyI[i]}`] = spanCalc(this[`${propertyI[i]}`], this[`${propertyI[i]}I`], this.spanPer);
             break;
+          case 'sine':
+
+            break;
           case 'bump':
 
             break;
         }
       } else {
-        for (var j = 0; j < this[`${propertyI[i]}`].length; j++) {
+        for (var j = 0, l = this[`${propertyI[i]}`].length; j < l; j++) {
           switch (this[`${propertyI[i]}IType`]) {
             case 'increment':
             this[`${propertyI[i]}`][j] = Math.min(this[`${propertyI[i]}C`][j][1], Math.max(this[`${propertyI[i]}C`][j][0], incrementCalc(this[`${propertyI[i]}`][j], this[`${propertyI[i]}I`][j], speedI)));

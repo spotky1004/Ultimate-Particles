@@ -21,7 +21,7 @@ class Task {
   }
 
   cancelAll() {
-    for (var i = 0; i < this._data.length; i++) {
+    for (var i = 0, l = this._data.length; i < l; i++) {
       var raw = this._dataRaw[i];
       if (raw != null) {
         clearTimeout(raw);
@@ -35,7 +35,7 @@ class Task {
   }
 
   activateAll() {
-    for (var i = 0; i < this._data.length; i++) {
+    for (var i = 0, l = this._data.length; i <l ; i++) {
       this._data[i].activated = true;
       this._dataRaw[i] = setTimeout(this._data[i].callback, this._data[i].time);
     }
@@ -63,28 +63,35 @@ function keyDown(e) {
 //span effect function
 async function screenSizeSpan(size=1, per=1, loop=100) {
   screenSettings.size = (size+screenSettings.size*per)/(per+1);
-  if(loop == 0 || Math.abs(screenSettings.size-size) < 0.001) return;
+  if(loop == 0 || Math.abs(screenSettings.size-size) < 0.001 || playing == 0) return;
   await timer(tickSpeed);
   screenSizeSpan(size, per, loop-1);
 }
 async function screenScaleSpan(scale=1, per=1, loop=100) {
   screenSettings.scale = (scale+screenSettings.scale*per)/(per+1);
-  if(loop == 0 || Math.abs(screenSettings.scale[0]-scale) < 0.001) return;
+  if(loop == 0 || Math.abs(screenSettings.scale[0]-scale) < 0.001 || playing == 0) return;
   await timer(tickSpeed);
   screenScaleSpan(scale, per, loop-1);
 }
 async function screenPositionSpan(position=[0, 0], per=1, loop=100) {
   screenSettings.p[0] = (position[0]+screenSettings.p[0]*per)/(per+1);
   screenSettings.p[1] = (position[1]+screenSettings.p[1]*per)/(per+1);
-  if(loop == 0 || (Math.abs(screenSettings.p[0]-position[0]) < 0.001 && Math.abs(screenSettings.p[1]-position[1]) < 0.001)) return;
+  if(loop == 0 || (Math.abs(screenSettings.p[0]-position[0]) < 0.001 && Math.abs(screenSettings.p[1]-position[1]) < 0.001) || playing == 0) return;
   await timer(tickSpeed);
   screenPositionSpan(position, per, loop-1);
 }
 async function particleSpeedSpan(speed=1, per=1, loop=100) {
   levelSettings.particleSpeed = (speed+levelSettings.particleSpeed*per)/(per+1);
-  if(loop == 0 || Math.abs(levelSettings.particleSpeed-speed) < 0.001) return;
+  if(loop == 0 || Math.abs(levelSettings.particleSpeed-speed) < 0.001 || playing == 0) return;
   await timer(tickSpeed);
   particleSpeedSpan(speed, per, loop-1);
+}
+async function screenPositionLinear(position=[0, 0], ticks=100, temp=[screenSettings.p[0], screenSettings.p[1], ticks]) {
+  screenSettings.p[0] = temp[0]+(position[0]-temp[0])*(temp[2]-ticks+1)/temp[2];
+  screenSettings.p[1] = temp[1]+(position[1]-temp[1])*(temp[2]-ticks+1)/temp[2];
+  if(ticks == 0 || playing == 0) return;
+  await timer(tickSpeed);
+  screenPositionSpan(position, ticks-1, temp);
 }
 
 //get funtcion
@@ -137,7 +144,7 @@ function gameStatusUpdate() {
   document.getElementById('hp').innerHTML = `hp: ${(particles.player ? particles.player.hp : 0)}`;
   score = getScore();
   document.getElementById('score').innerHTML = `score: ${score}`;
-  document.getElementById('noControllTick').innerHTML = `c: ${Math.floor(noControllTick/10)}/50`;
+  //document.getElementById('noControllTick').innerHTML = `c: ${Math.floor(noControllTick/10)}/50`;
 }
 
 //document event

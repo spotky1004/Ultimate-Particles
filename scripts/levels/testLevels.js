@@ -403,30 +403,6 @@ function levelPillowTest4() {
   levelTasks.activateAll();
 }
 
-function levelTemplate() {
-  levelInit();
-
-  levelFunctions = new Task([
-    {callback: function(){
-      //some functions here!
-    }, time: 0, activated: false},
-  ]);
-
-  levelTasks = new Task([
-    {callback: function(){
-      //some functions here!
-    }, time: 0, activated: false},
-  ]);
-
-  levelLoop = setInterval( function () {
-    levelLoopCount++;
-    //some functions here!
-  }, tickSpeed*10);
-
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
-  levelTasks.activateAll();
-}
-
 function levelPlayer() {
   levelInit();
   var s = 20;
