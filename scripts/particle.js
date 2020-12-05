@@ -115,7 +115,7 @@ class Particle {
 
     // move
     this.position[0] = Math.min(this.positionC[0][1], Math.max(this.positionC[0][0], this.position[0]+(this.speed*Math.sin(Math.rad(this.deg))+this.linearSpeed[0])/1000*levelSettings.particleSpeed));
-    this.position[1] = Math.min(this.positionC[1][1], Math.max(this.positionC[1][0], this.position[1]-(this.speed*Math.cos(Math.rad(this.deg))+this.linearSpeed[1])/1000*levelSettings.particleSpeed));
+    this.position[1] = Math.min(this.positionC[1][1], Math.max(this.positionC[1][0], this.position[1]+(this.speed*Math.cos(Math.rad(this.deg))+this.linearSpeed[1])/1000*levelSettings.particleSpeed));
 
     // special
     // bounce
