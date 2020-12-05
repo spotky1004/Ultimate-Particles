@@ -60,7 +60,7 @@ function updateScreen() {
         if (Math.abs(maxLeng*(i+.5)/ic-maxLeng*(particles.player.position[0]+1)/2) < maxLeng/ic/2 && Math.abs(maxLeng*(j+.5)/ic+maxLeng*(particles.player.position[1]-1)/2) < maxLeng/jc/2) {
           blockOn = 1;
           levelOn = i+j*ic;
-          if (keypress['13'] && levelSelected == -1 && ((i <= 1 && j <= 2) || (i == 0 && j == 2))) {
+          if (keypress['13'] && levelSelected == -1 && ((i <= 1 && j <= 2) || (i == 2 && j == 0))) {
             levelSelected = levelOn;
             playing = 1;
             screenPositionSpan([2*((i+0.5)/ic)-1, -2*((j+0.5)/jc)+1], 10);
@@ -176,8 +176,7 @@ function updateScreen() {
   if (screenState == 'main' || screenState == 'game') {
     for (var z = 0; z < 5; z++) {
       for (var name in particles) {
-        if (particles[name].zIndex != z) continue;
-        particles[name].update();
+        if (particles[name].zIndex != z || !particles[name].update(name)) continue;
         c.beginPath();
         resetCanvasSettings();
         c.lineWidth = 1;

@@ -77,7 +77,7 @@ class Particle {
     }
   }
 
-  update() {
+  update(name) {
     // moveType
     switch (this.moveType[0]) {
       case 'trace':
@@ -182,13 +182,14 @@ class Particle {
     }
 
     //delete
-    if (!(this.outOfBounds[0][0] <= this.position[0] && this.position[0] <= this.outOfBounds[0][1] && this.outOfBounds[1][0] <= this.position[1] && this.position[1] <= this.outOfBounds[1][1]) || this.deleteTick == 0) {
-      delete this;
-      return;
+    if (!(this.outOfBounds[0][0] <= this.position[0] && this.position[0] <= this.outOfBounds[0][1] && this.outOfBounds[1][0] <= this.position[1] && this.position[1] <= this.outOfBounds[1][1]) || (this.deleteTick <= 0 && this.deleteTick != -1)) {
+      delete particles[name];
+      return 0;
     }
     if (this.deleteTick != -1) {
       this.deleteTick--;
     }
+    return 1;
   }
 
   collisionWith(particle) {

@@ -343,10 +343,13 @@ function level_33() {
 
   levelLoop = setInterval( function () {
     levelLoopCount++;
-    //some functions here!
-  }, tickSpeed*10);
+    for (var i = 0; i < 4+Math.sqrt(levelLoopCount)/2; i++) {
+      particles[`P${levelLoopCount}S${i}`] = new Particle({'specialAttrs': ['bounce'], 'speed': 5+Math.log(levelLoopCount, 10), 'speedC': [0, 40], 'color': '#250e99', 'deleteTick': 400+levelLoopCount*8, 'alphaI': 0.7/(400+levelLoopCount*8)*-1000/tickSpeed}).randMove('rR');
+    }
+  }, tickSpeed*100);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.15, 'text': 'bounce!', 'color': '#c49b29', 'zIndex': 1});
   levelTasks.activateAll();
 }
 
