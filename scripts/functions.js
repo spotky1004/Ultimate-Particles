@@ -174,7 +174,8 @@ function levelInit() {
   screenSettings = {
     'size': 1,
     'p': [0, 0], 'scale': 1,
-    'color': '#f5c542'
+    'color': '#f5c542',
+    'screenRotate': 0
   }
 
   levelFunctions = new Task();

@@ -123,11 +123,11 @@ class Particle {
         this.position[0] = -getScreenAbsSize()+this.getTotAbsSize()[0]/2;
         this.deg = (360-this.deg)%360;
       }
-      if (this.position[1]+this.getTotAbsSize()[1]/2 > getScreenAbsSize()+screenSettings.p[1] && (90 < this.deg && this.deg < 270)) {
+      if (this.position[1]+this.getTotAbsSize()[1]/2 > getScreenAbsSize()+screenSettings.p[1] && (270 < this.deg || this.deg < 90)) {
         this.position[1] = getScreenAbsSize()-this.getTotAbsSize()[1]/2;
         this.deg = (540-this.deg)%360;
       }
-      if (this.position[1]-this.getTotAbsSize()[1]/2 < -getScreenAbsSize()+screenSettings.p[1] && (270 < this.deg || this.deg < 90)) {
+      if (this.position[1]-this.getTotAbsSize()[1]/2 < -getScreenAbsSize()+screenSettings.p[1] && (90 < this.deg && this.deg < 270)) {
         this.position[1] = -getScreenAbsSize()+this.getTotAbsSize()[1]/2;
         this.deg = (540-this.deg)%360;
       }
@@ -138,7 +138,6 @@ class Particle {
 
     for (var i = 0, l = propertyI.length; i < l; i++) {
       if ((this[`${propertyI[i]}I`] == 0 || this[`${propertyI[i]}I`] == [0, 0]) && this[`${propertyI[i]}IType`] == 'increment') continue;
-      //console.log(`${propertyI[i]}, ${this[`${propertyI[i]}I`] == 0}`);
       if (typeof this[`${propertyI[i]}`] == 'number') {
         switch (this[`${propertyI[i]}IType`]) {
           case 'increment':

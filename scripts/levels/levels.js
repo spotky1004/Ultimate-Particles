@@ -385,7 +385,7 @@ function level_34() {
         }
         particles[`S${i}`] = new Particle({'color': hsvToRgb(Math.random(), 0.5, 0.8), 'size': [Math.random()*0.04+0.06, Math.random()*0.04+0.06], 'position': [tempP[0], tempP[1]]});
       }
-      if (levelLoopCount >= 30 && levelLoopCount%2 == 0) {
+      if (levelLoopCount >= 30 && (levelLoopCount%3 == 0 || levelLoopCount%3 == 1)) {
         particles.player.hp++;
       }
       levelFunctions.activate(0);
@@ -403,6 +403,42 @@ function level_34() {
   levelTasks.activateAll();
   screenSettings.size = 0;
   levelFunctions.activate(3);
+}
+//level 3-5, made by Spotky1004
+function level_35() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    for (var i = 0; i < 3+levelLoopCount/10; i++) {
+      particles[`P${levelLoopCount}S${i}`] = new Particle({'color': (levelLoopCount%2 ? '#fff' : '#000'), 'speed': (Math.random()*5+30)*Math.min(2, 1+levelLoopCount/100), 'speedI': 0, 'speedIType': 'span', 'absSizeI': 1, 'absSizeIType': 'span', 'spanPer': 15});
+      particles[`P${levelLoopCount}S${i}`].position = [Math.random()*2-1, -1];
+    }
+    screenSettings.color = (levelLoopCount%2 ? '#000' : '#fff');
+    particles['text'].color = (levelLoopCount%2 ? '#fff' : '#000');
+    particles['text'].alpha = 0.3;
+    for (var name in particles) {
+      if (name == 'player' || name == 'text' || Number(name.replace(/P|S[0-9]*/g, ''))%2 != levelLoopCount%2) continue;
+      particles[name].speed = (Math.random()*5+30)*Math.min(2, 1+levelLoopCount/100);
+      particles[name].absSize = Math.min(1.3, 1.1+levelLoopCount/500);
+    }
+  }, tickSpeed*100);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.14, 'text': 'stop,go!', 'color': '#c49b29', 'zIndex': 1});
+  levelTasks.activateAll();
 }
 
 function levelTemplate() {

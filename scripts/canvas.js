@@ -6,7 +6,8 @@ var screenState = 'main';
 var screenSettings = {
   'size': 1,
   'p': [0, 0], 'scale': 1,
-  'color': '#f5c542'
+  'color': '#f5c542',
+  'screenRotate': 0
 }
 var levelOn = -1;
 var levelSelected = -1;
@@ -60,7 +61,7 @@ function updateScreen() {
         if (Math.abs(maxLeng*(i+.5)/ic-maxLeng*(particles.player.position[0]+1)/2) < maxLeng/ic/2 && Math.abs(maxLeng*(j+.5)/ic+maxLeng*(particles.player.position[1]-1)/2) < maxLeng/jc/2) {
           blockOn = 1;
           levelOn = i+j*ic;
-          if (keypress['13'] && levelSelected == -1 && ((i <= 1 && j <= 2) || (i == 2 && j == 0) || (i == 2 && j == 1))) {
+          if (keypress['13'] && levelSelected == -1 && ((i <= 2 && j <= 2) || (i == 2 && j == 0) || (i == 2 && j == 1))) {
             levelSelected = levelOn;
             playing = 1;
             screenPositionSpan([2*((i+0.5)/ic)-1, -2*((j+0.5)/jc)+1], 10);
