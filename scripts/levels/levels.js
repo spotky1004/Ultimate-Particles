@@ -423,7 +423,7 @@ function level_35() {
   levelLoop = setInterval( function () {
     levelLoopCount++;
     for (var i = 0; i < 3+levelLoopCount/10; i++) {
-      particles[`P${levelLoopCount}S${i}`] = new Particle({'color': (levelLoopCount%2 ? '#fff' : '#000'), 'speed': (Math.random()*5+30)*Math.min(2, 1+levelLoopCount/100), 'speedI': 0, 'speedIType': 'span', 'absSizeI': 1, 'absSizeIType': 'span', 'spanPer': 15});
+      particles[`P${levelLoopCount}S${i}`] = new Particle({'color': (levelLoopCount%2 ? '#fff' : '#000'), 'speed': -(Math.random()*5+30)*Math.min(2, 1+levelLoopCount/100), 'speedI': 0, 'speedIType': 'span', 'absSizeI': 1, 'absSizeIType': 'span', 'spanPer': 15});
       particles[`P${levelLoopCount}S${i}`].position = [Math.random()*2-1, -1];
     }
     screenSettings.color = (levelLoopCount%2 ? '#000' : '#fff');
@@ -431,7 +431,7 @@ function level_35() {
     particles['text'].alpha = 0.3;
     for (var name in particles) {
       if (name == 'player' || name == 'text' || Number(name.replace(/P|S[0-9]*/g, ''))%2 != levelLoopCount%2) continue;
-      particles[name].speed = (Math.random()*5+30)*Math.min(2, 1+levelLoopCount/100);
+      particles[name].speed = -(Math.random()*5+30)*Math.min(2, 1+levelLoopCount/100);
       particles[name].absSize = Math.min(1.3, 1.1+levelLoopCount/500);
     }
   }, tickSpeed*100);
