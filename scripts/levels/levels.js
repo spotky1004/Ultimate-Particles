@@ -428,6 +428,7 @@ function levelTemplate() {
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
   levelTasks.activateAll();
 }
+
 function lagTest() {
   levelInit();
 
@@ -444,6 +445,29 @@ function lagTest() {
       }
     }, time: 0, activated: false},
   ]);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  levelTasks.activateAll();
+}
+function debugLevel() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    //some functions here!
+  }, tickSpeed*10);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
   levelTasks.activateAll();

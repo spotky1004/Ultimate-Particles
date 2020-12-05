@@ -54,18 +54,13 @@ class Particle {
         this[`${propertyI[i]}C`] = attrs[`${propertyI[i]}C`] || [-999, 999];
       } else {
         this[`${propertyI[i]}I`] = [];
-        this[`${propertyI[i]}IType`] = [];
+        this[`${propertyI[i]}IType`] = attrs[`${propertyI[i]}IType`] || 'increment';
         this[`${propertyI[i]}C`] = [];
         for (var j = 0, l2 = this[propertyI[i]].length; j < l2; j++) {
           if (attrs[`${propertyI[i]}I`] === undefined) {
             this[`${propertyI[i]}I`][j] = 0;
           } else {
             this[`${propertyI[i]}I`][j] = attrs[`${propertyI[i]}I`][j] || 0;
-          }
-          if (attrs[`${propertyI[i]}IType`] === undefined) {
-            this[`${propertyI[i]}IType`][j] = 'increment';
-          } else {
-            this[`${propertyI[i]}IType`][j] = attrs[`${propertyI[i]}IType`][j] || 'increment';
           }
           if (attrs[`${propertyI[i]}C`] === undefined) {
             this[`${propertyI[i]}C`][j] = [-999, 999];
@@ -143,6 +138,7 @@ class Particle {
 
     for (var i = 0, l = propertyI.length; i < l; i++) {
       if ((this[`${propertyI[i]}I`] == 0 || this[`${propertyI[i]}I`] == [0, 0]) && this[`${propertyI[i]}IType`] == 'increment') continue;
+      //console.log(`${propertyI[i]}, ${this[`${propertyI[i]}I`] == 0}`);
       if (typeof this[`${propertyI[i]}`] == 'number') {
         switch (this[`${propertyI[i]}IType`]) {
           case 'increment':
