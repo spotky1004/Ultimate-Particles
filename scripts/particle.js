@@ -123,11 +123,11 @@ class Particle {
         this.position[0] = -getScreenAbsSize()+this.getTotAbsSize()[0]/2;
         this.deg = (360-this.deg)%360;
       }
-      if (this.position[1]+this.getTotAbsSize()[1]/2 > getScreenAbsSize()+screenSettings.p[1] && (270 < this.deg || this.deg < 90)) {
+      if (this.position[1]+this.getTotAbsSize()[1]/2 > getScreenAbsSize()+screenSettings.p[1] && (90 < this.deg && this.deg < 270)) {
         this.position[1] = getScreenAbsSize()-this.getTotAbsSize()[1]/2;
         this.deg = (540-this.deg)%360;
       }
-      if (this.position[1]-this.getTotAbsSize()[1]/2 < -getScreenAbsSize()+screenSettings.p[1] && (90 < this.deg && this.deg < 270)) {
+      if (this.position[1]-this.getTotAbsSize()[1]/2 < -getScreenAbsSize()+screenSettings.p[1] && (270 < this.deg || this.deg < 90)) {
         this.position[1] = -getScreenAbsSize()+this.getTotAbsSize()[1]/2;
         this.deg = (540-this.deg)%360;
       }
