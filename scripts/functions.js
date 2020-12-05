@@ -86,12 +86,12 @@ async function particleSpeedSpan(speed=1, per=1, loop=100) {
   await timer(tickSpeed);
   particleSpeedSpan(speed, per, loop-1);
 }
-async function screenPositionLinear(position=[0, 0], ticks=100, temp=[screenSettings.p[0], screenSettings.p[1], ticks]) {
-  screenSettings.p[0] = temp[0]+(position[0]-temp[0])*(temp[2]-ticks+1)/temp[2];
-  screenSettings.p[1] = temp[1]+(position[1]-temp[1])*(temp[2]-ticks+1)/temp[2];
-  if(ticks == 0 || playing == 0) return;
+async function screenPositionLinear(position=[0, 0], loop=100, temp=[screenSettings.p[0], screenSettings.p[1], loop]) {
+  screenSettings.p[0] -= (temp[0]-position[0])/temp[2];
+  screenSettings.p[1] -= (temp[1]-position[1])/temp[2];
+  if(loop == 0 || playing == 0) return;
   await timer(tickSpeed);
-  screenPositionSpan(position, ticks-1, temp);
+  screenPositionLinear(position, loop-1, temp);
 }
 
 //get funtcion
