@@ -162,7 +162,7 @@ class Particle {
             break;
         }
       } else {
-        for (var j = 0, l = this[`${propertyI[i]}`].length; j < l; j++) {
+        for (var j = 0, l2 = this[`${propertyI[i]}`].length; j < l2; j++) {
           switch (this[`${propertyI[i]}IType`]) {
             case 'increment':
             this[`${propertyI[i]}`][j] = Math.min(this[`${propertyI[i]}C`][j][1], Math.max(this[`${propertyI[i]}C`][j][0], incrementCalc(this[`${propertyI[i]}`][j], this[`${propertyI[i]}I`][j], speedI)));
