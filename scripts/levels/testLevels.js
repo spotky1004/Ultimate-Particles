@@ -421,8 +421,8 @@ function levelPillowTest5() {
   levelLoop = setInterval( function () {
     levelLoopCount++;
     for (var i = 0; i < (levelLoopCount/8)+1; i++) {
-      PillowRandom = (Math.random()*1)+1;
-      particles[`${levelLoopCount}with${i}`] = new Particle({'linearSpeed': [0,PillowRandom*-1], 'linearSpeedI': [0,10], 'linearSpeedIType': 'increment', 'color': '#A00', 'position':[Math.random()*2-1,0]})
+      PillowRandom = (Math.random()*10)+55;
+      particles[`${levelLoopCount}with${i}`] = new Particle({'linearSpeed': [0,PillowRandom*-1], 'linearSpeedI': [0,-60], 'linearSpeedIType': 'increment', 'color': '#A00', 'position':[Math.random()*2-1,-1]})
     }
   }, tickSpeed*40);
 
