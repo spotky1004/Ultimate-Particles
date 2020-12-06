@@ -22,6 +22,7 @@ class Particle {
     this.spanPer = attrs.spanPer || 10; // spanPer for ~IType = 'span', ratio - 1 : spanPer
     this.alpha = attrs.alpha || 1; // alpha/opacity
     this.text = attrs.text || 'text'; // text property for for text
+    this.effects = attrs.effects || []; // effects - 'glow'
 
     // move
     this.moveType = attrs.moveType || ['normal', null]; // moveType - 'trace', 'avoid', 'circle', 'teaceCircle', 'traceAvoid'

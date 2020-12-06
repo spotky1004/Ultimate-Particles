@@ -272,7 +272,7 @@ function level_31() {
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'grid!', 'color': '#c49b29', 'zIndex': 1})
   levelTasks.activateAll();
 }
-//level 3-2, made by PillowPrism
+//level 3-2, made by Spotky1004
 function level_32() {
   levelInit();
 
@@ -415,6 +415,53 @@ function level_35() {
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.14, 'text': 'stop,go!', 'color': '#c49b29', 'zIndex': 1});
   levelTasks.activateAll();
   levelFunctions.activate(0);
+}
+
+//level 4-1, made by PillowPrism
+function level_41() {
+  PillowRandom = 0;
+  PillowDeg = 0;
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    screenSettings.size = 1.01;
+    screenSizeSpan(1, 10)
+    for (var i = 0; i < (levelLoopCount/13)+1; i++) {
+      PillowDeg = 0;
+      PillowRandom = (Math.random()*10)+55;
+      if (levelLoopCount >= 31) {
+        PillowDeg = (Math.random()*10)-5
+      }
+      if (levelLoopCount >= 91) {
+        PillowDeg = (Math.random()*30)-15
+      }
+      if (levelLoopCount >= 121) {
+        PillowDeg = (Math.random()*50)-25
+      }
+    particles[`${levelLoopCount}with${i}`] = new Particle({'linearSpeed': [PillowDeg,PillowRandom], 'linearSpeedI': [0,-60], 'linearSpeedIType': 'increment', 'color': '#cc9514', 'position':[Math.random()*2-1,-1], 'effects': ['glow']})
+    }
+    particles['lava'].position[1] -= 0.04;
+    particles['lava'].positionI = [0, Math.min(-1.7, -1.95+levelLoopCount/200)]
+  }, tickSpeed*40);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 16});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.2, 'text': 'lava!', 'color': '#e00', 'zIndex': 1, 'alpha': 0.6});
+  particles['lava'] = new Particle({'breakOnAtttack': 0, 'color': '#A00', 'effects': ['glow'], 'size': [1.2, 1], 'position': [0, -1.99], 'positionI': [0, -1.95], 'positionIType': 'span', 'zIndex': 4});
+  screenSettings.color = '#222';
+  levelTasks.activateAll();
 }
 
 function levelTemplate() {

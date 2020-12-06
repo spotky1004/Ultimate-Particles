@@ -404,6 +404,7 @@ function levelPillowTest4() {
 }
 function levelPillowTest5() {
   PillowRandom = 0;
+  PillowDeg = 0;
   levelInit();
 
   levelFunctions = new Task([
@@ -420,13 +421,25 @@ function levelPillowTest5() {
 
   levelLoop = setInterval( function () {
     levelLoopCount++;
-    for (var i = 0; i < (levelLoopCount/8)+1; i++) {
+    screenSettings.size = 1.01;
+    screenSizeSpan(1, 10)
+    for (var i = 0; i < (levelLoopCount/13)+1; i++) {
+      PillowDeg = 0;
       PillowRandom = (Math.random()*10)+55;
-      particles[`${levelLoopCount}with${i}`] = new Particle({'linearSpeed': [0,PillowRandom*-1], 'linearSpeedI': [0,-60], 'linearSpeedIType': 'increment', 'color': '#A00', 'position':[Math.random()*2-1,-1]})
+      if (levelLoopCount >= 31) {
+        PillowDeg = (Math.random()*10)-5
+      }
+      if (levelLoopCount >= 91) {
+        PillowDeg = (Math.random()*30)-15
+      }
+      if (levelLoopCount >= 121) {
+        PillowDeg = (Math.random()*50)-25
+      }
+    particles[`${levelLoopCount}with${i}`] = new Particle({'linearSpeed': [PillowDeg,PillowRandom], 'linearSpeedI': [0,-60], 'linearSpeedIType': 'increment', 'color': '#A00', 'position':[Math.random()*2-1,-1]})
     }
   }, tickSpeed*40);
 
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 16});
   levelTasks.activateAll();
 }
 
