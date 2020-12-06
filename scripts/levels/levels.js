@@ -358,51 +358,25 @@ function level_34() {
 
   levelFunctions = new Task([
     {callback: function(){
-      screenSettings.size = 1/3;
-      screenPositionLinear([-screenSettings.p[0], -screenSettings.p[1]], 200);
+
     }, time: tickSpeed*10, activated: false},
-    {callback: function(){
-      screenSizeSpan(0, 2, 17);
-      for (var name in particles) {
-        if (name == 'player' || name == 'text') continue;
-        delete particles[name];
-      }
-      levelFunctions.activate(2);
-    }, time: tickSpeed*250, activated: false},
-    {callback: function(){
-      screenSettings.size = 0;
-    }, time: tickSpeed*17, activated: false},
-    {callback: function(){
-      screenSizeSpan(1/3, 3, 10);
-      while (tempP === undefined || (tempP[0] == 0 && tempP[1] == 0)) {
-        var tempP = [(Math.floor(Math.random()*3)-1)*(2/3), (Math.floor(Math.random()*3)-1)*(2/3)];
-      }
-      screenSettings.p = [tempP[0], tempP[1]];
-      for (var i = 0; i < Math.min(40, levelLoopCount/2+10); i++) {
-        var tempP = undefined;
-        while (tempP === undefined || (screenSettings.p[0]-1/3 < tempP[0] && tempP[0] < screenSettings.p[0]+1/3 && screenSettings.p[1]-1/3 < tempP[1] && tempP[1] < screenSettings.p[1]+1/3)) {
-          tempP = [Math.random()*2-1, Math.random()*2-1];
-        }
-        particles[`S${i}`] = new Particle({'color': hsvToRgb(Math.random(), 0.5, 0.8), 'size': [Math.random()*0.04+0.06, Math.random()*0.04+0.06], 'position': [tempP[0], tempP[1]]});
-      }
-      if (levelLoopCount >= 30 && (levelLoopCount%3 == 0 || levelLoopCount%3 == 1)) {
-        particles.player.hp++;
-      }
-      levelFunctions.activate(0);
-      levelFunctions.activate(1);
-    }, time: tickSpeed*17, activated: false}
   ]);
 
   levelLoop = setInterval( function () {
     levelLoopCount++;
-    levelFunctions.activate(3);
-  }, tickSpeed*300);
+    while (tempP === undefined || (Math.abs(tempP[0]-screenSettings.p[0]) < 0.5 && Math.abs(tempP[1]-screenSettings.p[1]) < 0.5) || (Math.abs(tempP[0]-screenSettings.p[0]) > 0.7 || Math.abs(tempP[1]-screenSettings.p[1]) > 0.7)) {
+      var tempP = [(Math.floor(Math.random()*3)-1)*(2/3), (Math.floor(Math.random()*3)-1)*(2/3)];
+    }
+    screenPositionLinear([tempP[0], tempP[1]], 70);
+    var orbLv = Math.floor(Math.random()*3)
+    particles[`P${levelLoopCount}`] = new Particle({'speed': Math.random()*0.3+0.2, 'moveType': ['circle', [0, 0]], 'position': [0, (orbLv+1)*(1/3)], 'color': hsvToRgb(orbLv/3, 0.6, 0.7)});
+  }, tickSpeed*100);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'playerSpeed': 0.015});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.2, 'text': 'move!', 'color': '#c49b29', 'zIndex': 1});
   levelTasks.activateAll();
   screenSettings.size = 0;
-  levelFunctions.activate(3);
+  screenSizeSpan(1/3, 3, 10);
 }
 //level 3-5, made by Spotky1004
 function level_35() {
@@ -410,8 +384,9 @@ function level_35() {
 
   levelFunctions = new Task([
     {callback: function(){
-      //some functions here!
-    }, time: 0, activated: false},
+      particles[`Wall${new Date().getTime()}`] = new Particle({'color': (Math.floor(Math.random()*2) ? '#000' : '#fff'), 'incrementI': 20, 'speed': 5, 'deg': 175+Math.random()*10, 'position': [(Math.floor(Math.random()*2) ? -0.95 : 0.95), -1]});
+      levelFunctions.activate(0);
+    }, time: tickSpeed*5, activated: false},
   ]);
 
   levelTasks = new Task([
@@ -431,7 +406,7 @@ function level_35() {
     particles['text'].alpha = 0.3;
     for (var name in particles) {
       if (name == 'player' || name == 'text' || Number(name.replace(/P|S[0-9]*/g, ''))%2 != levelLoopCount%2) continue;
-      particles[name].speed = -(Math.random()*5+30)*Math.min(2, 1+levelLoopCount/100);
+      particles[name].speed = -(Math.random()*3+32)*Math.min(2, 1+levelLoopCount/100);
       particles[name].absSize = Math.min(1.3, 1.1+levelLoopCount/500);
     }
   }, tickSpeed*100);
@@ -439,6 +414,7 @@ function level_35() {
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.14, 'text': 'stop,go!', 'color': '#c49b29', 'zIndex': 1});
   levelTasks.activateAll();
+  levelFunctions.activate(0);
 }
 
 function levelTemplate() {
