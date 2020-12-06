@@ -42,7 +42,7 @@ function updateScreen() {
     var jc = ijc;
 
     if (levelSelected == -1) {
-      var sSizeMax = Math.min(1, (1/ijc)*Math.pow(score/(20-Math.log(Math.max(1, score), 10)), 1/3));
+      var sSizeMax = Math.min(1, (1/ijc)*Math.max(1, Math.pow(score/(20-Math.log(Math.max(1, score), 10)), 1/3)));
       screenSizeSpan(sSizeMax, 10, 1);
       if (screenSettings.size > sSizeMax) {
         screenSettings.size = sSizeMax;
@@ -149,6 +149,10 @@ function updateScreen() {
         c.fillStyle = '#fff';
         if (blockOn) {
           c.fillStyle = onFill;
+        }
+        if (saveData.levelData[`level${i+j*ijc}`].phase > 2000 && saveData.levelData[`level${i+j*ijc}`].phase === saveData.levelData[`level${i+j*ijc+1}`].phase) {
+          delete localStorage[savePoint];
+          window.location.reload();
         }
         var txtToWrite = `${saveData.levelData[`level${i+j*ijc}`].phase}`;
         c.fillText(txtToWrite, maxLeng*(i+.05)/ic-levelScreenOffset[0], maxLeng*(j+.05)/jc-levelScreenOffset[1]);
