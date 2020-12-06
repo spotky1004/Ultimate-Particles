@@ -129,7 +129,7 @@ function hsvToRgb(h, s, v) {
 function hexToRgba(hex, alpha=0) {
   hex = hex.substr(1, 6);
   var subLeng = hex.length/3;
-  return `rgba(${(Number('0x' + hex.substr(subLeng*0, subLeng))*(256/16**subLeng)).toString()}, ${(Number('0x' + hex.substr(subLeng*0, subLeng))*(256/16**subLeng)).toString()}, ${(Number('0x' + hex.substr(subLeng*0, subLeng))*(256/16**subLeng)).toString()}, ${alpha})`;
+  return `rgba(${(Number('0x' + hex.substr(subLeng*0, subLeng))*(256/16**subLeng)).toString()}, ${(Number('0x' + hex.substr(subLeng*1, subLeng))*(256/16**subLeng)).toString()}, ${(Number('0x' + hex.substr(subLeng*2, subLeng))*(256/16**subLeng)).toString()}, ${alpha})`;
 }
 
 //calculate
