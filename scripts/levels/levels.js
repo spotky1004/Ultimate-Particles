@@ -459,7 +459,7 @@ function level_41() {
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 16});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.2, 'text': 'lava!', 'color': '#e00', 'zIndex': 1, 'alpha': 0.6});
-  particles['lava'] = new Particle({'breakOnAtttack': 0, 'color': '#A00', 'effects': ['glow'], 'size': [1.2, 1], 'position': [0, -1.99], 'positionI': [0, -1.95], 'positionIType': 'span', 'zIndex': 4});
+  particles['lava'] = new Particle({'breakOnAttack': 0, 'color': '#A00', 'effects': ['glow'], 'size': [1.2, 1], 'position': [0, -1.99], 'positionI': [0, -1.95], 'positionIType': 'span', 'zIndex': 4});
   screenSettings.color = '#222';
   levelTasks.activateAll();
 }

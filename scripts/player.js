@@ -34,7 +34,7 @@ function updatePlayer() {
       if (particles[j].type == 'player' || particles[j].type != 'enemy' || i == j) continue;
       if (particles[i].collisionWith(particles[j])) {
         particles[i].hp -= particles[j].atk;
-        if (particles[j].breakOnAtttack == 1) {
+        if (particles[j].breakOnAttack == 1) {
           delete particles[j];
         }
         if (particles[i].hp <= 0) {
