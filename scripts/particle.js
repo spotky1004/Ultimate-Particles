@@ -137,7 +137,6 @@ class Particle {
 
     // increment properties
     var speedI = 1/tps;
-
     for (var i = 0, l = propertyI.length; i < l; i++) {
       if ((this[`${propertyI[i]}I`] == 0 || this[`${propertyI[i]}I`] == [0, 0]) && this[`${propertyI[i]}IType`] == 'increment') continue;
       if (typeof this[`${propertyI[i]}`] == 'number') {
