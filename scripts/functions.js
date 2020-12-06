@@ -143,6 +143,14 @@ function spanCalc(a, b, p) {
   return (b+a*p)/(p+1);
 }
 
+//short random
+function screenRand() {
+  return Math.random()*getScreenAbsSize()*2-getScreenAbsSize();
+}
+function boolRand() {
+  return Math.floor(Math.random()*2);
+}
+
 //dom update
 function gameStatusUpdate() {
   document.getElementById('phase').innerHTML = `phase: ${levelLoopCount}`;
@@ -194,7 +202,7 @@ function goMain() {
   screenState = 'main';
   playing = 0;
   screenSettings.size = 0;
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [parseInt('-hi there... AAaAAAaAAA', 36), -3009059676390311], 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]]}); //base10 -> base36?
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [parseInt('-hi there... AAaAAAaAAA', 36), -3009059676390311], 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'effects': ['glow']}); //base10 -> base36?
   levelSelected = -1;
 }
 function playerDead() {

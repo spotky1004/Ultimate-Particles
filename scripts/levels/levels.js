@@ -463,6 +463,41 @@ function level_41() {
   screenSettings.color = '#222';
   levelTasks.activateAll();
 }
+//level 4-2, made by Spotky1004
+function level_42() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    var tempS = Math.random()*0.2+0.4;
+    var tempL = Math.floor(Math.random()*Math.min(10, levelLoopCount/2)+3+Math.min(10, levelLoopCount/2));
+    var tempE = Math.random();
+    particles[`P${levelLoopCount}D`] = new Particle({'type': 'decoration', 'position': [particles.player.position[0], particles.player.position[1]], 'alpha': 0.4, 'color': (tempL%2 ? '#00f' : '#f00'), 'size': [1, 1], 'absSize': tempS, 'sides': -1});
+    for (var i = 0; i < tempL; i++) {
+      if (Math.abs(tempE-i/tempL) < 0.1) continue;
+      particles[`P${levelLoopCount}S${i}`] = new Particle({'color': hsvToRgb((i/tempL*0.2-tempE/2+1)%1, 0.8, 0.7),'position': [particles.player.position[0]+tempS*Math.sin(Math.PI*2/tempL*i+(levelLoopCount>30 ? tempE*5 : 0)), particles.player.position[1]-tempS*Math.cos(Math.PI*2/tempL*i+(levelLoopCount>30 ? tempE*5 : 0))], 'speed': 0.4, 'speedI': 7, 'speedIType': 'multiply'}).tickTraceTo(particles.player);
+    }
+    if (levelLoopCount > 1) {
+      delete particles[`P${levelLoopCount-1}D`];
+    }
+  }, tickSpeed*150);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.12, 'text': 'cilcle v2!', 'color': '#c49b29', 'zIndex': 1});
+  levelTasks.activateAll();
+}
 
 function levelTemplate() {
   levelInit();

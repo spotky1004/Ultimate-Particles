@@ -16,7 +16,7 @@ class Particle {
 
     // view
     this.color = attrs.color || '#000'; // fill color for particle and text
-    this.sides = attrs.sides || 4; // set sides of shaped particle
+    this.sides = attrs.sides || 4; // set sides of shaped particle, -1 to circle
     this.rotateDeg = attrs.rotateDeg || 180; // set rotated for shaped particle (this property won't affect to hitbox/collision for now)
     this.zIndex = attrs.zIndex || 2; // z-index (0~4)
     this.spanPer = attrs.spanPer || 10; // spanPer for ~IType = 'span', ratio - 1 : spanPer
@@ -197,6 +197,14 @@ class Particle {
       return 1;
     }
     return 0;
+  }
+  tickTraceTo(particle) {
+    var toTrace = particle;
+    if (toTrace !== undefined) {
+      this.deg = (Math.atan2(this.position[1]-toTrace.position[1], this.position[0]-toTrace.position[0])/Math.PI*180+270)%360;
+    }
+
+    return this;
   }
 
   randMove(type='') {

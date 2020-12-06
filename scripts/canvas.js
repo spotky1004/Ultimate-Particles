@@ -61,7 +61,7 @@ function updateScreen() {
         if (Math.abs(maxLeng*(i+.5)/ic-maxLeng*(particles.player.position[0]+1)/2) < maxLeng/ic/2 && Math.abs(maxLeng*(j+.5)/ic+maxLeng*(particles.player.position[1]-1)/2) < maxLeng/jc/2) {
           blockOn = 1;
           levelOn = i+j*ic;
-          if (keypress['13'] && levelSelected == -1 && ((i <= 2 && j <= 2) || (i == 0 && j == 3) || (i == 2 && j == 1))) {
+          if (keypress['13'] && levelSelected == -1 && ((i <= 2 && j <= 2) || (i == 0 && j == 3) || (i == 1 && j == 3))) {
             levelSelected = levelOn;
             playing = 1;
             screenPositionSpan([2*((i+0.5)/ic)-1, -2*((j+0.5)/jc)+1], 10);
@@ -206,7 +206,13 @@ function updateScreen() {
             maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale - Math.sin(Math.rad(d1)) * centerL * particles[name].size[0] * screenSettings.scale),
             maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale - Math.cos(Math.rad(d1)) * centerL * particles[name].size[1] * screenSettings.scale)
           ];
-          if (s == 4) {
+          if (s == -1 || s >= 100) {
+            var lastPos = [
+              maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale ),
+              maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale )
+            ];
+            c.arc(lastPos[0], lastPos[1], maxLeng*particles[name].getTotAbsSize()[0]/2, 0, 2*Math.PI);
+          } else if (s == 4) {
             c.rect(lastPos[0]-maxLeng*particles[name].getTotAbsSize()[0], lastPos[1]-maxLeng*particles[name].getTotAbsSize()[1], maxLeng*particles[name].getTotAbsSize()[0], maxLeng*particles[name].getTotAbsSize()[1]);
           } else {
             c.moveTo(lastPos[0], lastPos[1]);
@@ -224,7 +230,7 @@ function updateScreen() {
               maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale),
               maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale)
             ];
-            var grd = c.createRadialGradient(lastPos[0], lastPos[1], maxLeng*Math.max(particles[name].getTotAbsSize()[0], particles[name].getTotAbsSize()[1])*0.25, lastPos[0], lastPos[1], maxLeng*Math.max(particles[name].getTotAbsSize()[0], particles[name].getTotAbsSize()[1]+0.005));
+            var grd = c.createRadialGradient(lastPos[0], lastPos[1], maxLeng*Math.max(particles[name].getTotAbsSize()[0], particles[name].getTotAbsSize()[1])*0.25, lastPos[0], lastPos[1], maxLeng*Math.max(particles[name].getTotAbsSize()[0], particles[name].getTotAbsSize()[1]+0.0035));
             grd.addColorStop(0, particles[name].color);
             grd.addColorStop(1, hexToRgba(particles[name].color));
             c.fillStyle = grd;
