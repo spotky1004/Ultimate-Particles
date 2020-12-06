@@ -498,6 +498,56 @@ function level_42() {
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.12, 'text': 'cilcle v2!', 'color': '#c49b29', 'zIndex': 1});
   levelTasks.activateAll();
 }
+//level 4-3, made by Spotky1004
+function level_43() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      tempL++;
+      particles[`S${tempL}`] = new Particle({'position': [Math.sin(Math.PI*2*(tempL/14.556))*1.5, Math.cos(Math.PI*2*(tempL/14.556))*1.5], 'speed': 4+tempL/1000, 'outOfBounds': [[-1.5, 1.5], [-1.5, 1.5]], 'hitboxSize': 0.85}).tickTraceTo(particles.dummy);
+      levelFunctions.activate(0);
+    }, time: tickSpeed*8, activated: false},
+    {callback: function(){
+      levelLoopCount++;
+      switch (levelLoopCount%4) {
+        case 1:
+        particles['wall'].positionI = [-0.5, -0.5];
+          break;
+        case 2:
+        particles['wall'].positionI = [0.5, -0.5];
+          break;
+        case 3:
+        particles['wall'].positionI = [0.5, 0.5];
+          break;
+        case 0:
+        particles['wall'].positionI = [-0.5, 0.5];
+          break;
+      }
+      levelFunctions._data[1].time = tickSpeed*Math.max(100, 200-levelLoopCount);
+      levelFunctions.activate(1);
+    }, time: tickSpeed*200, activated: false}
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+
+  }, tickSpeed*150);
+
+  var tempL = 0;
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [0.5, -0.5], 'hitboxSize': 0.85});
+  particles['wall'] = new Particle({'position': [-0.5, 0.5], 'size': [0.5, 0.5], 'positionI': [-0.5, 0.5], 'positionIType': 'span', 'spanPer': 20, 'breakOnAttack': 0, 'color': '#db5625', 'zIndex': 1});
+  particles['dummy'] = new Particle({'type': 'decoration', 'alpha': 0.1, 'color': '#000'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.15, 'text': 'sprial!', 'color': '#c49b29', 'zIndex': 0});
+  levelTasks.activateAll();
+  levelFunctions.activate(0);
+  levelFunctions.activate(1);
+}
 
 function levelTemplate() {
   levelInit();
