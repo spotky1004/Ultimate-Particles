@@ -150,10 +150,6 @@ function updateScreen() {
         if (blockOn) {
           c.fillStyle = onFill;
         }
-        if (saveData.levelData[`level${i+j*ijc}`].phase > 2000 && saveData.levelData[`level${i+j*ijc}`].phase === saveData.levelData[`level${i+j*ijc+1}`].phase) {
-          delete localStorage[savePoint];
-          window.location.reload();
-        }
         var txtToWrite = `${saveData.levelData[`level${i+j*ijc}`].phase}`;
         c.fillText(txtToWrite, maxLeng*(i+.05)/ic-levelScreenOffset[0], maxLeng*(j+.05)/jc-levelScreenOffset[1]);
 
