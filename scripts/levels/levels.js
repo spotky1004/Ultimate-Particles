@@ -524,9 +524,9 @@ function level_43() {
         particles['wall'].positionI = [-0.5, 0.5];
           break;
       }
-      levelFunctions._data[1].time = tickSpeed*Math.max(100, 200-levelLoopCount);
+      levelFunctions._data[1].time = tickSpeed*Math.max(100, Math.min(190, 220-levelLoopCount));
       levelFunctions.activate(1);
-    }, time: tickSpeed*200, activated: false}
+    }, time: tickSpeed*220, activated: false}
   ]);
 
   levelTasks = new Task([

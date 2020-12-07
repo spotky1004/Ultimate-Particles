@@ -55,9 +55,37 @@ document.addEventListener('keydown', keyUp);
 document.addEventListener('keyup', keyDown);
 function keyUp(e) {
   keypress[e.keyCode] = true;
+  switch (e.keyCode) {
+    case 87:
+    keypress[38] = true;
+      break;
+    case 65:
+    keypress[37] = true;
+      break;
+    case 83:
+    keypress[40] = true;
+      break;
+    case 68:
+    keypress[39] = true;
+      break;
+  }
 }
 function keyDown(e) {
   keypress[e.keyCode] = false;
+  switch (e.keyCode) {
+    case 87:
+    keypress[38] = false;
+      break;
+    case 65:
+    keypress[37] = false;
+      break;
+    case 83:
+    keypress[40] = false;
+      break;
+    case 68:
+    keypress[39] = false;
+      break;
+  }
 }
 
 //span effect function
