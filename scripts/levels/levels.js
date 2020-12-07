@@ -548,6 +548,61 @@ function level_43() {
   levelFunctions.activate(0);
   levelFunctions.activate(1);
 }
+//level 4-4, made by Spotky1004
+function level_44() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    var tempV = Math.min(50, 10+levelLoopCount/6);
+    var tempB = -(levelLoopCount%2*2-1);
+    var tempM = Math.random()/10+1.1;
+    switch (Math.floor(Math.random()*2)) {
+      case 0:
+      var tempP = [-tempM, (levelLoopCount%5 != 0 ? screenRand() : particles.player.position[1])];
+      var tempD = 90;
+        break;
+      case 1:
+      var tempP = [tempM, (levelLoopCount%5 != 0 ? screenRand() : particles.player.position[1])];
+      var tempD = 270;
+        break;
+      case 2:
+      var tempP = [screenRand(), -tempM];
+      var tempD = 180;
+        break;
+      case 3:
+      var tempP = [screenRand(), tempM];
+      var tempD = 0;
+        break;
+    }
+    particles[`P${levelLoopCount}`] = new Particle({'speed': tempB*tempV, 'color': hsvToRgb((tempV/100+2/3-0.4)%1, 0.5, 0.6), 'position': [tempP[0], tempP[1]], 'deg': tempD, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'hitboxSize': 0.7});
+    particleSpeedSpan(-(levelLoopCount%2*2-1), 12, 130);
+    particles[`P${levelLoopCount}T0`] = new Particle({'color': '#5540D5', 'speed': 5, 'speedI': 4, 'position': [1.2, 1.2], 'effects': ['glow']}).tickTraceTo(particles.player);
+    particles[`P${levelLoopCount}T1`] = new Particle({'color': '#5540D5', 'speed': 5, 'speedI': 4, 'position': [-1.2, 1.2], 'effects': ['glow']}).tickTraceTo(particles.player);
+    particles[`P${levelLoopCount}T2`] = new Particle({'color': '#5540D5', 'speed': 5, 'speedI': 4, 'position': [1.2, -1.2], 'effects': ['glow']}).tickTraceTo(particles.player);
+    particles[`P${levelLoopCount}T3`] = new Particle({'color': '#5540D5', 'speed': 5, 'speedI': 4, 'position': [-1.2, -1.2], 'effects': ['glow']}).tickTraceTo(particles.player);
+    particles[`P${levelLoopCount}T0C`] = new Particle({'color': '#5540D5', 'speed': 2, 'speedI': 4, 'position': [1.2, 0], 'effects': ['glow']}).tickTraceTo(particles.player);
+    particles[`P${levelLoopCount}T1C`] = new Particle({'color': '#5540D5', 'speed': 2, 'speedI': 4, 'position': [0, 1.2], 'effects': ['glow']}).tickTraceTo(particles.player);
+    particles[`P${levelLoopCount}T2C`] = new Particle({'color': '#5540D5', 'speed': 2, 'speedI': 4, 'position': [0, -1.2], 'effects': ['glow']}).tickTraceTo(particles.player);
+    particles[`P${levelLoopCount}T3C`] = new Particle({'color': '#5540D5', 'speed': 2, 'speedI': 4, 'position': [-1.2, 0], 'effects': ['glow']}).tickTraceTo(particles.player);
+  }, tickSpeed*150);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'playerSpeed': 0.012, 'hp': 5});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'swing!', 'color': '#c49b29', 'zIndex': 0});
+  levelTasks.activateAll();
+}
 
 function levelTemplate() {
   levelInit();

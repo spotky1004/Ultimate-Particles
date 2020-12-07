@@ -44,7 +44,7 @@ class Particle {
     this.atk = attrs.atk || 1; this.breakOnAttack = (attrs.breakOnAttack !== undefined ? attrs.breakOnAttack : 1); // propertys for enemy, when 'player' is collisionWith 'enemy' player's hp will decreased based on atk, also if breakOnAtttack is true: 'enemy' particle will disappear
 
     // delete
-    this.outOfBounds = attrs.outOfBounds || [[-2, 2], [-2, 2]]; // this is vaild position of particle. if particle's potition is out of this square it'll be deleted
+    this.outOfBounds = attrs.outOfBounds || [[-2, 2], [-2, 2]]; // this is vaild position of particle. if particle's position is out of this square it'll be deleted
     this.deleteTick = attrs.deleteTick || -1; // particle will be deleted after n tick (-1 to disable)
 
     // Increments

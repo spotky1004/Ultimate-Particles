@@ -55,6 +55,8 @@ document.addEventListener('keydown', keyUp);
 document.addEventListener('keyup', keyDown);
 function keyUp(e) {
   keypress[e.keyCode] = true;
+
+  // redirect asdf key to arrow keys
   switch (e.keyCode) {
     case 87:
     keypress[38] = true;
@@ -72,6 +74,8 @@ function keyUp(e) {
 }
 function keyDown(e) {
   keypress[e.keyCode] = false;
+
+  // redirect asdf key to arrow keys
   switch (e.keyCode) {
     case 87:
     keypress[38] = false;
