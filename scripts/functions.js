@@ -183,6 +183,11 @@ function boolRand() {
   return Math.floor(Math.random()*2);
 }
 
+//short calc
+function calcAlphaI(tick, power=1) {
+  return power/(tick)*-1000/tickSpeed;
+}
+
 //dom update
 function gameStatusUpdate() {
   document.getElementById('phase').innerHTML = `phase: ${levelLoopCount}`;

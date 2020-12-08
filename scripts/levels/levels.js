@@ -587,7 +587,8 @@ function level_44() {
       var tempD = 0;
         break;
     }
-    particles[`P${levelLoopCount}`] = new Particle({'speed': tempB*tempV, 'color': hsvToRgb((tempV/100+2/3-0.4)%1, 0.5, 0.6), 'position': [tempP[0], tempP[1]], 'deg': tempD, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'hitboxSize': 0.7});
+    var tempT = 1000+levelLoopCount*300;
+    particles[`P${levelLoopCount}`] = new Particle({'speed': tempB*tempV, 'color': hsvToRgb((tempV/100+2/3-0.4)%1, 0.5, 0.6), 'position': [tempP[0], tempP[1]], 'deg': tempD, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'hitboxSize': 0.7, 'alphaI': calcAlphaI(tempT, 0.7), 'deleteTick': tempT});
     particleSpeedSpan(-(levelLoopCount%2*2-1), 12, 130);
     particles[`P${levelLoopCount}T0`] = new Particle({'color': '#5540D5', 'speed': 5, 'speedI': 4, 'position': [1.2, 1.2], 'effects': ['glow']}).tickTraceTo(particles.player);
     particles[`P${levelLoopCount}T1`] = new Particle({'color': '#5540D5', 'speed': 5, 'speedI': 4, 'position': [-1.2, 1.2], 'effects': ['glow']}).tickTraceTo(particles.player);
