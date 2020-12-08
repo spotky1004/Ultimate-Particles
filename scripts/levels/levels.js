@@ -507,7 +507,7 @@ function level_43() {
       tempL++;
       particles[`S${tempL}`] = new Particle({'position': [Math.sin(Math.PI*2*(tempL/14.556))*1.5, Math.cos(Math.PI*2*(tempL/14.556))*1.5], 'speed': 4+tempL/1000, 'outOfBounds': [[-1.5, 1.5], [-1.5, 1.5]], 'hitboxSize': 0.85}).tickTraceTo(particles.dummy);
       levelFunctions.activate(0);
-    }, time: tickSpeed*8, activated: false},
+    }, time: tickSpeed*9, activated: false},
     {callback: function(){
       levelLoopCount++;
       switch (levelLoopCount%4) {
@@ -524,9 +524,9 @@ function level_43() {
         particles['wall'].positionI = [-0.5, 0.5];
           break;
       }
-      levelFunctions._data[1].time = tickSpeed*Math.max(100, Math.min(190, 220-levelLoopCount));
+      levelFunctions._data[1].time = tickSpeed*Math.max(100, Math.min(190, 230-levelLoopCount));
       levelFunctions.activate(1);
-    }, time: tickSpeed*220, activated: false}
+    }, time: tickSpeed*230, activated: false}
   ]);
 
   levelTasks = new Task([
@@ -602,6 +602,75 @@ function level_44() {
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'playerSpeed': 0.012, 'hp': 10});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'swing!', 'color': '#c49b29', 'zIndex': 0});
+  levelTasks.activateAll();
+}
+//level 4-5, made by Spotky1004
+function level_45() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    var tempC = 100;
+    var tempP = [(levelLoopCount%2 ? -1 : 1), particles.player.position[1]];
+    var tempM = Math.random()*0.04-0.02;
+    var tempL = Math.max(0.2, 0.5-levelLoopCount*(0.3/120))
+    for (var i = 0; i < tempC; i++) {
+      particles[`P${levelLoopCount}S${i}D0`] = new Particle({'color': (i%2 ? '#ed5a5a' : '#666'), 'position': [tempP[0], tempP[1]+0.7], 'positionIType': 'span', 'positionI': [tempP[0], tempP[1]+tempL], 'alpha': 0.01, 'alphaI': 4, 'effects': ['glow']});
+      particles[`P${levelLoopCount}S${i}D1`] = new Particle({'color': (i%2 ? '#ed5a5a' : '#666'), 'position': [tempP[0], tempP[1]-0.7], 'positionIType': 'span', 'positionI': [tempP[0], tempP[1]-tempL], 'alpha': 0.01, 'alphaI': 4, 'effects': ['glow']});
+      tempP[0] -= (levelLoopCount%2 ? -1 : 1)/tempC*1.9;
+      tempP[1] = Math.min(1, Math.max(-1, tempP[1]+tempM));
+      if (tempP[1] == 1 || tempP[1] == -1) {
+        tempM *= -1
+      } else if (Math.max(0.06, 0.02+levelLoopCount*(0.04/120)) > Math.random()) {
+        tempM = (Math.random()*0.02-0.01)*(1+levelLoopCount/30);
+      }
+    }
+    if (levelLoopCount > 1) {
+      for (var i = 0; i < 100; i++) {
+        try {
+          particles[`P${levelLoopCount-1}S${i}D0`].positionI = [particles[`P${levelLoopCount-1}S${i}D0`].positionI[0], -2];
+          particles[`P${levelLoopCount-1}S${i}D0`].spanPer = 40;
+        } catch (e) {
+
+        }
+        try {
+          particles[`P${levelLoopCount-1}S${i}D1`].positionI = [particles[`P${levelLoopCount-1}S${i}D1`].positionI[0], 2];
+          particles[`P${levelLoopCount-1}S${i}D1`].spanPer = 40;
+        } catch (e) {
+
+        }
+      }
+    }
+    if (levelLoopCount > 2) {
+      for (var i = 0; i < 100; i++) {
+        try {
+          delete particles[`P${levelLoopCount-2}S${i}D0`]
+        } catch (e) {
+
+        }
+        try {
+          delete particles[`P${levelLoopCount-2}S${i}D1`]
+        } catch (e) {
+
+        }
+      }
+    }
+  }, tickSpeed*180);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#00f', 'playerSpeed': 0.022, 'effects': ['glow'], 'position': [-0.9, 0]});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'speed!', 'color': '#c49b29', 'zIndex': 0});
   levelTasks.activateAll();
 }
 

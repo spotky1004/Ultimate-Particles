@@ -42,6 +42,9 @@ function startLevel(num) {
     case 3:
     level_44();
       break;
+    case 9:
+    level_45();
+      break;
     default:
 
   }

@@ -9,19 +9,19 @@
     <title>Ultimate Particles</title>
   </head>
   <body style="background-color: #222;">
-    <div id="phase" style="position: absolute; font-size: 5vh; color: #f5c542; font-weight: bolder; left: 1.5vw; top: 1vh;">
+    <div id="phase" style="position: absolute; font-size: 5vh; color: #f5c542; font-weight: bolder; left: 1.5vw; top: 1vh; z-index: 2; text-shadow: 0.5vh 0.3vw 0 rgba(50, 50, 50, 0.4); height: 10vh;">
       phase: 0
     </div>
-    <div id="hp" style="position: absolute; font-size: 5vh; color: #f5c542; font-weight: bolder; left: 1.5vw; top: 6vh;">
+    <div id="hp" style="position: absolute; font-size: 5vh; color: #f5c542; font-weight: bolder; left: 1.5vw; top: 6vh; z-index: 2; text-shadow: 0.5vh 0.3vw 0 rgba(50, 50, 50, 0.4); height: 10vh;">
       hp: 0
     </div>
-    <div id="noControllTick" style="position: absolute; font-size: 5vh; color: #f5c542; font-weight: bolder; left: 1.5vw; top: 11vh; display: none;">
+    <div id="noControllTick" style="position: absolute; font-size: 5vh; color: #f5c542; font-weight: bolder; left: 1.5vw; top: 11vh; display: none; z-index: 2; text-shadow: 0.5vh 0.3vw 0 rgba(50, 50, 50, 0.4); height: 10vh;">
       c: 0/500
     </div>
-    <div id="score" style="position: absolute; font-size: 5vh; color: #428df5; font-weight: bolder; left: 1.5vw; bottom: 1.5vh;">
+    <div id="score" style="position: absolute; font-size: 5vh; color: #428df5; font-weight: bolder; left: 1.5vw; bottom: -3.5vh; z-index: 2; text-shadow: 0.5vh 0.3vw 0 rgba(50, 50, 50, 0.4); height: 10vh;">
       score: 0
     </div>
-    <div id="canvasBorder" style="">
+    <div id="canvasBorder" style=" z-index: 1;">
       <canvas id="canvas" width="300" height="300"></canvas>
     </div>
   </body>
