@@ -625,16 +625,16 @@ function level_45() {
     var tempC = 100;
     var tempP = [(levelLoopCount%2 ? -1 : 1), particles.player.position[1]];
     var tempM = Math.random()*0.04-0.02;
-    var tempL = Math.max(0.2, 0.5-levelLoopCount*(0.3/120))
+    var tempL = Math.max(0.2, 0.4-levelLoopCount*(0.2/120))
     for (var i = 0; i < tempC; i++) {
-      particles[`P${levelLoopCount}S${i}D0`] = new Particle({'color': (i%2 ? '#ed5a5a' : '#666'), 'position': [tempP[0], tempP[1]+0.7], 'positionIType': 'span', 'positionI': [tempP[0], tempP[1]+tempL], 'alpha': 0.01, 'alphaI': 4, 'effects': ['glow']});
-      particles[`P${levelLoopCount}S${i}D1`] = new Particle({'color': (i%2 ? '#ed5a5a' : '#666'), 'position': [tempP[0], tempP[1]-0.7], 'positionIType': 'span', 'positionI': [tempP[0], tempP[1]-tempL], 'alpha': 0.01, 'alphaI': 4, 'effects': ['glow']});
+      particles[`P${levelLoopCount}S${i}D0`] = new Particle({'color': (i%2 ? '#ed5a5a' : '#fff'), 'position': [tempP[0], tempP[1]+0.7], 'positionIType': 'span', 'positionI': [tempP[0], tempP[1]+tempL], 'alpha': 0.01, 'alphaI': 4, 'effects': ['glow']});
+      particles[`P${levelLoopCount}S${i}D1`] = new Particle({'color': (i%2 ? '#ed5a5a' : '#fff'), 'position': [tempP[0], tempP[1]-0.7], 'positionIType': 'span', 'positionI': [tempP[0], tempP[1]-tempL], 'alpha': 0.01, 'alphaI': 4, 'effects': ['glow']});
       tempP[0] -= (levelLoopCount%2 ? -1 : 1)/tempC*1.9;
       tempP[1] = Math.min(1, Math.max(-1, tempP[1]+tempM));
       if (tempP[1] == 1 || tempP[1] == -1) {
         tempM *= -1
       } else if (Math.max(0.06, 0.02+levelLoopCount*(0.04/120)) > Math.random()) {
-        tempM = (Math.random()*0.02-0.01)*(1+levelLoopCount/30);
+        tempM = (Math.random()*0.024-0.012)*(1+levelLoopCount/28);
       }
     }
     if (levelLoopCount > 1) {
@@ -669,8 +669,9 @@ function level_45() {
     }
   }, tickSpeed*180);
 
-  particles['player'] = new Particle({'type': 'player', 'color': '#00f', 'playerSpeed': 0.022, 'effects': ['glow'], 'position': [-0.9, 0]});
-  particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'speed!', 'color': '#c49b29', 'zIndex': 0});
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'playerSpeed': 0.022, 'effects': ['glow'], 'position': [-0.9, 0]});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'speed!', 'color': '#333', 'zIndex': 0});
+  screenSettings.color = '#444';
   levelTasks.activateAll();
 }
 
