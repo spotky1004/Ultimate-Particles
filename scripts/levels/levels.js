@@ -610,8 +610,19 @@ function level_45() {
 
   levelFunctions = new Task([
     {callback: function(){
-      //some functions here!
-    }, time: 0, activated: false},
+      for (var i = 0; i < 100; i++) {
+        try {
+          delete particles[`P${levelLoopCount-2}S${i}D0`]
+        } catch (e) {
+
+        }
+        try {
+          delete particles[`P${levelLoopCount-2}S${i}D1`]
+        } catch (e) {
+
+        }
+      }
+    }, time: 200, activated: false},
   ]);
 
   levelTasks = new Task([
@@ -622,7 +633,7 @@ function level_45() {
 
   levelLoop = setInterval( function () {
     levelLoopCount++;
-    var tempC = 100;
+    var tempC = 70;
     var tempP = [(levelLoopCount%2 ? -1 : 1), particles.player.position[1]];
     var tempM = Math.random()*0.04-0.02;
     var tempL = Math.max(0.2, 0.4-levelLoopCount*(0.2/120))
@@ -652,20 +663,7 @@ function level_45() {
 
         }
       }
-    }
-    if (levelLoopCount > 2) {
-      for (var i = 0; i < 100; i++) {
-        try {
-          delete particles[`P${levelLoopCount-2}S${i}D0`]
-        } catch (e) {
-
-        }
-        try {
-          delete particles[`P${levelLoopCount-2}S${i}D1`]
-        } catch (e) {
-
-        }
-      }
+      levelFunctions.activate(0);
     }
   }, tickSpeed*180);
 
