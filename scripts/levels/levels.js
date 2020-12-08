@@ -569,23 +569,12 @@ function level_44() {
     var tempV = Math.min(50, 10+levelLoopCount/6);
     var tempB = -(levelLoopCount%2*2-1);
     var tempM = Math.random()/10+1.1;
-    switch (Math.floor(Math.random()*2)) {
-      case 0:
+    if (Math.floor(Math.random()*2)) {
       var tempP = [-tempM, (levelLoopCount%5 != 0 ? screenRand() : particles.player.position[1])];
       var tempD = 90;
-        break;
-      case 1:
+    } else {
       var tempP = [tempM, (levelLoopCount%5 != 0 ? screenRand() : particles.player.position[1])];
       var tempD = 270;
-        break;
-      case 2:
-      var tempP = [screenRand(), -tempM];
-      var tempD = 180;
-        break;
-      case 3:
-      var tempP = [screenRand(), tempM];
-      var tempD = 0;
-        break;
     }
     var tempT = 1000+levelLoopCount*300;
     particles[`P${levelLoopCount}`] = new Particle({'speed': tempB*tempV, 'color': hsvToRgb((tempV/100+2/3-0.4)%1, 0.5, 0.6), 'position': [tempP[0], tempP[1]], 'deg': tempD, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'hitboxSize': 0.7, 'alphaI': calcAlphaI(tempT, 0.7), 'deleteTick': tempT});
