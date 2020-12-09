@@ -619,35 +619,48 @@ function level_45() {
       //some functions here!
     }, time: 0, activated: false},
   ]);
-
+  levelLoopCount = 70;
   levelLoop = setInterval( function () {
     levelLoopCount++;
-    var tempC = 70;
+    var tempC = 55;
     var tempP = [(levelLoopCount%2 ? -1 : 1), particles.player.position[1]];
-    var tempM = Math.random()*0.04-0.02;
-    var tempL = Math.max(0.2, 0.4-levelLoopCount*(0.2/120))
+    var tempM = (Math.random()*0.008+0.004)*(1+levelLoopCount/28)*signRand();
+    var tempM2 = 0;
+    var tempL = Math.max(0.1, 0.3-levelLoopCount*(0.2/120))
     for (var i = 0; i < tempC; i++) {
-      particles[`P${levelLoopCount}S${i}D0`] = new Particle({'color': (i%2 ? '#ed5a5a' : '#fff'), 'position': [tempP[0], tempP[1]+0.7], 'positionIType': 'span', 'positionI': [tempP[0], tempP[1]+tempL], 'alpha': 0.01, 'alphaI': 4, 'effects': ['glow']});
-      particles[`P${levelLoopCount}S${i}D1`] = new Particle({'color': (i%2 ? '#ed5a5a' : '#fff'), 'position': [tempP[0], tempP[1]-0.7], 'positionIType': 'span', 'positionI': [tempP[0], tempP[1]-tempL], 'alpha': 0.01, 'alphaI': 4, 'effects': ['glow']});
+      tempM2 += tempM/20;
+      var tempL2 = tempL+Math.abs(tempM2);
+      particles[`P${levelLoopCount}S${i}D0`] = new Particle({'color': (i%2 ? '#ed5a5a' : '#fff'), 'position': [tempP[0], tempP[1]+0.7], 'positionIType': 'span', 'positionI': [tempP[0], tempP[1]+tempL2], 'alpha': 0.01, 'alphaI': 2});
+      particles[`P${levelLoopCount}S${i}D1`] = new Particle({'color': (i%2 ? '#ed5a5a' : '#fff'), 'position': [tempP[0], tempP[1]-0.7], 'positionIType': 'span', 'positionI': [tempP[0], tempP[1]-tempL2], 'alpha': 0.01, 'alphaI': 2});
       tempP[0] -= (levelLoopCount%2 ? -1 : 1)/tempC*1.9;
-      tempP[1] = Math.min(1, Math.max(-1, tempP[1]+tempM));
-      if (tempP[1] == 1 || tempP[1] == -1) {
-        tempM *= -1
-      } else if (Math.max(0.06, 0.02+levelLoopCount*(0.04/120)) > Math.random()) {
-        tempM = (Math.random()*0.024-0.012)*(1+levelLoopCount/28);
+      tempP[1] = Math.min(1, Math.max(-1, tempP[1]+tempM2));
+      if (Math.abs(tempP[1]) == 1 || Math.abs(tempM2) > (0.01+levelLoopCount/3000)) {
+        if (Math.abs(tempP[1]) == 1) {
+          tempM2 = 0;
+        } else {
+          tempM2 = Math.sign(tempM2)*(0.01+levelLoopCount/3000);
+        }
+        tempM *= -1;
+      } else if (Math.max(0.03, 0.01+levelLoopCount*(0.04/240)) > Math.random()) {
+        tempM = (Math.random()*0.008+0.004)*(1+levelLoopCount/28)*signRand();
       }
+      console.log(`${tempM}, ${tempM2}`);
     }
     if (levelLoopCount > 1) {
       for (var i = 0; i < 100; i++) {
         try {
           particles[`P${levelLoopCount-1}S${i}D0`].positionI = [particles[`P${levelLoopCount-1}S${i}D0`].positionI[0], -2];
           particles[`P${levelLoopCount-1}S${i}D0`].spanPer = 40;
+          particles[`P${levelLoopCount-1}S${i}D0`].alpha = 1;
+          particles[`P${levelLoopCount-1}S${i}D0`].alphaI = -0.6;
         } catch (e) {
 
         }
         try {
           particles[`P${levelLoopCount-1}S${i}D1`].positionI = [particles[`P${levelLoopCount-1}S${i}D1`].positionI[0], 2];
           particles[`P${levelLoopCount-1}S${i}D1`].spanPer = 40;
+          particles[`P${levelLoopCount-1}S${i}D1`].alpha = 1;
+          particles[`P${levelLoopCount-1}S${i}D1`].alphaI = -0.6;
         } catch (e) {
 
         }

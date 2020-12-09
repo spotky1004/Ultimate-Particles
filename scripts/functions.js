@@ -182,6 +182,9 @@ function screenRand() {
 function boolRand() {
   return Math.floor(Math.random()*2);
 }
+function signRand() {
+  return boolRand()*2-1;
+}
 
 //short calc
 function calcAlphaI(tick, power=1) {
