@@ -2,6 +2,7 @@
   margin: 0; padding: 0;
   overflow: hidden;
   font-family: "Major Mono Display", monospace;
+  user-select: none;
 }
 
 #canvasBorder {

@@ -51,9 +51,9 @@ const timer = ms => new Promise(
 
 //keyboard detect
 keypress = {};
-document.addEventListener('keydown', keyUp);
-document.addEventListener('keyup', keyDown);
-function keyUp(e) {
+document.addEventListener('keydown', keyDown);
+document.addEventListener('keyup', keyUp);
+function keyDown(e) {
   keypress[e.keyCode] = true;
 
   // redirect asdf key to arrow keys
@@ -72,7 +72,7 @@ function keyUp(e) {
       break;
   }
 }
-function keyDown(e) {
+function keyUp(e) {
   keypress[e.keyCode] = false;
 
   // redirect asdf key to arrow keys

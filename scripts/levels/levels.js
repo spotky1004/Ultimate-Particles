@@ -619,7 +619,7 @@ function level_45() {
       //some functions here!
     }, time: 0, activated: false},
   ]);
-  
+
   levelLoop = setInterval( function () {
     levelLoopCount++;
     var tempC = 55;
@@ -674,6 +674,75 @@ function level_45() {
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'playerSpeed': 0.022, 'effects': ['glow'], 'position': [-0.9, 0]});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.17, 'text': 'speed!', 'color': '#333', 'zIndex': 0});
   screenSettings.color = '#444';
+  levelTasks.activateAll();
+}
+//level 4-6, made by Spotky1004
+function level_46() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    particles[`P${levelLoopCount}`] = new Particle({'speedI': 3, 'speedIType': 'span', 'spanPer': 200, 'speed': 20, 'position': [(Math.random()*0.5+1.1)*signRand(), (Math.random()*0.5+1.1)*signRand()], 'outOfBounds': [[-5, 5], [-5, 5]]});
+    for (var i in particles) {
+      if (!i.includes('P') || i.includes('E')) continue;
+      particles[i].speed = 25;
+      particles[i].tickTraceTo(particles.player);
+    }
+    if (levelLoopCount > 30) {
+      if (levelLoopCount%4 == 0) {
+        for (var i = 0; i < 10; i++) {
+          particles[`P${levelLoopCount}E${i}`] = new Particle({'color': '#e01db9', 'spanPer': 4, 'position': [screenRand(), 1.1*signRand()], 'positionIType': 'span'});
+          particles[`P${levelLoopCount}E${i}`].positionI = [particles[`P${levelLoopCount}E${i}`].position[0], Math.sign(particles[`P${levelLoopCount}E${i}`].position[1])*0.9];
+        }
+      }
+      if (levelLoopCount%4 == 1) {
+        for (var i = 0; i < 10; i++) {
+          particles[`P${levelLoopCount-1}E${i}`].positionI = [0, 0];
+          particles[`P${levelLoopCount-1}E${i}`].positionIType = 'increment';
+          particles[`P${levelLoopCount-1}E${i}`].spanPer = 200;
+          particles[`P${levelLoopCount-1}E${i}`].speed = 30;
+          particles[`P${levelLoopCount-1}E${i}`].speedI = 3;
+          particles[`P${levelLoopCount-1}E${i}`].speedIType = 'span';
+          particles[`P${levelLoopCount-1}E${i}`].color = '#ba1313';
+          particles[`P${levelLoopCount-1}E${i}`].tickTraceTo(particles.player);
+        }
+      }
+    }
+    if (levelLoopCount > 60) {
+      if (levelLoopCount%4 == 1) {
+        for (var i = 0; i < 10; i++) {
+          particles[`P${levelLoopCount}E${i}`] = new Particle({'color': '#e01db9', 'spanPer': 4, 'position': [1.1*signRand(), screenRand()], 'positionIType': 'span'});
+          particles[`P${levelLoopCount}E${i}`].positionI = [Math.sign(particles[`P${levelLoopCount}E${i}`].position[0])*0.9, particles[`P${levelLoopCount}E${i}`].position[1]];
+        }
+      }
+      if (levelLoopCount%4 == 2) {
+        for (var i = 0; i < 10; i++) {
+          particles[`P${levelLoopCount-1}E${i}`].positionI = [0, 0];
+          particles[`P${levelLoopCount-1}E${i}`].positionIType = 'increment';
+          particles[`P${levelLoopCount-1}E${i}`].spanPer = 200;
+          particles[`P${levelLoopCount-1}E${i}`].speed = 30;
+          particles[`P${levelLoopCount-1}E${i}`].speedI = 3;
+          particles[`P${levelLoopCount-1}E${i}`].speedIType = 'span';
+          particles[`P${levelLoopCount-1}E${i}`].color = '#ba1313';
+          particles[`P${levelLoopCount-1}E${i}`].tickTraceTo(particles.player);
+        }
+      }
+    }
+  }, tickSpeed*100);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
   levelTasks.activateAll();
 }
 
