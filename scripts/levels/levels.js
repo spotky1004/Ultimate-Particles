@@ -619,7 +619,7 @@ function level_45() {
       //some functions here!
     }, time: 0, activated: false},
   ]);
-  levelLoopCount = 70;
+  
   levelLoop = setInterval( function () {
     levelLoopCount++;
     var tempC = 55;
@@ -653,6 +653,7 @@ function level_45() {
           particles[`P${levelLoopCount-1}S${i}D0`].spanPer = 40;
           particles[`P${levelLoopCount-1}S${i}D0`].alpha = 1;
           particles[`P${levelLoopCount-1}S${i}D0`].alphaI = -0.6;
+          particles[`P${levelLoopCount-1}S${i}D0`].color = '#222';
         } catch (e) {
 
         }
@@ -661,6 +662,7 @@ function level_45() {
           particles[`P${levelLoopCount-1}S${i}D1`].spanPer = 40;
           particles[`P${levelLoopCount-1}S${i}D1`].alpha = 1;
           particles[`P${levelLoopCount-1}S${i}D1`].alphaI = -0.6;
+          particles[`P${levelLoopCount-1}S${i}D1`].color = '#222';
         } catch (e) {
 
         }
