@@ -814,3 +814,36 @@ function debugLevel() {
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
   levelTasks.activateAll();
 }
+function onDeleteEventTest() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    particles[`P${levelLoopCount}`] = new Particle({
+      'position': [signRand()*(0.5+Math.random()*0.5), signRand()*(0.5+Math.random()*0.5)], 'deleteTick': 500,
+      'onDelete':
+      `
+        var tempR = Math.random()*360;
+        particles['P${levelLoopCount}S0'] = new Particle({'deg': (tempR+0)%360, 'color': '#f00', 'speed': 15, 'position': [particles['P${levelLoopCount}'].position[0], particles['P${levelLoopCount}'].position[1]]});
+        particles['P${levelLoopCount}S1'] = new Particle({'deg': (tempR+90)%360, 'color': '#f00', 'speed': 15, 'position': [particles['P${levelLoopCount}'].position[0], particles['P${levelLoopCount}'].position[1]]});
+        particles['P${levelLoopCount}S2'] = new Particle({'deg': (tempR+180)%360, 'color': '#f00', 'speed': 15, 'position': [particles['P${levelLoopCount}'].position[0], particles['P${levelLoopCount}'].position[1]]});
+        particles['P${levelLoopCount}S3'] = new Particle({'deg': (tempR+270)%360, 'color': '#f00', 'speed': 15, 'position': [particles['P${levelLoopCount}'].position[0], particles['P${levelLoopCount}'].position[1]]});
+      `
+    });
+  }, tickSpeed*10);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  levelTasks.activateAll();
+}
