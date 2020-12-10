@@ -47,7 +47,7 @@ class Particle {
     this.outOfBounds = attrs.outOfBounds || [[-2, 2], [-2, 2]]; // this is vaild position of particle. if particle's position is out of this square it'll be deleted
     this.deleteTick = attrs.deleteTick || -1; // particle will be deleted after n tick (-1 to disable)
 
-    //events
+    // event
     this.onPlayerCollision = attrs.onPlayerCollision || ""; // on enemy particle collision with player particle
     this.onDelete = attrs.onDelete || ""; // on delete by 'outOfBounds' or 'deleteTick' etc..
 
