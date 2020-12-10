@@ -694,7 +694,7 @@ function level_46() {
 
   levelLoop = setInterval( function () {
     levelLoopCount++;
-    particles[`P${levelLoopCount}`] = new Particle({'speedI': 3, 'speedIType': 'span', 'spanPer': 200, 'speed': 20, 'position': [(Math.random()*0.5+1.1)*signRand(), (Math.random()*0.5+1.1)*signRand()], 'outOfBounds': [[-5, 5], [-5, 5]], 'deleteTick': 500+levelLoopCount*10, 'alphaI': calcAlphaI(500+levelLoopCount*10, 0.7)});
+    particles[`P${levelLoopCount}`] = new Particle({'speedI': 3, 'speedIType': 'span', 'spanPer': 100, 'speed': 20, 'position': [(Math.random()*0.5+1.1)*signRand(), (Math.random()*0.5+1.1)*signRand()], 'outOfBounds': [[-5, 5], [-5, 5]], 'deleteTick': 500+levelLoopCount*10, 'alphaI': calcAlphaI(500+levelLoopCount*10, 0.7)});
     for (var i in particles) {
       if (!i.includes('P') || i.includes('E')) continue;
       particles[i].speed = 25;
@@ -711,7 +711,7 @@ function level_46() {
         for (var i = 0; i < 10; i++) {
           particles[`P${levelLoopCount-1}E${i}`].positionI = [0, 0];
           particles[`P${levelLoopCount-1}E${i}`].positionIType = 'increment';
-          particles[`P${levelLoopCount-1}E${i}`].spanPer = 200;
+          particles[`P${levelLoopCount-1}E${i}`].spanPer = 100;
           particles[`P${levelLoopCount-1}E${i}`].speed = 30;
           particles[`P${levelLoopCount-1}E${i}`].speedI = 3;
           particles[`P${levelLoopCount-1}E${i}`].speedIType = 'span';
@@ -731,7 +731,7 @@ function level_46() {
         for (var i = 0; i < 10; i++) {
           particles[`P${levelLoopCount-1}E${i}`].positionI = [0, 0];
           particles[`P${levelLoopCount-1}E${i}`].positionIType = 'increment';
-          particles[`P${levelLoopCount-1}E${i}`].spanPer = 200;
+          particles[`P${levelLoopCount-1}E${i}`].spanPer = 100;
           particles[`P${levelLoopCount-1}E${i}`].speed = 30;
           particles[`P${levelLoopCount-1}E${i}`].speedI = 3;
           particles[`P${levelLoopCount-1}E${i}`].speedIType = 'span';
