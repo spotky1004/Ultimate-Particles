@@ -47,6 +47,10 @@ class Particle {
     this.outOfBounds = attrs.outOfBounds || [[-2, 2], [-2, 2]]; // this is vaild position of particle. if particle's position is out of this square it'll be deleted
     this.deleteTick = attrs.deleteTick || -1; // particle will be deleted after n tick (-1 to disable)
 
+    //events
+    this.onPlayerCollision = attrs.onPlayerCollision || ""; // on enemy particle collision with player particle
+    this.onDelete = attrs.onDelete || ""; // on delete by 'outOfBounds' or 'deleteTick' etc..
+
     // Increments
     for (var i = 0, l = propertyI.length; i < l; i++) {
       if (typeof this[propertyI[i]] == 'number') {
@@ -180,6 +184,7 @@ class Particle {
 
     //delete
     if (!(this.outOfBounds[0][0] <= this.position[0] && this.position[0] <= this.outOfBounds[0][1] && this.outOfBounds[1][0] <= this.position[1] && this.position[1] <= this.outOfBounds[1][1]) || (this.deleteTick <= 0 && this.deleteTick != -1)) {
+      new Function(this.onDelete)();
       delete particles[name];
       return 0;
     }

@@ -34,12 +34,14 @@ function updatePlayer() {
       if (particles[j].type == 'player' || particles[j].type != 'enemy' || i == j) continue;
       if (particles[i].collisionWith(particles[j])) {
         particles[i].hp -= particles[j].atk;
-        if (particles[j].breakOnAttack == 1) {
-          delete particles[j];
-        }
         if (particles[i].hp <= 0) {
           playerDead();
           return;
+        } else {
+          new Function(particles[j].onPlayerCollision)();
+        }
+        if (particles[j].breakOnAttack == 1) {
+          delete particles[j];
         }
       }
     }
