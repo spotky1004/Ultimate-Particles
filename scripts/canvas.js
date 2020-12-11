@@ -66,7 +66,7 @@ function updateScreen() {
           levelOn = i+j*ic;
           if (keypress['13'] && levelSelected == -1 && ((i <= 2 && j <= 3) || (i == 3 && j == 0) || (i == 3 && j == 1) || (i == 3 && j == 2))) {
             levelSelected = levelOn;
-            levelSelectedName = `${i+1}${j+1}`;
+            levelSelectedName = `${Math.max(i,j)+1}${((i!=j)?(Math.min(i,j)+((i>j)?i:0)):i*2)+1}`;
             playing = 1;
             screenPositionSpan([2*((i+0.5)/ic)-1, -2*((j+0.5)/jc)+1], 10);
             screenSizeSpan(1/ijc, 10);
