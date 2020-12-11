@@ -959,13 +959,13 @@ function levelIcon() {
 
   levelTasks = new Task([
     {callback: function(){
-      var tempL = 20;
-      var tempL2 = 10;
+      var tempL2 = 8;
       for (var i = 0; i < tempL2; i++) {
-        var dist = 0.9-((i+1)/tempL2)*0.7;
+        var dist = 2-((i+1)/tempL2)*1.8;
+        var tempL = 20-i;
         for (var j = 0; j < tempL; j++) {
-          var tempD = Math.PI*2*(((j+1+i/33)/tempL)%1);
-          particles[`L${i}`] = new Particle({'color': hsvToRgb(((j+1)/tempL), 1-((i+1)/tempL2)*0.8, 0.9-((i+1)/tempL2)*0.4), 'position': [Math.sin(tempD)*dist, -Math.cos(tempD)*dist]});
+          var tempD = Math.PI*2*(((j+1)/tempL+i/tempL2));
+          particles[`Particle${j}_${i}`] = new Particle({'color': hsvToRgb(((j+1)/tempL), 1-((i+1)/tempL2)*0.4, 0.9-((i+1)/tempL2)*0.3), 'position': [Math.sin(tempD)*dist, -Math.cos(tempD)*dist], 'absSize': 5-((i+1)/tempL2)*1.2});
         }
       }
     }, time: 0, activated: false},
@@ -975,7 +975,7 @@ function levelIcon() {
 
   }, tickSpeed*10);
 
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 200});
   levelTasks.activateAll();
 }
 

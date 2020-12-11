@@ -198,8 +198,8 @@ class Particle {
 
   collisionWith(particle) {
     if (
-      Math.abs(this.position[0]-particle.position[0]) < Math.abs(this.size[0]*particle.absSize*this.hitboxSize+particle.size[0]*particle.hitboxSize*particle.absSize) &&
-      Math.abs(this.position[1]-particle.position[1]) < Math.abs(this.size[1]*particle.absSize*this.hitboxSize+particle.size[1]*particle.hitboxSize*particle.absSize)
+      Math.abs(this.position[0]-particle.position[0]) < Math.abs(this.getHitboxSize()[0]+particle.getHitboxSize()[0]) &&
+      Math.abs(this.position[1]-particle.position[1]) < Math.abs(this.getHitboxSize()[1]+particle.getHitboxSize()[1])
     ) {
       return 1;
     }
@@ -278,6 +278,9 @@ class Particle {
 
   getTotAbsSize() {
     return [this.absSize*this.size[0], this.absSize*this.size[1]];
+  }
+  getHitboxSize(){
+    return [this.getTotAbsSize()[0]*this.hitboxSize, this.getTotAbsSize()[1]*this.hitboxSize];
   }
 }
 
