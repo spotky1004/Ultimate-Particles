@@ -442,6 +442,252 @@ function levelPillowTest5() {
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 16});
   levelTasks.activateAll();
 }
+function PillowLevelTest7() {
+  levelInit();
+  pillowrand = 0;
+  pillowrand2 = 0;
+  pillowdegrand = 0;
+  pillowindex = 0;
+  levelFunctions = new Task([
+    {callback: function(){
+      particles['player'].position[0] = 0;
+      levelFunctions.activate(0);
+    }, time: tickSpeed*1, activated: false},
+
+
+    {callback: function(){
+      pillowindex++;
+      pillowrand = Math.random()*2-1
+      particles[`PPhase${pillowindex}with1`] = new Particle({'speed': 20, 'position': [1,pillowrand], 'deg': 270})
+      pillowrand = Math.random()*2-1
+      particles[`PPhase${pillowindex}with2`] = new Particle({'speed': 20, 'position': [-1,pillowrand], 'deg': 90})
+      levelFunctions.activate(1);
+    }, time: tickSpeed*15, activated: false},
+
+    {callback: function(){
+      particles['lava'] = new Particle({'breakOnAttack': 0, 'color': '#A00', 'effects': ['glow'], 'size': [1, 1.2], 'position': [-2.1,0], 'linearSpeed': [25,0], 'linearSpeedI': [-30,0], 'outOfBounds': [[-3,3],[-3,3]], 'linearSpeedIType': 'increment', 'positionIType': 'increment', 'zIndex': 4});
+      for (var i=0; i<10; i++) {
+        pillowrand2 = (Math.random()*10)+32;
+        pillowdegrand = (Math.random()*5)-2.5;
+        particles[`Firstwith${i}`] = new Particle({'outOfBounds': [[-1.3,1,3],[-1,3,1.3]], 'linearSpeed': [pillowrand2,pillowdegrand], 'linearSpeedI': [-30,0], 'linearSpeedIType': 'increment', 'effects': ['glow'], 'color': '#ff9514', 'position':[-1,Math.random()*2-1]})
+      }
+    }, time: tickSpeed*400, activated: false},
+
+    {callback: function(){
+      particles[`PillowSwing1`] = new Particle({'color': '#5540D5', 'speed': 2, 'speedI': 4, 'position': [1.2, 1,2], 'effects': ['glow']}).tickTraceTo(particles.player);
+      particles[`PillowSwing2`] = new Particle({'color': '#5540D5', 'speed': 2, 'speedI': 4, 'position': [1.2, -1.2], 'effects': ['glow']}).tickTraceTo(particles.player);
+      particles[`PillowSwing3`] = new Particle({'color': '#5540D5', 'speed': 2, 'speedI': 4, 'position': [-1.2, 1.2], 'effects': ['glow']}).tickTraceTo(particles.player);
+      particles[`PillowSwing4`] = new Particle({'color': '#5540D5', 'speed': 2, 'speedI': 4, 'position': [-1.2, -1.2], 'effects': ['glow']}).tickTraceTo(particles.player);
+    }, time: tickSpeed*500, activated: false},
+    {callback: function(){
+      particleSpeedSpan(-1, 12, 50);
+    }, time: tickSpeed*650, activated: false},
+    {callback: function(){
+      particleSpeedSpan(1, 12, 130);
+    }, time: tickSpeed*700, activated: false},
+
+    {callback: function(){
+      for (var i = 0; i < 10; i++) {
+        particles[`PE${i}`] = new Particle({'color': '#e01db9', 'spanPer': 4, 'position': [1,screenRand()], 'positionIType': 'span'});
+        particles[`PE${i}`].positionI = [Math.sign(particles[`PE${i}`].position[0])*0.9, particles[`PE${i}`].position[1]];
+      }
+    }, time: tickSpeed*800, activated: false},
+    {callback: function(){
+      for (var i = 0; i < 10; i++) {
+        particles[`PE${i}`].positionI = [0, 0];
+        particles[`PE${i}`].positionIType = 'increment';
+        particles[`PE${i}`].spanPer = 100;
+        particles[`PE${i}`].speed = 30;
+        particles[`PE${i}`].speedI = 3;
+        particles[`PE${i}`].speedIType = 'span';
+        particles[`PE${i}`].color = '#ba1313';
+        particles[`PE${i}`].tickTraceTo(particles.player);
+      }
+    }, time: tickSpeed*860, activated: false},
+    {callback: function(){
+      particles[`bomb`] = new Particle({'speed': 30, 'deleteTick': 100, 'spanPer': 30, 'speedI': 9, 'speedIType': 'span', 'deg': 270, 'color': '#600', 'size': [0.03,0.03], 'position': [1,Math.random()*1.6-0.8], 'onDelete':
+      `
+      var PillowDeg = Math.random()*60;
+      particles['bombS1'] = new Particle({'speed': 8, 'spanPer': 60, 'speedI': 30, 'speedIType': 'span', 'deg': PillowDeg, 'color': '#006', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombS2'] = new Particle({'speed': 8, 'spanPer': 60, 'speedI': 30, 'speedIType': 'span', 'deg': PillowDeg+60, 'color': '#006', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombS3'] = new Particle({'speed': 8, 'spanPer': 60, 'speedI': 30, 'speedIType': 'span', 'deg': PillowDeg+120, 'color': '#006', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombS4'] = new Particle({'speed': 8, 'spanPer': 60, 'speedI': 30, 'speedIType': 'span', 'deg': PillowDeg+180, 'color': '#006', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombS5'] = new Particle({'speed': 8, 'spanPer': 60, 'speedI': 30, 'speedIType': 'span', 'deg': PillowDeg+240, 'color': '#006', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombS6'] = new Particle({'speed': 8, 'spanPer': 60, 'speedI': 30, 'speedIType': 'span', 'deg': PillowDeg+300, 'color': '#006', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      PillowDeg = Math.random()*45;
+      particles['bombTwoS1'] = new Particle({'speed': 18, 'deg': PillowDeg, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombTwoS2'] = new Particle({'speed': 18, 'deg': PillowDeg+45, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombTwoS3'] = new Particle({'speed': 18, 'deg': PillowDeg+90, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombTwoS4'] = new Particle({'speed': 18, 'deg': PillowDeg+135, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombTwoS5'] = new Particle({'speed': 18, 'deg': PillowDeg+180, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombTwoS6'] = new Particle({'speed': 18, 'deg': PillowDeg+225, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombTwoS7'] = new Particle({'speed': 18, 'deg': PillowDeg+270, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombTwoS8'] = new Particle({'speed': 18, 'deg': PillowDeg+315, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombThreeS1'] = new Particle({'speed': 16, 'deg': PillowDeg, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombThreeS2'] = new Particle({'speed': 16, 'deg': PillowDeg+45, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombThreeS3'] = new Particle({'speed': 16, 'deg': PillowDeg+90, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombThreeS4'] = new Particle({'speed': 16, 'deg': PillowDeg+135, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombThreeS5'] = new Particle({'speed': 16, 'deg': PillowDeg+180, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombThreeS6'] = new Particle({'speed': 16, 'deg': PillowDeg+225, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombThreeS7'] = new Particle({'speed': 16, 'deg': PillowDeg+270, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombThreeS8'] = new Particle({'speed': 16, 'deg': PillowDeg+315, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombFourS1'] = new Particle({'speed': 14, 'deg': PillowDeg, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombFourS2'] = new Particle({'speed': 14, 'deg': PillowDeg+45, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombFourS3'] = new Particle({'speed': 14, 'deg': PillowDeg+90, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombFourS4'] = new Particle({'speed': 14, 'deg': PillowDeg+135, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombFourS5'] = new Particle({'speed': 14, 'deg': PillowDeg+180, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombFourS6'] = new Particle({'speed': 14, 'deg': PillowDeg+225, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombFourS7'] = new Particle({'speed': 14, 'deg': PillowDeg+270, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombFourS8'] = new Particle({'speed': 14, 'deg': PillowDeg+315, 'color': '#600', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      PillowDeg = Math.random()*90;
+      particles['bombFiveS1'] = new Particle({'speed': 26, 'deg': PillowDeg, 'color': '#000', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombFiveS2'] = new Particle({'speed': 26, 'deg': PillowDeg+90, 'color': '#000', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombFiveS3'] = new Particle({'speed': 26, 'deg': PillowDeg+180, 'color': '#000', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombFiveS4'] = new Particle({'speed': 26, 'deg': PillowDeg+270, 'color': '#000', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      PillowDeg = Math.random()*120;
+      particles['bombSixS1'] = new Particle({'speed': 28, 'deg': PillowDeg, 'color': '#006', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombSixS2'] = new Particle({'speed': 28, 'deg': PillowDeg+120, 'color': '#006', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombSixS3'] = new Particle({'speed': 28, 'deg': PillowDeg+240, 'color': '#006', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      PillowDeg = Math.random()*120;
+      particles['bombSevenS1'] = new Particle({'speed': 32, 'deg': PillowDeg, 'color': '#006', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombSevenS2'] = new Particle({'speed': 32, 'deg': PillowDeg+120, 'color': '#006', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      particles['bombSevenS3'] = new Particle({'speed': 32, 'deg': PillowDeg+240, 'color': '#006', 'position': [particles['bomb'].position[0], particles['bomb'].position[1]]})
+      `})
+    }, time: tickSpeed*900, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      screenSizeSpan(0.8, 200);
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+      levelLoopCount++;
+  }, tickSpeed*400);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [0,-0.75], 'hp': 3, 'playerSpeed': 0.02});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.08, 'text': 'Fixed Position!', 'color': '#c49b29', 'zIndex': 1})
+  levelTasks.activateAll();
+  levelFunctions.activate(0);
+  levelFunctions.activate(1);
+  levelFunctions.activate(2);
+  levelFunctions.activate(3);
+  levelFunctions.activate(4);
+  levelFunctions.activate(5);
+  levelFunctions.activate(6);
+  levelFunctions.activate(7);
+  levelFunctions.activate(8);
+}
+
+function redMountain1() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+        particles.player["hp"] = 9999999999999
+        particles[`Base1`] = new Particle({'speed': 0, 'position': [0,0], 'atk': 100, 'absSize': 20, 'breakOnAttack': 0, 'hitboxSize': 0.5})
+        particles[`Base2`] = new Particle({'speed': 0, 'position': [0,-0.9], 'atk': 100, 'absSize': 2})
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    if (levelLoopCount < 20) {
+        particles[`Phase${levelLoopCount}1`] = new Particle({'speed': 8, 'position': [0,0.9]})
+        particles[`Phase${levelLoopCount}2`] = new Particle({'speed': 8, 'position': [0,-0.9]})
+        particles[`Phase${levelLoopCount}1`].tickTraceTo(particles.player);
+        particles[`Phase${levelLoopCount}2`].tickTraceTo(particles.player);
+    } else if (levelLoopCount < 40) {
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}1_${i}`] = new Particle({ 'speed': 8, 'position': [0, 0.9] })
+            particles[`Phase${levelLoopCount}1_${i}`].tickTraceTo(particles.player)
+        }
+        particles[`Phase${levelLoopCount}2`] = new Particle({'speed': 8, 'position': [0,-0.9]})
+        particles[`Phase${levelLoopCount}2`].tickTraceTo(particles.player);
+        particles[`Phase${levelLoopCount}1_2`]["deg"] += 15
+        particles[`Phase${levelLoopCount}1_3`]["deg"] -= 15
+    } else if (levelLoopCount < 60) {
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}1_${i}`] = new Particle({ 'speed': 8, 'position': [0, 0.9] })
+            particles[`Phase${levelLoopCount}1_${i}`].tickTraceTo(particles.player)
+        }
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}2_${i}`] = new Particle({ 'speed': 8, 'position': [0, -0.9] })
+            particles[`Phase${levelLoopCount}2_${i}`].tickTraceTo(particles.player)
+        }
+        particles[`Phase${levelLoopCount}1_2`]["deg"] += 15
+        particles[`Phase${levelLoopCount}1_3`]["deg"] -= 15
+        particles[`Phase${levelLoopCount}2_2`]["deg"] += 15
+        particles[`Phase${levelLoopCount}2_3`]["deg"] -= 15
+    } else if (levelLoopCount < 80) {
+        particles[`Phase${levelLoopCount}1_1`] = new Particle({'speed': 12, 'position': [0,0.9], 'color': '#009'})
+        particles[`Phase${levelLoopCount}1_1`].tickTraceTo(particles.player);
+        particles[`Phase${levelLoopCount}2_1`] = new Particle({'speed': 12, 'position': [0,-0.9], 'color': '#009'})
+        particles[`Phase${levelLoopCount}2_1`].tickTraceTo(particles.player);
+        for (i = 2; i < 4; i++) {
+            particles[`Phase${levelLoopCount}1_${i}`] = new Particle({ 'speed': 8, 'position': [0, 0.9] })
+            particles[`Phase${levelLoopCount}1_${i}`].tickTraceTo(particles.player)
+        }
+        for (i = 2; i < 4; i++) {
+            particles[`Phase${levelLoopCount}2_${i}`] = new Particle({ 'speed': 8, 'position': [0, -0.9] })
+            particles[`Phase${levelLoopCount}2_${i}`].tickTraceTo(particles.player)
+        }
+        particles[`Phase${levelLoopCount}1_2`]["deg"] += 15
+        particles[`Phase${levelLoopCount}1_3`]["deg"] -= 15
+        particles[`Phase${levelLoopCount}2_2`]["deg"] += 15
+        particles[`Phase${levelLoopCount}2_3`]["deg"] -= 15
+    } else if (levelLoopCount < 100) {
+        particles[`Phase${levelLoopCount}1_0`] = new Particle({'speed': 12, 'position': [0,0.9], 'color': '#009'})
+        particles[`Phase${levelLoopCount}2_0`] = new Particle({'speed': 12, 'position': [0,-0.9], 'color': '#009'})
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}1_${i}`] = new Particle({ 'speed': 8, 'position': [0, 0.9] })
+            particles[`Phase${levelLoopCount}1_${i}`].tickTraceTo(particles.player)
+        }
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}2_${i}`] = new Particle({ 'speed': 8, 'position': [0, -0.9] })
+            particles[`Phase${levelLoopCount}2_${i}`].tickTraceTo(particles.player)
+        }
+        particles[`Phase${levelLoopCount}1_0`].tickTraceTo(particles.player);
+        particles[`Phase${levelLoopCount}1_2`]["deg"] += 15
+        particles[`Phase${levelLoopCount}1_3`]["deg"] -= 15
+        particles[`Phase${levelLoopCount}2_0`].tickTraceTo(particles.player);
+        particles[`Phase${levelLoopCount}2_2`]["deg"] += 15
+        particles[`Phase${levelLoopCount}2_3`]["deg"] -= 15
+    } else {
+        particles[`Phase${levelLoopCount}1_0`] = new Particle({'speed': 12, 'position': [0,0.9], 'color': '#009'})
+        particles[`Phase${levelLoopCount}2_0`] = new Particle({'speed': 12, 'position': [0,-0.9], 'color': '#009'})
+        for (i = 1; i < 5; i++) {
+            particles[`Phase${levelLoopCount}1_${i}`] = new Particle({ 'speed': 8, 'position': [0, 0.9] })
+            particles[`Phase${levelLoopCount}1_${i}`].tickTraceTo(particles.player)
+        }
+        for (i = 1; i < 5; i++) {
+            particles[`Phase${levelLoopCount}2_${i}`] = new Particle({ 'speed': 8, 'position': [0, -0.9] })
+            particles[`Phase${levelLoopCount}2_${i}`].tickTraceTo(particles.player)
+        }
+        particles[`Phase${levelLoopCount}1_0`].tickTraceTo(particles.player);
+        particles[`Phase${levelLoopCount}2_0`].tickTraceTo(particles.player);
+        particles[`Phase${levelLoopCount}1_1`]["deg"] += 20
+        particles[`Phase${levelLoopCount}1_2`]["deg"] += 10
+        particles[`Phase${levelLoopCount}1_3`]["deg"] -= 10
+        particles[`Phase${levelLoopCount}1_4`]["deg"] -= 20
+        particles[`Phase${levelLoopCount}2_1`]["deg"] += 20
+        particles[`Phase${levelLoopCount}2_2`]["deg"] += 10
+        particles[`Phase${levelLoopCount}2_3`]["deg"] -= 10
+        particles[`Phase${levelLoopCount}2_4`]["deg"] -= 20
+    }
+  }, tickSpeed*40);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'playerSpeed': 0.003, 'position': [-0.3, 0]});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.12, 'text': '', 'color': '#c49b29', 'zIndex': 1});
+  levelTasks.activateAll();
+}
 
 function levelPlayer() {
   levelInit();

@@ -212,7 +212,7 @@ function updateScreen() {
               maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale )
             ];
             c.arc(lastPos[0], lastPos[1], maxLeng*particles[name].getTotAbsSize()[0]/2, 0, 2*Math.PI);
-          } else if (s == 4) {
+          } else if (s == 4 && d%90 != 0) {
             c.rect(lastPos[0]-maxLeng*particles[name].getTotAbsSize()[0], lastPos[1]-maxLeng*particles[name].getTotAbsSize()[1], maxLeng*particles[name].getTotAbsSize()[0], maxLeng*particles[name].getTotAbsSize()[1]);
           } else {
             c.moveTo(lastPos[0], lastPos[1]);
