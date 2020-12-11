@@ -948,3 +948,38 @@ function onDeleteEventTest() {
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
   levelTasks.activateAll();
 }
+function levelIcon() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      var tempL = 20;
+      var tempL2 = 10;
+      for (var i = 0; i < tempL2; i++) {
+        var dist = 0.9-((i+1)/tempL2)*0.7;
+        for (var j = 0; j < tempL; j++) {
+          var tempD = Math.PI*2*(((j+1+i/33)/tempL)%1);
+          particles[`L${i}`] = new Particle({'color': hsvToRgb(((j+1)/tempL), 1-((i+1)/tempL2)*0.8, 0.9-((i+1)/tempL2)*0.4), 'position': [Math.sin(tempD)*dist, -Math.cos(tempD)*dist]});
+        }
+      }
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+
+  }, tickSpeed*10);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  levelTasks.activateAll();
+}
+
+var playDebug = 0;
+if (playDebug) {
+  function level_11() {levelIcon()};
+}

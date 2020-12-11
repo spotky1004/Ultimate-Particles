@@ -61,12 +61,13 @@ function updateScreen() {
         if (levelSelected != -1 && levelSelected == i+j*ic) {
           blockOn = 1;
         }
-        levelSelectedName = `${Math.max(i,j)+1}${((i!=j)?(Math.min(i,j)+((i>j)?i:0)):i*2)+1}`;
+
         if (Math.abs(maxLeng*(i+.5)/ic-maxLeng*(particles.player.position[0]+1)/2) < maxLeng/ic/2 && Math.abs(maxLeng*(j+.5)/ic+maxLeng*(particles.player.position[1]-1)/2) < maxLeng/jc/2) {
           blockOn = 1;
           levelOn = i+j*ic;
           if (keypress['13'] && levelSelected == -1) {
             try {
+              levelSelectedName = `${Math.max(i,j)+1}${((i!=j)?(Math.min(i,j)+((i>j)?i:0)):i*2)+1}`;
               new Function(`level_${levelSelectedName}`)();
               levelSelected = levelOn;
               playing = 1;
@@ -90,7 +91,8 @@ function updateScreen() {
         }
         var colSet = [Math.floor(256*(ic-1-i)/ic), Math.floor(256*(i+j)/(ic+jc)), Math.floor(256*(jc-1-j)/jc)];
         try {
-          new Function(`level_${levelSelectedName}`)();
+          var levelName = `${Math.max(i,j)+1}${((i!=j)?(Math.min(i,j)+((i>j)?i:0)):i*2)+1}`;
+          new Function(`level_${levelName}`)();
         } catch (e) {
           var grayI = Math.floor(colSet[0]*0.3+colSet[1]*0.59+colSet[2]*0.11);
           colSet = new Array(3).fill(grayI);
