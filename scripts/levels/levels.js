@@ -825,15 +825,28 @@ function level_51() {
             particles[`Phase${levelLoopCount}3_${i}`]['deg'] += i * 10 - 20
         }
     } else {
-        for (i = 1; i < 5; i++) {
-            particles[`Phase${levelLoopCount}1_${i}`] = new Particle({ 'speed': 8, 'position': [0.9, 0] })
-            particles[`Phase${levelLoopCount}1_${i}`].tickTraceTo(particles.player)
-            particles[`Phase${levelLoopCount}1_${i}`]['deg'] += i * 10 - 25
-        }
-        for (i = 1; i < 5; i++) {
-            particles[`Phase${levelLoopCount}2_${i}`] = new Particle({ 'speed': 8, 'position': [-0.9, 0] })
-            particles[`Phase${levelLoopCount}2_${i}`].tickTraceTo(particles.player)
-            particles[`Phase${levelLoopCount}2_${i}`]['deg'] += i * 10 - 25
+        if (levelLoopCount % 2 == 0) {
+            for (i = 1; i < 5; i++) {
+                particles[`Phase${levelLoopCount}1_${i}`] = new Particle({ 'speed': 8, 'position': [0.9, 0] })
+                particles[`Phase${levelLoopCount}1_${i}`].tickTraceTo(particles.player)
+                particles[`Phase${levelLoopCount}1_${i}`]['deg'] += i * 10 - 25
+            }
+            for (i = 1; i < 4; i++) {
+                particles[`Phase${levelLoopCount}2_${i}`] = new Particle({ 'speed': 8, 'position': [-0.9, 0] })
+                particles[`Phase${levelLoopCount}2_${i}`].tickTraceTo(particles.player)
+                particles[`Phase${levelLoopCount}2_${i}`]['deg'] += i * 15 - 30
+            }
+        } else {
+            for (i = 1; i < 4; i++) {
+                particles[`Phase${levelLoopCount}1_${i}`] = new Particle({ 'speed': 8, 'position': [0.9, 0] })
+                particles[`Phase${levelLoopCount}1_${i}`].tickTraceTo(particles.player)
+                particles[`Phase${levelLoopCount}1_${i}`]['deg'] += i * 15 - 30
+            }
+            for (i = 1; i < 5; i++) {
+                particles[`Phase${levelLoopCount}2_${i}`] = new Particle({ 'speed': 8, 'position': [-0.9, 0] })
+                particles[`Phase${levelLoopCount}2_${i}`].tickTraceTo(particles.player)
+                particles[`Phase${levelLoopCount}2_${i}`]['deg'] += i * 10 - 25
+            }
         }
         for (i = 1; i < 4; i++) {
             particles[`Phase${levelLoopCount}3_${i}`] = new Particle({ 'speed': 12, 'position': [0, 0.9], 'color': '#009'})
