@@ -1,3 +1,5 @@
+'use strict';
+
 //init
 var canvas = document.querySelector('#canvas');
 var c = canvas.getContext('2d');
@@ -15,15 +17,16 @@ var levelSelected = -1;
 var score = 0;
 
 //updateScreen
+var levelSelectedName;
 function updateScreen() {
-  screenMaxLeng = Math.min(innerWidth, innerHeight);
-  maxLeng = screenMaxLeng*0.96;
+  var screenMaxLeng = Math.min(innerWidth, innerHeight);
+  var maxLeng = screenMaxLeng*0.96;
 
   document.getElementById('canvasBorder').style.setProperty('--thisLen', `${screenMaxLeng*screenSettings.size}px`);
   document.getElementById('canvasBorder').style.left = `${(innerWidth-(screenMaxLeng*(-screenSettings.p[0]+1-(1-screenSettings.size))))/2}px`;
   document.getElementById('canvasBorder').style.top = `${(innerHeight-(screenMaxLeng*(screenSettings.p[1]+1-(1-screenSettings.size))))/2}px`;
 
-  canvasSize = maxLeng*screenSettings.size;
+  var canvasSize = maxLeng*screenSettings.size;
   canvas.width = canvasSize;
   canvas.height = canvasSize
   c.clearRect(0, 0, canvas.width, canvas.height);
@@ -54,7 +57,7 @@ function updateScreen() {
     for (var i = 0; i < ic; i++) {
       for (var j = 0; j < jc; j++) {
         var blockOn = 0;
-        levelScreenOffset = [maxLeng*(screenSettings.p[0]+1-screenSettings.size)/2, -(maxLeng*(screenSettings.p[1]-1+screenSettings.size))/2];
+        var levelScreenOffset = [maxLeng*(screenSettings.p[0]+1-screenSettings.size)/2, -(maxLeng*(screenSettings.p[1]-1+screenSettings.size))/2];
         if (levelSelected != -1 && levelSelected == i+j*ic) {
           blockOn = 1;
         }
@@ -63,6 +66,7 @@ function updateScreen() {
           levelOn = i+j*ic;
           if (keypress['13'] && levelSelected == -1 && ((i <= 2 && j <= 3) || (i == 3 && j == 0) || (i == 3 && j == 1) || (i == 3 && j == 2))) {
             levelSelected = levelOn;
+            levelSelectedName = `${i+1}${j+1}`;
             playing = 1;
             screenPositionSpan([2*((i+0.5)/ic)-1, -2*((j+0.5)/jc)+1], 10);
             screenSizeSpan(1/ijc, 10);
@@ -71,7 +75,9 @@ function updateScreen() {
               setTimeout( function () {
                 screenSizeSpan(0, 7, 30);
                 setTimeout( function () {
-                  startLevel(levelSelected);
+                  screenState = 'game';
+                  playing = 1;
+                  new Function(`level_${levelSelectedName}()`)();
                 }, tickSpeed*50);
               }, tickSpeed*25);
             }, 1000);

@@ -1,3 +1,5 @@
+'use strict';
+
 function updatePlayer() {
   //if (!playing) return;
   for (var i in particles) {

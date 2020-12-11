@@ -1,3 +1,5 @@
+'use strict';
+
 //tasks (ty CrackTrough for made this for me!)
 class Task {
   constructor(v1, v2) {
@@ -50,7 +52,7 @@ const timer = ms => new Promise(
 )
 
 //keyboard detect
-keypress = {};
+var keypress = {};
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp);
 function keyDown(e) {
@@ -219,6 +221,7 @@ var levelSettingsCopy = {
 }
 var levelSettings, levelLoopCount;
 var levelLoop = 0;
+var levelFunctions, levelTasks, levelLoop, levelLoopCount;
 function levelInit() {
   levelSettings = {};
   for (var i in levelSettingsCopy) {

@@ -1,9 +1,11 @@
+'use strict';
+
 var tempSaveData = {
   'levelData': {}
 }
 var saveData = {};
 
-savePoint = localStorage['ultimateParticlesReworked_S1'];
+var savePoint = localStorage['ultimateParticlesReworked_S1'];
 
 function save() {
   localStorage[savePoint] = JSON.stringify(saveData);
