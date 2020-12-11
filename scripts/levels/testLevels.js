@@ -787,6 +787,49 @@ function redMountain1_1() {
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.12, 'text': '', 'color': '#c49b29', 'zIndex': 1});
   levelTasks.activateAll();
 }
+function redMountain2() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+        particles.player["hp"] = 8
+        smallLoopCount = 0
+        particles[`target`] = new Particle({'position': [-1, 0], 'deg': 90, 'speed': 10, 'type': 'decoration', 'alpha': 0, 'deleteTick': -1, 'specialAttrs': ['bounce']})
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    smallLoopCount++;
+    if (smallLoopCount == 4) {levelLoopCount++; smallLoopCount = 0}
+    if (levelLoopCount == 20) {particles[`target2`] = new Particle({'position': [-1, 0], 'deg': 90, 'speed': 15, 'type': 'decoration', 'alpha': 0, 'deleteTick': -1, 'specialAttrs': ['bounce']})}
+    if (levelLoopCount == 40) {particles[`target3`] = new Particle({'position': [-1, 0], 'deg': 90, 'speed': 7, 'type': 'decoration', 'alpha': 0, 'deleteTick': -1, 'specialAttrs': ['bounce']})}
+    if (levelLoopCount == 70) {particles[`target4`] = new Particle({'position': [1, 0], 'deg': 180, 'speed': 18, 'type': 'decoration', 'alpha': 0, 'deleteTick': -1, 'specialAttrs': ['bounce']})}
+    particles[`Phase${levelLoopCount}_Loop${smallLoopCount}`] = new Particle({'position': [0, 1], 'speed': 10, 'color': '#050'})
+    particles[`Phase${levelLoopCount}_Loop${smallLoopCount}`].tickTraceTo(particles[`target`])
+    if (levelLoopCount > 20) {
+        particles[`Phase${levelLoopCount}_Loop${smallLoopCount}_2`] = new Particle({'position': [0, -1], 'speed': 7, 'color': '#500'})
+        particles[`Phase${levelLoopCount}_Loop${smallLoopCount}_2`].tickTraceTo(particles[`target2`])
+    }
+    if (levelLoopCount > 40) {
+        particles[`Phase${levelLoopCount}_Loop${smallLoopCount}_3`] = new Particle({'position': [0, 1], 'speed': 15, 'color': '#005'})
+        particles[`Phase${levelLoopCount}_Loop${smallLoopCount}_3`].tickTraceTo(particles[`target3`])
+    }
+    if (levelLoopCount > 70 && smallLoopCount % 2 == 0) {
+        particles[`Phase${levelLoopCount}_Loop${smallLoopCount}_4`] = new Particle({'position': [-1, 0], 'speed': 10, 'color': '#055'})
+        particles[`Phase${levelLoopCount}_Loop${smallLoopCount}_4`].tickTraceTo(particles[`target4`])
+    }
+  }, tickSpeed*20);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.18, 'text': 'wave!', 'color': '#c49b29', 'zIndex': 1});
+  levelTasks.activateAll();
+}
 
 function levelPlayer() {
   levelInit();

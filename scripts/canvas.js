@@ -124,7 +124,9 @@ function updateScreen() {
         c.beginPath();
         var partScore = saveData.levelData[`level${i+j*ijc}`].phase;
         c.rect(maxLeng*(i+0.05)/ic-levelScreenOffset[0], maxLeng*(j+0.85)/jc-levelScreenOffset[1], maxLeng/ic*Math.min(1, partScore/90)*0.9, maxLeng/jc*0.1);
-        if (partScore >= 90) {
+        if (partScore >= 100) {
+          c.fillStyle = `#40cc2b`;
+        } else if (partScore >= 90) {
           c.fillStyle = `#e3e139`;
         } else if (partScore >= 60) {
           c.fillStyle = `#b0b0b0`;

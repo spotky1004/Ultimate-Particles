@@ -276,6 +276,12 @@ class Particle {
     return this;
   }
 
+  fade(deleteTick=100, alpha=0.3) {
+    this.deleteTick = deleteTick;
+    this.alphaI = (this.alpha-alpha)/(deleteTick+1)*-1000/tickSpeed;
+    return this;
+  }
+
   getTotAbsSize() {
     return [this.absSize*this.size[0], this.absSize*this.size[1]];
   }

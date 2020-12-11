@@ -221,7 +221,7 @@ var levelSettingsCopy = {
 }
 var levelSettings, levelLoopCount;
 var levelLoop = 0;
-var levelFunctions, levelTasks, levelLoop, levelLoopCount;
+var levelFunctions, levelTasks, levelLoop, levelLoopCount, levelVars;
 function levelInit() {
   levelSettings = {};
   for (var i in levelSettingsCopy) {
@@ -238,6 +238,7 @@ function levelInit() {
   levelTasks = new Task();
   levelLoop = 0;
   levelLoopCount = 0;
+  levelVars = [];
 }
 
 //screen change

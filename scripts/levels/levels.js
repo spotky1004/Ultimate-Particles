@@ -860,6 +860,38 @@ function level_51() {
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.15, 'text': 'turret!', 'color': '#c49b29', 'zIndex': 1});
   levelTasks.activateAll();
 }
+//level 5-2, made by Spotky1004
+function level_52() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      levelVars[0]++;
+      for (var i = 0; i < 2; i++) {
+        for (var j = 0; j < 15; j++) {
+          particles[`T${new Date().getTime()}S${i}P${j}`] = new Particle({'position': [(i*2-1)*1.1, 1.25-j/4+((levelVars[0]/2)%8)*0.0625*(!i*2-1)], 'deg': 90+180*i, 'speed': 5, 'outOfBounds': [[(i?-0.00625:-9),(!i?0.00625:9)], [-9, 9]], 'color': (i?'#f00':'#00f')});
+        }
+      }
+      levelFunctions.activate(0);
+    }, time: tickSpeed*10, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    //levelLoopCount++;
+  }, tickSpeed*180);
+
+  levelVars.push(0);
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.20, 'text': 'test', 'color': '#c49b29', 'zIndex': 1});
+  levelTasks.activateAll();
+  levelFunctions.activate(0);
+}
 
 function levelTemplate() {
   levelInit();
@@ -992,7 +1024,91 @@ function levelIcon() {
   levelTasks.activateAll();
 }
 
+function levelCalc() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      levelVars[1]++;
+      if (levelVars[1]%2 == 0) {
+        for (var i = 0; i < 2; i++) {
+          for (var j = 0; j < 12; j++) {
+            particles[`T${new Date().getTime()}S${i}P${j}`] = new Particle({'position': [(i*2-1)*1.1, 1-j/5+((levelVars[1]/2)%4)*0.1], 'deg': 90+180*i, 'speed': 5, 'outOfBounds': [[(i?0:-9),(!i?0:9)], [-9, 9]]});
+          }
+        }
+      }
+      levelFunctions.activate(0);
+    }, time: tickSpeed*20, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+
+    var tempA, tempS, tempE, tempR;
+    switch (Math.floor(Math.random()*Math.min(4, 2+levelLoopCount/30))) {
+      case 0:
+      tempE = [Math.floor(Math.random()*(levelLoopCount/2+4)), Math.floor(Math.random()*(levelLoopCount/2+4))];
+      tempS = `${tempE[0]}+${tempE[1]}`;
+      tempA = tempE[0]+tempE[1];
+        break;
+      case 1:
+      tempE = [Math.floor(Math.random()*(levelLoopCount/2+5)), 0];
+      tempE[1] = Math.floor(Math.random()*tempE[0]);
+      tempS = `${tempE[0]}-${tempE[1]}`;
+      tempA = tempE[0]-tempE[1];
+        break;
+      case 2:
+      tempE = [Math.floor(Math.random()*(levelLoopCount/6+5)), Math.floor(Math.random()*(levelLoopCount/6+5))];
+      tempS = `${tempE[0]}×${tempE[1]}`;
+      tempA = tempE[0]*tempE[1];
+        break;
+      case 3:
+      tempE = [0, Math.floor(Math.random()*levelLoopCount/6+5)];
+      tempE[0] = tempE[1]*Math.floor(Math.random()*levelLoopCount/6+5);
+      tempS = `${tempE[0]}÷${tempE[1]}`;
+      tempA = tempE[0]/tempE[1];
+        break;
+      default:
+
+    }
+
+    particles[`P${levelLoopCount}QuestionSrting`] = new Particle({'type': 'text', 'text': tempS, 'position': [0, 0.4], 'speed': 0.1, 'color': hsvToRgb((levelLoopCount/120+0.3)%1, 0.8, 0.7), 'absSize': 0.6/tempS.length});
+    tempR = Math.random();
+    levelVars[0] = Math.floor(Math.random()*2);
+    for (var i = 0; i < 2; i++) {
+      var tempA2 = (i==levelVars[0] ? tempA : Math.floor(tempA+signRand()*(1+Math.random()*(tempA*Math.random()*0.2+Math.random()*3))));
+      particles[`P${levelLoopCount}AnswerSrting${i}`] = new Particle({'type': 'text', 'position': [-0.6+1.2*i, -0.3], 'color':  hsvToRgb(tempR+Math.random()*3, 0.8, 0.7), 'text': tempA2.toString(), 'absSize': 0.4/tempA2.length, 'speed': 0.05});
+    }
+
+    if (levelLoopCount > 1) {
+      particles[`P${levelLoopCount-1}QuestionSrting`].alpha = 0.5;
+      particles[`P${levelLoopCount-1}QuestionSrting`].zIndex = 1;
+      particles[`P${levelLoopCount-1}QuestionSrting`].fade(60, 0);
+      particles[`P${levelLoopCount-1}QuestionSrting`].speedI = -3;
+      for (var i = 0; i < 2; i++) {
+        particles[`P${levelLoopCount-1}AnswerSrting${i}`].alpha = 0.5;
+        particles[`P${levelLoopCount-1}AnswerSrting${i}`].zIndex = 1;
+        particles[`P${levelLoopCount-1}AnswerSrting${i}`].fade(60, 0);
+        particles[`P${levelLoopCount-1}AnswerSrting${i}`].speedI = -2;
+      }
+    }
+  }, tickSpeed*180);
+
+  for (var i = 0; i < 2; i++) {
+    levelVars.push(0);
+  }
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'playerSpeed': 0.016});
+  levelTasks.activateAll();
+  levelFunctions.activate(0);
+}
+
 var playDebug = 0;
 if (playDebug) {
-  function level_11() {levelIcon()};
+  function level_11() {redMountain2()};
 }
