@@ -747,6 +747,107 @@ function level_46() {
   levelTasks.activateAll();
 }
 
+//level 5-1, made by RedMountain
+function level_51() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+        particles.player["hp"] = 10
+        particles[`Base1`] = new Particle({'speed': 0, 'position': [-0.9,0], 'atk': 100, 'absSize': 4})
+        particles[`Base2`] = new Particle({'speed': 0, 'position': [0.9,0], 'atk': 100, 'absSize': 4})
+        particles[`Base3`] = new Particle({'speed': 0, 'position': [0,0.9], 'atk': 100, 'absSize': 4, 'color': '#555'})
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    if (levelLoopCount == 20) {particles[`Base3`]['color'] = '#000'}
+    if (levelLoopCount == 80) {particles[`Base3`]['color'] = '#009'}
+    if (levelLoopCount < 20) {
+        particles[`Phase${levelLoopCount}1`] = new Particle({'speed': 8, 'position': [0.9,0]})
+        particles[`Phase${levelLoopCount}2`] = new Particle({'speed': 8, 'position': [-0.9,0]})
+        particles[`Phase${levelLoopCount}1`].tickTraceTo(particles.player);
+        particles[`Phase${levelLoopCount}2`].tickTraceTo(particles.player);
+    } else if (levelLoopCount < 40) {
+        particles[`Phase${levelLoopCount}1`] = new Particle({'speed': 8, 'position': [0.9,0]})
+        particles[`Phase${levelLoopCount}2`] = new Particle({'speed': 8, 'position': [-0.9,0]})
+        particles[`Phase${levelLoopCount}3`] = new Particle({'speed': 8, 'position': [0,0.9]})
+        particles[`Phase${levelLoopCount}1`].tickTraceTo(particles.player);
+        particles[`Phase${levelLoopCount}2`].tickTraceTo(particles.player);
+        particles[`Phase${levelLoopCount}3`].tickTraceTo(particles.player);
+    } else if (levelLoopCount < 60) {
+        particles[`Phase${levelLoopCount}1`] = new Particle({'speed': 8, 'position': [0.9,0]})
+        particles[`Phase${levelLoopCount}2`] = new Particle({'speed': 8, 'position': [-0.9,0]})
+        particles[`Phase${levelLoopCount}1`].tickTraceTo(particles.player);
+        particles[`Phase${levelLoopCount}2`].tickTraceTo(particles.player);
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}3_${i}`] = new Particle({ 'speed': 8, 'position': [0, 0.9] })
+            particles[`Phase${levelLoopCount}3_${i}`].tickTraceTo(particles.player)
+            particles[`Phase${levelLoopCount}3_${i}`]['deg'] += i * 15 - 30
+        }
+    } else if (levelLoopCount < 80) {
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}1_${i}`] = new Particle({ 'speed': 8, 'position': [0.9, 0] })
+            particles[`Phase${levelLoopCount}1_${i}`].tickTraceTo(particles.player)
+            particles[`Phase${levelLoopCount}1_${i}`]['deg'] += i * 15 - 30
+        }
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}2_${i}`] = new Particle({ 'speed': 8, 'position': [-0.9, 0] })
+            particles[`Phase${levelLoopCount}2_${i}`].tickTraceTo(particles.player)
+            particles[`Phase${levelLoopCount}2_${i}`]['deg'] += i * 15 - 30
+        }
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}3_${i}`] = new Particle({ 'speed': 8, 'position': [0, 0.9] })
+            particles[`Phase${levelLoopCount}3_${i}`].tickTraceTo(particles.player)
+            particles[`Phase${levelLoopCount}3_${i}`]['deg'] += i * 15 - 30
+        }
+    } else if (levelLoopCount < 100) {
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}1_${i}`] = new Particle({ 'speed': 8, 'position': [0.9, 0] })
+            particles[`Phase${levelLoopCount}1_${i}`].tickTraceTo(particles.player)
+            particles[`Phase${levelLoopCount}1_${i}`]['deg'] += i * 15 - 30
+        }
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}2_${i}`] = new Particle({ 'speed': 8, 'position': [-0.9, 0] })
+            particles[`Phase${levelLoopCount}2_${i}`].tickTraceTo(particles.player)
+            particles[`Phase${levelLoopCount}2_${i}`]['deg'] += i * 15 - 30
+        }
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}3_${i}`] = new Particle({ 'speed': 12, 'position': [0, 0.9], 'color': '#009'})
+            particles[`Phase${levelLoopCount}3_${i}`].tickTraceTo(particles.player)
+            particles[`Phase${levelLoopCount}3_${i}`]['deg'] += i * 10 - 20
+        }
+    } else {
+        for (i = 1; i < 5; i++) {
+            particles[`Phase${levelLoopCount}1_${i}`] = new Particle({ 'speed': 8, 'position': [0.9, 0] })
+            particles[`Phase${levelLoopCount}1_${i}`].tickTraceTo(particles.player)
+            particles[`Phase${levelLoopCount}1_${i}`]['deg'] += i * 10 - 25
+        }
+        for (i = 1; i < 5; i++) {
+            particles[`Phase${levelLoopCount}2_${i}`] = new Particle({ 'speed': 8, 'position': [-0.9, 0] })
+            particles[`Phase${levelLoopCount}2_${i}`].tickTraceTo(particles.player)
+            particles[`Phase${levelLoopCount}2_${i}`]['deg'] += i * 10 - 25
+        }
+        for (i = 1; i < 4; i++) {
+            particles[`Phase${levelLoopCount}3_${i}`] = new Particle({ 'speed': 12, 'position': [0, 0.9], 'color': '#009'})
+            particles[`Phase${levelLoopCount}3_${i}`].tickTraceTo(particles.player)
+            particles[`Phase${levelLoopCount}3_${i}`]['deg'] += i * 10 - 20
+        }
+    }
+  }, tickSpeed*40);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.15, 'text': 'turret!', 'color': '#c49b29', 'zIndex': 1});
+  levelTasks.activateAll();
+}
+
 function levelTemplate() {
   levelInit();
 
