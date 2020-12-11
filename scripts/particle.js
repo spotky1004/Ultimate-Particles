@@ -18,11 +18,11 @@ class Particle {
 
     // view
     this.color = attrs.color || '#000'; // fill color for particle and text
-    this.sides = attrs.sides || 4; // set sides of shaped particle, -1 to circle
-    this.rotateDeg = attrs.rotateDeg || 180; // set rotated for shaped particle (this property won't affect to hitbox/collision for now)
+    this.sides = (attrs.sides !== undefined ? attrs.sides : 4); // set sides of shaped particle, -1 to circle
+    this.rotateDeg = (attrs.rotateDeg !== undefined ? attrs.rotateDeg : 180); // set rotated for shaped particle (this property won't affect to hitbox/collision for now)
     this.zIndex = (attrs.zIndex !== undefined ? attrs.zIndex : 2); // z-index (0~4)
-    this.spanPer = attrs.spanPer || 10; // spanPer for ~IType = 'span', ratio - 1 : spanPer
-    this.alpha = attrs.alpha || 1; // alpha/opacity
+    this.spanPer = (attrs.spanPer !== undefined ? attrs.spanPer : 2); // spanPer for ~IType = 'span', ratio - 1 : spanPer
+    this.alpha = (attrs.alpha !== undefined ? attrs.alpha : 1); // alpha/opacity
     this.text = attrs.text || 'text'; // text property for for text
     this.effects = attrs.effects || []; // effects - 'glow'
 
@@ -32,18 +32,18 @@ class Particle {
     this.position = attrs.position || [0,0]; // position
     this.deg = attrs.deg || 0; // degree to move
     this.speed = attrs.speed || 0; // speed
-    this.playerSpeed = attrs.playerSpeed || 0.01; // property for player: player move speed with keyboard
+    this.playerSpeed = (attrs.playerSpeed !== undefined ? attrs.playerSpeed : 0.01); // property for player: player move speed with keyboard
     this.screenParallaxPer = attrs.screenParallaxPer || 0; // property for player: screen position move based on playerSpeed
     this.linearSpeed = attrs.linearSpeed || [0, 0]; //linear speed for make 'Constant velocity linear motion' easily
 
     // size
-    this.absSize = attrs.absSize || 1; // absSize multiplies both x and y size (or this property set text size)
+    this.absSize = (attrs.absSize !== undefined ? attrs.absSize : 1); // absSize multiplies both x and y size (or this property set text size)
     this.size = attrs.size || [0.015, 0.015]; this.sizeI = attrs.sizeI || [0, 0];  this.sizeIType = attrs.sizeIType || 'increment'; this.sizeC = attrs.sizeC || [[0.001, 999], [0.001, 999]]; // size for shaped particles
     this.hitboxSize = attrs.hitboxSize || 1; // hitbox, multiplies to final calculate
 
     // game
-    this.hp = attrs.hp || 10; // hp for player
-    this.atk = attrs.atk || 1; this.breakOnAttack = (attrs.breakOnAttack !== undefined ? attrs.breakOnAttack : 1); // propertys for enemy, when 'player' is collisionWith 'enemy' player's hp will decreased based on atk, also if breakOnAtttack is true: 'enemy' particle will disappear
+    this.hp = (attrs.hp !== undefined ? attrs.hp : 10); // hp for player
+    this.atk = (attrs.atk !== undefined ? attrs.atk : 1); this.breakOnAttack = (attrs.breakOnAttack !== undefined ? attrs.breakOnAttack : 1); // propertys for enemy, when 'player' is collisionWith 'enemy' player's hp will decreased based on atk, also if breakOnAtttack is true: 'enemy' particle will disappear
 
     // delete
     this.outOfBounds = attrs.outOfBounds || [[-2, 2], [-2, 2]]; // this is vaild position of particle. if particle's position is out of this square it'll be deleted
