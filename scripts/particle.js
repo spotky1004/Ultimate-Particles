@@ -110,8 +110,9 @@ class Particle {
       case 'circle':
       var center = this.moveType[1] || [0, 0];
       var dist = Math.sqrt((this.position[0]-center[0])**2+(this.position[1]-center[1])**2);
-      var centerDeg = (Math.atan2(this.position[1]-center[1], this.position[0]-center[0])/Math.PI*180+270+this.speed)%360;
-      this.position = [-Math.sin(Math.rad(centerDeg))*dist, Math.cos(Math.rad(centerDeg))*dist];
+      var centerDeg = (Math.atan2(this.position[1]-center[1], this.position[0]-center[0])*180/Math.PI-(this.speed%360)+810)%360;
+      //console.log(`deg: ${centerDeg}\ndist: ${dist}\nn: ${this.position[0]}, ${this.position[1]}\nf: ${Math.sin(Math.rad(centerDeg))*dist}, ${-Math.cos(Math.rad(centerDeg))*dist}`);
+      this.position = [Math.sin(Math.rad(centerDeg))*dist+center[0], -Math.cos(Math.rad(centerDeg))*dist+center[1]];
         break;
     }
 
