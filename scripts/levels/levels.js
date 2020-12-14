@@ -1023,7 +1023,35 @@ function levelIcon() {
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 200});
   levelTasks.activateAll();
 }
+function sidesTest() {
+  levelInit();
 
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      var tempSq = [3, 3];
+      for (var i = 0; i < tempSq[0]; i++) {
+        for (var j = 0; j < tempSq[1]; j++) {
+          var tempS = 4+i+j*tempSq[0];
+          particles[`S${tempS}`] = new Particle({'sides': tempS, 'position': [((2*(i/tempSq[0])-1)+2*((i+1)/tempSq[0])-1)/2, ((2*(j/tempSq[1])-1)+2*((j+1)/tempSq[1])-1)/2], 'size': [0.15, 0.3]});
+        }
+      }
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    //levelLoopCount++;
+    //some functions here!
+  }, tickSpeed*100);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [-1, -1], 'sides': 5, 'playerSpeed': 0.005});
+  levelTasks.activateAll();
+}
 function levelCalc() {
   levelInit();
 
@@ -1110,5 +1138,5 @@ function levelCalc() {
 
 var playDebug = 0;
 if (playDebug) {
-  function level_11() {redMountain2()};
+  function level_11() {sidesTest()};
 }

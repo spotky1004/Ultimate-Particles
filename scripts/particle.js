@@ -198,11 +198,38 @@ class Particle {
   }
 
   collisionWith(particle) {
-    if (
-      Math.abs(this.position[0]-particle.position[0]) < Math.abs(this.getHitboxSize()[0]+particle.getHitboxSize()[0]) &&
-      Math.abs(this.position[1]-particle.position[1]) < Math.abs(this.getHitboxSize()[1]+particle.getHitboxSize()[1])
-    ) {
-      return 1;
+    if (this.sides == 4 && particle.sides == 4) {
+      if (
+        Math.abs(this.position[0]-particle.position[0]) < Math.abs(this.getHitboxSize()[0]+particle.getHitboxSize()[0]) &&
+        Math.abs(this.position[1]-particle.position[1]) < Math.abs(this.getHitboxSize()[1]+particle.getHitboxSize()[1])
+      ) {
+        return 1;
+      }
+    } else {
+      var shapes = [this, particle];
+      var points = [[], []];
+      for (var i = 0; i < 2; i++) {
+        var p = shapes[i].position;
+        var s = shapes[i].sides;
+        var d = shapes[i].rotateDeg;
+        var d1 = (-d + 180 / s) % 360;
+        var sScale = 1/(shapes[i].sides/2*Math.cos(Math.rad((180-(180/shapes[i].sides*(shapes[i].sides-2)))/2)))/0.7071067811865475;
+        var centerL = Math.csc(Math.rad(180 / s)) * shapes[i].absSize*sScale*shapes[i].hitboxSize*-1;
+        var tempPosition = [
+          p[0] - Math.sin(Math.rad(d1)) * centerL * shapes[i].size[0],
+          p[1] - Math.cos(Math.rad(d1)) * centerL * shapes[i].size[1]
+        ];
+        for (var j = 0; j < shapes[i].sides; j++) {
+          points[i].push({'x': tempPosition[0], 'y': tempPosition[1]});
+          tempPosition[0] += Math.sin(Math.PI * 2 / shapes[i].sides * j + Math.rad(d + 270)) * (shapes[i].getHitboxSize()[0]) * sScale * 2;
+          tempPosition[1] -= Math.cos(Math.PI * 2 / shapes[i].sides * j + Math.rad(d + 270)) * (shapes[i].getHitboxSize()[1]) * sScale * 2;
+        }
+      }
+      if (doPolygonsIntersect(points[0], points[1])) {
+        return 1;
+      } else {
+        return 0;
+      }
     }
     return 0;
   }
@@ -288,6 +315,10 @@ class Particle {
   }
   getHitboxSize(){
     return [this.getTotAbsSize()[0]*this.hitboxSize, this.getTotAbsSize()[1]*this.hitboxSize];
+  }
+
+  getPoints() {
+    
   }
 }
 

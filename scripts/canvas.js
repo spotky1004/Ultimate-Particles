@@ -17,10 +17,10 @@ var levelSelected = -1;
 var score = 0;
 
 //updateScreen
-var levelSelectedName;
+var levelSelectedName, maxLeng;
 function updateScreen() {
   var screenMaxLeng = Math.min(innerWidth, innerHeight);
-  var maxLeng = screenMaxLeng*0.96;
+  maxLeng = screenMaxLeng*0.96;
 
   document.getElementById('canvasBorder').style.setProperty('--thisLen', `${screenMaxLeng*screenSettings.size}px`);
   document.getElementById('canvasBorder').style.left = `${(innerWidth-(screenMaxLeng*(-screenSettings.p[0]+1-(1-screenSettings.size))))/2}px`;
