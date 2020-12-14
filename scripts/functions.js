@@ -266,7 +266,7 @@ function gameStatusUpdate() {
 
 //document event
 document.onmousemove = getMousePos;
-var mousePos = [-150145150145, -167150141164]; //oct -> ascii?
+var mousePos = [-150145150145, -167150141164]; // oct -> ascii?
 function getMousePos(event) {
   mousePos = [event.clientX, event.clientY]
 }

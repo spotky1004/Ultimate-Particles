@@ -495,7 +495,7 @@ function level_42() {
   }, tickSpeed*150);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
-  particles['text'] = new Particle({'type': 'text', 'absSize': 0.12, 'text': 'cilcle v2!', 'color': '#c49b29', 'zIndex': 1});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.12, 'text': 'circle v2!', 'color': '#c49b29', 'zIndex': 1});
   levelTasks.activateAll();
 }
 //level 4-3, made by Spotky1004
