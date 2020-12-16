@@ -18,8 +18,7 @@ class Particle {
 
     // view
     this.color = attrs.color || '#000'; // fill color for particle and text
-    this.sides = (attrs.sides !== undefined ? attrs.sides : 4); // set sides of shaped particle, -1 to circle
-    this.rotateDeg = (attrs.rotateDeg !== undefined ? attrs.rotateDeg : 180); // set rotated for shaped particle (this property won't affect to hitbox/collision for now)
+    this.rotateDeg = attrs.rotateDeg || 0; // set rotated for shaped particle (this property won't affect to hitbox/collision for now)
     this.zIndex = (attrs.zIndex !== undefined ? attrs.zIndex : 2); // z-index (0~4)
     this.spanPer = (attrs.spanPer !== undefined ? attrs.spanPer : 2); // spanPer for ~IType = 'span', ratio - 1 : spanPer
     this.alpha = (attrs.alpha !== undefined ? attrs.alpha : 1); // alpha/opacity
@@ -36,10 +35,12 @@ class Particle {
     this.screenParallaxPer = attrs.screenParallaxPer || 0; // property for player: screen position move based on playerSpeed
     this.linearSpeed = attrs.linearSpeed || [0, 0]; //linear speed for make 'Constant velocity linear motion' easily
 
-    // size
+    // shape
+    this.sides = (attrs.sides !== undefined ? attrs.sides : 4); // set sides of shaped particle, -1 to circle, -2 to set points
     this.absSize = (attrs.absSize !== undefined ? attrs.absSize : 1); // absSize multiplies both x and y size (or this property set text size)
     this.size = attrs.size || [0.015, 0.015]; this.sizeI = attrs.sizeI || [0, 0];  this.sizeIType = attrs.sizeIType || 'increment'; this.sizeC = attrs.sizeC || [[0.001, 999], [0.001, 999]]; // size for shaped particles
     this.hitboxSize = attrs.hitboxSize || 1; // hitbox, multiplies to final calculate
+    this.points = attrs.points || []; // set sides to -2 to active this:  set points of shape want to draw - ex) [{'x': 1, 'y': 1}, {'x': 1, 'y': -1}, {'x': -1, 'y': -1}, {'x': -1, 'y': 1}] to default screen fill square
 
     // game
     this.hp = (attrs.hp !== undefined ? attrs.hp : 10); // hp for player
@@ -206,29 +207,8 @@ class Particle {
         return 1;
       }
     } else {
-      var shapes = [this, particle];
-      var points = [[], []];
-      for (var i = 0; i < 2; i++) {
-        var p = shapes[i].position;
-        var s = shapes[i].sides;
-        var d = shapes[i].rotateDeg;
-        var d1 = (-d + 180 / s) % 360;
-        var sScale = 1/(shapes[i].sides/2*Math.cos(Math.rad((180-(180/shapes[i].sides*(shapes[i].sides-2)))/2)))/0.7071067811865475;
-        var centerL = Math.csc(Math.rad(180 / s)) * shapes[i].absSize*sScale*shapes[i].hitboxSize*-1;
-        var tempPosition = [
-          p[0] - Math.sin(Math.rad(d1)) * centerL * shapes[i].size[0],
-          p[1] - Math.cos(Math.rad(d1)) * centerL * shapes[i].size[1]
-        ];
-        for (var j = 0; j < shapes[i].sides; j++) {
-          points[i].push({'x': tempPosition[0], 'y': tempPosition[1]});
-          tempPosition[0] += Math.sin(Math.PI * 2 / shapes[i].sides * j + Math.rad(d + 270)) * (shapes[i].getHitboxSize()[0]) * sScale * 2;
-          tempPosition[1] -= Math.cos(Math.PI * 2 / shapes[i].sides * j + Math.rad(d + 270)) * (shapes[i].getHitboxSize()[1]) * sScale * 2;
-        }
-      }
-      if (doPolygonsIntersect(points[0], points[1])) {
+      if (doPolygonsIntersect(particle.getPoints(), this.getPoints())) {
         return 1;
-      } else {
-        return 0;
       }
     }
     return 0;
@@ -318,7 +298,32 @@ class Particle {
   }
 
   getPoints() {
-    
+    var points = [];
+    if (this.sides != -2) {
+      var p = this.position;
+      var s = this.sides;
+      var d = this.rotateDeg;
+      var d1 = (-d + 180 / s) % 360;
+      var sScale = 1/(this.sides/2*Math.cos(Math.rad((180-(180/this.sides*(this.sides-2)))/2)))/0.7071067811865475;
+      var centerL = Math.csc(Math.rad(180 / s)) * this.absSize*sScale*this.hitboxSize*-1;
+      var tempPosition = [
+        p[0] - Math.sin(Math.rad(d1)) * centerL * this.size[0],
+        p[1] - Math.cos(Math.rad(d1)) * centerL * this.size[1]
+      ];
+      for (var i = 0; i < this.sides; i++) {
+        points.push({'x': tempPosition[0], 'y': tempPosition[1]});
+        tempPosition[0] += Math.sin(Math.PI * 2 / this.sides * i + Math.rad(d + 270)) * (this.getHitboxSize()[0]) * sScale * 2;
+        tempPosition[1] -= Math.cos(Math.PI * 2 / this.sides * i + Math.rad(d + 270)) * (this.getHitboxSize()[1]) * sScale * 2;
+      }
+    } else {
+      var center = getCenter(this.points);
+      for (var i = 0; i < this.points.length; i++) {
+        var dist = Math.sqrt((this.points[i].x-center[0])**2+(this.points[i].y-center[1])**2);
+        var centerDeg = (Math.atan2(this.points[i].y-center[1], this.points[i].x-center[0])*180/Math.PI-(this.rotateDeg%360)+450)%360;
+        points.push({'x': Math.sin(Math.rad(centerDeg))*dist+center[0], 'y': -Math.cos(Math.rad(centerDeg))*dist+center[1]});
+      }
+    }
+    return points;
   }
 }
 

@@ -1135,8 +1135,20 @@ function levelCalc() {
   levelTasks.activateAll();
   levelFunctions.activate(0);
 }
+function pointTest() {
+  levelInit();
+
+  particles['hehe'] = new Particle({
+    'sides': -2,
+    'points': [{'x': -0.2, 'y': 1}, {'x': 0, 'y': 0.8}, {'x': -0.4, 'y': 0.2}, {'x': 1, 'y': 0.1}, {'x': 1, 'y': -0.1}, {'x': -0.4, 'y': -0.2}, {'x': 0, 'y': -0.8}, {'x': -0.2, 'y': -1}, {'x': -1, 'y': 0}],
+    'color': '#666',
+    'breakOnAttack': 0
+  });
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [1, 1], 'hp': 1e10});
+}
 
 var playDebug = 0;
 if (playDebug) {
-  function level_11() {sidesTest()};
+  function level_11() {pointTest()};
 }

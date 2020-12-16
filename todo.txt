@@ -1,0 +1,20 @@
+TODO list:
+
+- Point Polygon (particle)
+- Circle collision
+- Add Background
+  - snow (random particle rain)
+  - town
+- Add Simple Song to the game
+- Fix stage enter effect
+
+- Make game pause
+- Learn Electron to make this game to Desktop app
+
+- UI design
+- Add Credit Page
+- Add Map Editor
+  - UI
+
+- Make levels
+  - level 5-2

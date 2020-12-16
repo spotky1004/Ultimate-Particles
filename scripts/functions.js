@@ -176,8 +176,9 @@ function multiplyCalc(a, b, p) {
 function spanCalc(a, b, p) {
   return (b+a*p)/(p+1);
 }
-// polygons collision (https://stackoverflow.com/questions/10962379/how-to-check-intersection-between-2-rotated-rectangles)
 function doPolygonsIntersect (a, b) {
+  // polygons collision (https://stackoverflow.com/questions/10962379/how-to-check-intersection-between-2-rotated-rectangles)
+
     var polygons = [a, b];
     var minA, maxA, projected, i, i1, j, minB, maxB;
 
@@ -237,6 +238,26 @@ function isUndefined(thing) {
   } else {
     return 0;
   }
+}
+function getCenter(points) {
+  // formula from (https://m.blog.naver.com/PostView.nhn?blogId=a630203&logNo=120213239668&proxyReferer=https:%2F%2Fwww.google.com%2F)
+
+  var a = 0, cx = 0, cy = 0;
+
+  // a: x_i * y_(i+1) - x_(i+1) * y_i * 1/2
+  for (var i = 0, l = points.length; i < l; i++) {
+    a += (points[i].x*points[(i+1)%l].y-points[(i+1)%l].x*points[i].y)/2;
+  }
+
+  var c = 1/(6*a);
+  // cx: ( x_i + x_(i+1) ) * ( x_i * y_(i+1) - x_(i+1) * y_i ) * c
+  // cy: ( y_i + y_(i+1) ) * ( x_i * y_(i+1) - x_(i+1) * y_i ) * c
+  for (var i = 0, l = points.length; i < l; i++) {
+    var c2 = (points[i].x*points[(i+1)%l].y-points[(i+1)%l].x*points[i].y)*c;
+    cx += (points[i].x+points[(i+1)%l].x)*c2;
+    cy += (points[i].y+points[(i+1)%l].y)*c2;
+  }
+  return [cx, cy, a];
 }
 
 //short random

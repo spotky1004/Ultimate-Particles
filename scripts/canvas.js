@@ -227,7 +227,28 @@ function updateScreen() {
             maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale - Math.sin(Math.rad(d1)) * centerL * particles[name].size[0] * screenSettings.scale),
             maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale - Math.cos(Math.rad(d1)) * centerL * particles[name].size[1] * screenSettings.scale)
           ];
-          if (s == -1 || s >= 100) {
+          if (s == -2) {
+            var posOffset = [
+              (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5),
+              ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5)
+            ];
+            var center = getCenter(particles[name].points);
+            for (var i = 0, l = particles[name].points.length; i < l; i++) {
+              var dist = Math.sqrt((particles[name].points[i].x-center[0])**2+(particles[name].points[i].y-center[1])**2);
+              var centerDeg = (Math.atan2(particles[name].points[i].y-center[1], particles[name].points[i].x-center[0])*180/Math.PI-(d%360)+810)%360;
+              var tempPos = [Math.sin(Math.rad(centerDeg))*dist+center[0], -Math.cos(Math.rad(centerDeg))*dist+center[1]];
+              var lastPos = [
+                (tempPos[0]/2*screenSettings.scale+posOffset[0])*maxLeng,
+                (tempPos[1]/2*screenSettings.scale+posOffset[1])*maxLeng
+              ];
+              if (i != 0) {
+                c.lineTo(lastPos[0], lastPos[1]);
+              } else {
+                c.moveTo(lastPos[0], lastPos[1]);
+              }
+            }
+            c.closePath();
+          } else if (s == -1 || s >= 100) {
             var lastPos = [
               maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale ),
               maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale )
