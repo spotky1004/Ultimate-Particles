@@ -866,7 +866,7 @@ function level_52() {
 
   levelFunctions = new Task([
     {callback: function(){
-      levelVars[0] += 2;
+      levelVars[0] += 3;
       var tempD = (2+Math.min(6, levelLoopCount/30));
       for (var i = 0; i < 2; i++) {
         for (var j = 0; j < 25; j++) {
