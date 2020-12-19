@@ -867,13 +867,28 @@ function level_52() {
   levelFunctions = new Task([
     {callback: function(){
       levelVars[0]++;
+      var tempD = (2+Math.min(6, levelLoopCount/30));
       for (var i = 0; i < 2; i++) {
-        for (var j = 0; j < 15; j++) {
-          particles[`T${new Date().getTime()}S${i}P${j}`] = new Particle({'position': [(i*2-1)*1.1, 1.25-j/4+((levelVars[0]/2)%8)*0.0625*(!i*2-1)], 'deg': 90+180*i, 'speed': 5, 'outOfBounds': [[(i?-0.00625:-9),(!i?0.00625:9)], [-9, 9]], 'color': (i?'#f00':'#00f')});
+        for (var j = 0; j < 25; j++) {
+          particles[`T${new Date().getTime()}S${i}P${j}`] = new Particle({'position': [(i*2-1)*1.1, 1.25-j*(1/tempD)+((levelVars[0]%30)/30)*(1/tempD)*(!i*2-1)], 'deg': 90+180*i, 'speed': Math.min(20, 10+levelLoopCount/20), 'outOfBounds': [[(i?-0.00625:-9),(!i?0.00625:9)], [-9, 9]], 'color': (i?'#f00':'#00f')});
         }
       }
       levelFunctions.activate(0);
+    }, time: tickSpeed*5, activated: false},
+    {callback: function(){
+      levelVars[1]++;
+      for (var i = 0; i < 4; i++) {
+        particles[`T${new Date().getTime()}S${i}C${i}`] = new Particle({'position': [0, 0], 'positionI': [-Math.sin(Math.rad((levelVars[1]*12.3457+i*90)%360))*0.7, Math.cos(Math.rad((levelVars[1]*12.3457+i*90)%360))*0.7], 'positionIType': 'span', 'spanPer': 50}).fade(120);
+      }
+      levelFunctions.activate(1);
     }, time: tickSpeed*10, activated: false},
+    {callback: function(){
+      particles[`T${new Date().getTime()}T0`] = new Particle({'position': [0, 1], 'speed': 6, 'color': '#1cb2e8'}).tickTraceTo(particles.player);
+      particles[`T${new Date().getTime()}T1`] = new Particle({'position': [0, 0.7], 'speed': 6, 'color': '#1cb2e8'}).tickTraceTo(particles.player);
+      particles[`T${new Date().getTime()}T2`] = new Particle({'position': [0, -0.7], 'speed': 6, 'color': '#1cb2e8'}).tickTraceTo(particles.player);
+      particles[`T${new Date().getTime()}T3`] = new Particle({'position': [0, -1], 'speed': 6, 'color': '#1cb2e8'}).tickTraceTo(particles.player);
+      levelFunctions.activate(2);
+    }, time: tickSpeed*35, activated: false}
   ]);
 
   levelTasks = new Task([
@@ -883,12 +898,28 @@ function level_52() {
   ]);
 
   levelLoop = setInterval( function () {
-    //levelLoopCount++;
-  }, tickSpeed*180);
+    levelLoopCount++;
+    if (levelLoopCount == 28) {
+      particles['wariningCircle'] = new Particle({'size': [0.7, 0], 'sides': -1, 'color': '#f00', 'alpha': 0.2, 'type': 'decoration'}).fade(480, 0);
+    }
+    if (levelLoopCount == 30) {
+      levelFunctions.activate(1);
+    }
+    if (levelLoopCount == 58) {
+      particles['wariningCircle1'] = new Particle({'size': [0.1, 0], 'sides': -1, 'color': '#f00', 'alpha': 0.2, 'type': 'decoration', 'position': [0, 1]}).fade(480, 0);
+      particles['wariningCircle2'] = new Particle({'size': [0.1, 0], 'sides': -1, 'color': '#f00', 'alpha': 0.2, 'type': 'decoration', 'position': [0, 0.7]}).fade(480, 0);
+      particles['wariningCircle3'] = new Particle({'size': [0.1, 0], 'sides': -1, 'color': '#f00', 'alpha': 0.2, 'type': 'decoration', 'position': [0, -0.7]}).fade(480, 0);
+      particles['wariningCircle4'] = new Particle({'size': [0.1, 0], 'sides': -1, 'color': '#f00', 'alpha': 0.2, 'type': 'decoration', 'position': [0, -1]}).fade(480, 0);
+    }
+    if (levelLoopCount == 60) {
+      levelFunctions.activate(2);
+    }
+  }, tickSpeed*140);
 
   levelVars.push(0);
+  levelVars.push(0);
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
-  particles['text'] = new Particle({'type': 'text', 'absSize': 0.20, 'text': 'test', 'color': '#c49b29', 'zIndex': 1});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.18, 'text': 'fusion!', 'color': '#c49b29', 'zIndex': 1});
   levelTasks.activateAll();
   levelFunctions.activate(0);
 }
