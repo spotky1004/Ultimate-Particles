@@ -384,7 +384,7 @@ function level_35() {
 
   levelFunctions = new Task([
     {callback: function(){
-      particles[`Wall${new Date().getTime()}`] = new Particle({'color': (Math.floor(Math.random()*2) ? '#000' : '#fff'), 'incrementI': 20, 'speed': 5, 'deg': 175+Math.random()*10, 'position': [(Math.floor(Math.random()*2) ? -0.95 : 0.95), -1]});
+      particles[`Wall${new Date().getTime()}`] = new Particle({'color': (Math.floor(Math.random()*2) ? '#000' : '#fff'), 'incrementI': 20, 'speed': 5, 'deg': 175+Math.random()*10, 'position': [(Math.floor(Math.random()*2) ? -1 : 1), -1]});
       levelFunctions.activate(0);
     }, time: tickSpeed*5, activated: false},
   ]);
