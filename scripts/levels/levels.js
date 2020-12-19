@@ -914,7 +914,7 @@ function level_52() {
     if (levelLoopCount == 60) {
       levelFunctions.activate(2);
     }
-  }, tickSpeed*140);
+  }, tickSpeed*100);
 
   levelVars.push(0);
   levelVars.push(0);
