@@ -874,7 +874,7 @@ function level_52() {
         }
       }
       levelFunctions.activate(0);
-    }, time: tickSpeed*5, activated: false},
+    }, time: tickSpeed*12, activated: false},
     {callback: function(){
       levelVars[1]++;
       for (var i = 0; i < 4; i++) {
