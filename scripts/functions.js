@@ -158,12 +158,90 @@ function hsvToRgb(h, s, v) {
     case 4: r = t, g = p, b = v; break;
     case 5: r = v, g = p, b = q; break;
   }
-  return '#' + Math.floor(r*255).toString(16) + Math.floor(g*255).toString(16) + Math.floor(b*255).toString(16);
+  return '#' + Math.floor(r*255).toString(16).padStart(2, Math.floor(r*255).toString(16)) + Math.floor(g*255).toString(16).padStart(2, Math.floor(g*255).toString(16)) + Math.floor(b*255).toString(16).padStart(2, Math.floor(b*255).toString(16));
+}
+function rgbToHsv(r, g, b) {
+  if (arguments.length === 1) {
+      g = r.g, b = r.b, r = r.r;
+  }
+  var max = Math.max(r, g, b), min = Math.min(r, g, b),
+      d = max - min,
+      h,
+      s = (max === 0 ? 0 : d / max),
+      v = max / 255;
+
+  switch (max) {
+      case min: h = 0; break;
+      case r: h = (g - b) + d * (g < b ? 6: 0); h /= 6 * d; break;
+      case g: h = (b - r) + d * 2; h /= 6 * d; break;
+      case b: h = (r - g) + d * 4; h /= 6 * d; break;
+  }
+
+  return {
+      h: h,
+      s: s,
+      v: v
+  };
 }
 function hexToRgba(hex, alpha=0) {
   hex = hex.substr(1, 6);
   var subLeng = hex.length/3;
   return `rgba(${(Number('0x' + hex.substr(subLeng*0, subLeng))*(256/16**subLeng)).toString()}, ${(Number('0x' + hex.substr(subLeng*1, subLeng))*(256/16**subLeng)).toString()}, ${(Number('0x' + hex.substr(subLeng*2, subLeng))*(256/16**subLeng)).toString()}, ${alpha})`;
+}
+function hexToNum(hex) {
+  var colors = [];
+  for (var i = 0; i < 3; i++) {
+    if (hex.length == 7) {
+      colors.push(Number('0x' + hex.substr(1+i*2, 2)));
+    } else {
+      colors.push(Number('0x' + hex.substr(1+i, 1).repeat(2)));
+    }
+  }
+  return colors;
+}
+function hslToRgb(h, s, l){
+    var r, g, b;
+
+    if(s == 0){
+        r = g = b = l; // achromatic
+    }else{
+        var hue2rgb = function hue2rgb(p, q, t){
+            if(t < 0) t += 1;
+            if(t > 1) t -= 1;
+            if(t < 1/6) return p + (q - p) * 6 * t;
+            if(t < 1/2) return q;
+            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+        }
+
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+    }
+
+    return `#${Math.round(r * 255).toString(16)}${Math.round(g * 255).toString(16)}${Math.round(b * 255).toString(16)}`;
+}
+function rgbToHsl(r, g, b){
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+
+    if(max == min){
+        h = s = 0; // achromatic
+    }else{
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch(max){
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return [h, s, l];
 }
 
 //calculate
@@ -300,7 +378,8 @@ function resetCanvasSettings() {
   c.globalAlpha = 1;
 }
 var levelSettingsCopy = {
-  'particleSpeed': 1
+  'particleSpeed': 1,
+  'atkMult': 1
 }
 var levelSettings, levelLoopCount;
 var levelLoop = 0;

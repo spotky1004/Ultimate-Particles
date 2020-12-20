@@ -35,7 +35,7 @@ function updatePlayer() {
     for (var j in particles) {
       if (particles[j].type == 'player' || particles[j].type != 'enemy' || i == j) continue;
       if (particles[i].collisionWith(particles[j])) {
-        particles[i].hp -= particles[j].atk;
+        particles[i].hp -= particles[j].atk*levelSettings.atkMult;
         if (particles[i].hp <= 0) {
           playerDead();
           return;

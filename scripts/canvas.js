@@ -202,8 +202,18 @@ function updateScreen() {
         c.beginPath();
         resetCanvasSettings();
         c.lineWidth = 1;
-        c.fillStyle = particles[name].color;
-        c.strokeStyle = particles[name].color;
+        /*var tempCol = hexToNum(this.color);
+        var tempHsv = rgbToHsv(tempCol[0], tempCol[1], tempCol[2]);
+        console.log(`${this.colorI}, ${speedI}, ${this.colorI*speedI}, ${tempHsv.h}`);
+        this.color = hsvToRgb(tempHsv.h+0.01, tempHsv.s, tempHsv.v);*/
+        var c2 = particles[name].color;
+        if (particles[name].hsvRotate) {
+          c2 = hexToNum(c2);
+          c2 = rgbToHsv(c2[0], c2[1], c2[2]);
+          c2 = hsvToRgb(c2.h+particles[name].hsvRotate, c2.s, c2.v);
+        }
+        c.fillStyle = c2;
+        c.strokeStyle = c2;
         c.globalAlpha = particles[name].alpha;
         var p = particles[name].position;
         var s = particles[name].sides;
@@ -273,8 +283,8 @@ function updateScreen() {
               maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale)
             ];
             var grd = c.createRadialGradient(lastPos[0], lastPos[1], maxLeng*Math.max(particles[name].getTotAbsSize()[0], particles[name].getTotAbsSize()[1])*0.25, lastPos[0], lastPos[1], maxLeng*Math.max(particles[name].getTotAbsSize()[0], particles[name].getTotAbsSize()[1]+0.0035));
-            grd.addColorStop(0, particles[name].color);
-            grd.addColorStop(1, hexToRgba(particles[name].color));
+            grd.addColorStop(0, c2);
+            grd.addColorStop(1, hexToRgba(c2));
             c.fillStyle = grd;
             c.fillRect(lastPos[0]-maxLeng*0.03, lastPos[1]-maxLeng*0.03, maxLeng*0.06, maxLeng*0.06);
           }

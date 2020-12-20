@@ -3,7 +3,7 @@
 var particles = {};
 
 var propertyI = [
-  'rotateDeg', 'alpha',
+  'rotateDeg', 'alpha', 'hsvRotate',
   'deg', 'speed', 'playerSpeed', 'linearSpeed',
   'absSize', 'size', 'position'
 ];
@@ -24,6 +24,7 @@ class Particle {
     this.alpha = (attrs.alpha !== undefined ? attrs.alpha : 1); // alpha/opacity
     this.text = attrs.text || 'text'; // text property for for text
     this.effects = attrs.effects || []; // effects - 'glow'
+    this.hsvRotate = attrs.hsvRotate || 0; // hsv increment
 
     // move
     this.moveType = attrs.moveType || ['normal', null]; // moveType - 'trace', 'avoid', 'circle', 'teaceCircle', 'traceAvoid'
@@ -184,6 +185,13 @@ class Particle {
           }
         }
       }
+    }
+    // color Increment
+    if (this.colorI) {
+      var tempCol = hexToNum(this.color);
+      var tempHsv = rgbToHsv(tempCol[0], tempCol[1], tempCol[2]);
+      console.log(`${this.colorI}, ${speedI}, ${this.colorI*speedI}, ${tempHsv.h}`);
+      this.color = hsvToRgb(tempHsv.h+0.01, tempHsv.s, tempHsv.v);
     }
 
     //delete

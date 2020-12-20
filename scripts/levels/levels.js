@@ -941,7 +941,7 @@ function level_53() {
       //some functions here!
     }, time: 0, activated: false},
   ]);
-  
+
   levelLoop = setInterval( function () {
     levelLoopCount++;
     var tempL = 0.3;
@@ -978,6 +978,48 @@ function level_53() {
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 20, 'playerSpeed': 0.025});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.20, 'text': 'wall!', 'color': '#c49b29', 'zIndex': 1});
+  levelTasks.activateAll();
+}
+//level 5-4, made by Spotky1004
+function level_54() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    for (var i = 0; i < 3; i++) {
+      particles[`P${levelLoopCount}S${i}`] = new Particle({'specialAttrs': ['bounce'], 'speed': 3, 'hsvRotateI': 0.015, 'color': '#4d8ddb', 'speedI': 0.5, 'hsvRotateC': [0, 0.015*(Math.sqrt(levelLoopCount)*1.2+8)], 'speedC': [0, 3+0.5*(Math.sqrt(levelLoopCount)*1.2+8)]}).randMove('rR');
+    }
+    if (levelLoopCount%5 != 0) {
+      particles.player.color = '#f00';
+      particles.player.absSize = 1;
+      particles.player.playerSpeed = 0.01;
+      particles.player.hsvRotate = 1-(levelLoopCount%5)/10;
+      levelSettings.particleSpeed = 1;
+      levelSettings.atkMult = Math.floor(levelLoopCount/10)+1;
+    } else {
+      particles.player.color = '#666';
+      particles.player.absSize = 7;
+      particles.player.playerSpeed = 0.03;
+      levelSettings.atkMult = -1;
+      levelSettings.particleSpeed = 1/8;
+    }
+  }, tickSpeed*100);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.13, 'text': 'bounce v2!', 'color': '#c49b29', 'zIndex': 1});
+  levelSettings.atkMult = 6;
   levelTasks.activateAll();
 }
 
