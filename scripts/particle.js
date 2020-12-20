@@ -200,7 +200,7 @@ class Particle {
   }
 
   collisionWith(particle) {
-    if (this.sides == 4 && particle.sides == 4) {
+    if ((this.sides == 4 && particle.sides == 4) || this.sides == -1 || particle.sides == -1) {
       if (
         Math.abs(this.position[0]-particle.position[0]) < Math.abs(this.getHitboxSize()[0]+particle.getHitboxSize()[0]) &&
         Math.abs(this.position[1]-particle.position[1]) < Math.abs(this.getHitboxSize()[1]+particle.getHitboxSize()[1])
