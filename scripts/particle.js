@@ -186,13 +186,6 @@ class Particle {
         }
       }
     }
-    // color Increment
-    if (this.colorI) {
-      var tempCol = hexToNum(this.color);
-      var tempHsv = rgbToHsv(tempCol[0], tempCol[1], tempCol[2]);
-      console.log(`${this.colorI}, ${speedI}, ${this.colorI*speedI}, ${tempHsv.h}`);
-      this.color = hsvToRgb(tempHsv.h+0.01, tempHsv.s, tempHsv.v);
-    }
 
     //delete
     if (!(this.outOfBounds[0][0] <= this.position[0] && this.position[0] <= this.outOfBounds[0][1] && this.outOfBounds[1][0] <= this.position[1] && this.position[1] <= this.outOfBounds[1][1]) || (this.deleteTick <= 0 && this.deleteTick != -1)) {
