@@ -1,7 +1,8 @@
 'use strict';
 
 var tempSaveData = {
-  'levelData': {}
+  'levelData': {},
+  'd': 0
 }
 var saveData = {};
 
@@ -26,6 +27,13 @@ function load() {
     if (saveData.levelData[`level${i}`] === undefined) {
       saveData.levelData[`level${i}`] = {'phase': 0};
     }
+  }
+
+  // old version path
+  if (saveData.d < 1) {
+    saveData.levelData[`level27`].phase = 0;
+    saveData.d = 1;
+    save();
   }
 }
 

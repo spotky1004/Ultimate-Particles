@@ -999,7 +999,7 @@ function level_54() {
   levelLoop = setInterval( function () {
     levelLoopCount++;
     for (var i = 0; i < 3; i++) {
-      particles[`P${levelLoopCount}S${i}`] = new Particle({'specialAttrs': ['bounce'], 'speed': 3, 'hsvRotateI': 0.015, 'color': '#4d8ddb', 'speedI': 0.5, 'hsvRotateC': [0, 0.015*(Math.sqrt(levelLoopCount)*1.2+8)], 'speedC': [0, 3+0.5*(Math.sqrt(levelLoopCount)*1.2+8)]}).randMove('rR');
+      particles[`P${levelLoopCount}S${i}`] = new Particle({'specialAttrs': ['bounce'], 'speed': 3, 'hsvRotateI': 0.015, 'color': '#4d8ddb', 'speedI': 0.5, 'hsvRotateC': [0, 0.015*(Math.sqrt(levelLoopCount)*0.4+8)], 'speedC': [0, 3+0.5*(Math.sqrt(levelLoopCount)*0.4+8)]}).randMove('rR');
     }
     if (levelLoopCount%5 != 0) {
       particles.player.color = '#f00';
@@ -1007,19 +1007,18 @@ function level_54() {
       particles.player.playerSpeed = 0.01;
       particles.player.hsvRotate = 1-(levelLoopCount%5)/10;
       levelSettings.particleSpeed = 1;
-      levelSettings.atkMult = Math.floor(levelLoopCount/10)+1;
+      levelSettings.atkMult = 1;
     } else {
       particles.player.color = '#666';
       particles.player.absSize = 7;
-      particles.player.playerSpeed = 0.03;
-      levelSettings.atkMult = -1;
-      levelSettings.particleSpeed = 1/8;
+      particles.player.playerSpeed = 0.04;
+      levelSettings.particleSpeed = 1/10;
+      levelSettings.atkMult = 0;
     }
   }, tickSpeed*100);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.13, 'text': 'bounce v2!', 'color': '#c49b29', 'zIndex': 1});
-  levelSettings.atkMult = 6;
   levelTasks.activateAll();
 }
 
