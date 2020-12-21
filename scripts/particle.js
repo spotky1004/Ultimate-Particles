@@ -7,9 +7,6 @@ var propertyI = [
   'deg', 'speed', 'playerSpeed', 'linearSpeed',
   'absSize', 'size', 'position'
 ];
-var iTypes = [
-  'I', 'IType', 'C'
-];
 
 class Particle {
   constructor(attrs={}) {
@@ -24,7 +21,7 @@ class Particle {
     this.alpha = (attrs.alpha !== undefined ? attrs.alpha : 1); // alpha/opacity
     this.text = attrs.text || 'text'; // text property for for text
     this.effects = attrs.effects || []; // effects - 'glow'
-    this.hsvRotate = attrs.hsvRotate || 0; // hsv increment
+    this.hsvRotate = attrs.hsvRotate || 0; // hsv deg increment
 
     // move
     this.moveType = attrs.moveType || ['normal', null]; // moveType - 'trace', 'avoid', 'circle', 'teaceCircle', 'traceAvoid'
@@ -45,7 +42,8 @@ class Particle {
 
     // game
     this.hp = (attrs.hp !== undefined ? attrs.hp : 10); // hp for player
-    this.atk = (attrs.atk !== undefined ? attrs.atk : 1); this.breakOnAttack = (attrs.breakOnAttack !== undefined ? attrs.breakOnAttack : 1); // propertys for enemy, when 'player' is collisionWith 'enemy' player's hp will decreased based on atk, also if breakOnAtttack is true: 'enemy' particle will disappear
+    this.atk = (attrs.atk !== undefined ? attrs.atk : 1); // property for enemy, when 'player' is collisionWith 'enemy' player's hp will decreased based on atk
+    this.breakOnAttack = (attrs.breakOnAttack !== undefined ? attrs.breakOnAttack : 1); // propertys for enemy, when 'player' is collisionWith 'enemy' player' and breakOnAtttack is true, 'enemy' particle will disappear
 
     // delete
     this.outOfBounds = attrs.outOfBounds || [[-2, 2], [-2, 2]]; // this is vaild position of particle. if particle's position is out of this square it'll be deleted
@@ -189,7 +187,7 @@ class Particle {
 
     //delete
     if (!(this.outOfBounds[0][0] <= this.position[0] && this.position[0] <= this.outOfBounds[0][1] && this.outOfBounds[1][0] <= this.position[1] && this.position[1] <= this.outOfBounds[1][1]) || (this.deleteTick <= 0 && this.deleteTick != -1)) {
-      new Function(this.onDelete)();
+      new Function('pName', this.onDelete)(name);
       delete particles[name];
       return 0;
     }
