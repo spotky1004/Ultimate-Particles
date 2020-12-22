@@ -324,6 +324,9 @@ class Particle {
     }
     return points;
   }
+  awayFrom(particles) {
+    return Math.sqrt((this.position[0]-particles.position[0])**2+(this.position[0]-particles.position[0])**2);
+  }
 }
 
 function pushParticle(name=`t${new Date().getTime().toString()}`, attrs={}) {
