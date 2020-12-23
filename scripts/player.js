@@ -40,7 +40,7 @@ function updatePlayer() {
           playerDead();
           return;
         } else {
-          new Function(particles[j].onPlayerCollision)();
+          new Function('pName', particles[j].onPlayerCollision)(j);
         }
         if (particles[j].breakOnAttack == 1) {
           delete particles[j];

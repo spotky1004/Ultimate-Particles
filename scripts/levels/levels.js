@@ -1675,19 +1675,28 @@ function levelIncremental() {
   ]);
 
   levelLoop = setInterval( function () {
-    //levelLoopCount++;
     particles.text.text = levelVars[0];
+
   }, tickSpeed*5);
 
-  levelVars.push(10);
+  levelVars.push(0);
   levelVars.push(0);
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
-  particles['text'] = new Particle({'type': 'text', 'absSize': 0.13, 'text': '0', 'color': '#c49b29', 'zIndex': 0, 'hsvRotateI': 8});
-  particles['point'] = new Particle({'atk': 0, 'onPlayerCollision': 'levelVars[0]+=levelVars[1]; particles[pName].position = [screenRand(), screenRand()];', 'breakOnAttack'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.13, 'text': '0', 'color': '#c49b29', 'zIndex': 0, 'hsvRotateI': 0.1});
+
+  //point
+  particles['point0'] = new Particle({'atk': 0, 'onPlayerCollision': 'levelVars[0]+=2**levelVars[1]; particles[pName].position = [screenRand(), screenRand()];', 'breakOnAttack': 0, 'color': '#fff'});
+  //upgrades
+  for (var i = 0; i < 4; i++) {
+    particles[`upgradeTxt${i}`] = new Particle({'type': 'text', 'absSize': 0.07, 'text': `upg${i}`, 'color': '#c49b29', 'zIndex': 0, 'hsvRotateI': 0.07, 'position': [-0.75+0.5*i, -0.5]});
+
+  }
+
+  screenSettings.color = '#000';
   levelTasks.activateAll();
 }
 
 var playDebug = 0;
 if (playDebug) {
-  function level_11() {redMountain3_1()};
+  function level_11() {levelIncremental()};
 }
