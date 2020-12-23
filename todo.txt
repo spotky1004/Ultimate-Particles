@@ -18,4 +18,3 @@ TODO list:
   - UI
 
 - Make levels
-  - level 5-2

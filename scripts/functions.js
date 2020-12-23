@@ -412,7 +412,6 @@ function goMain() {
   levelSelected = -1;
 }
 function playerDead() {
-  particles = {};
   try {
     levelTasks.cancelAll();
   } catch (e) {
@@ -424,9 +423,18 @@ function playerDead() {
 
   }
   clearInterval(levelLoop);
-  if (saveData.levelData[`level${levelSelected}`] !== undefined) {
-    saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, levelLoopCount);
+  try {
+    if (saveData.levelData[`level${levelSelected}`] !== undefined) {
+      if (particles.player.hp !== undefined && (levelSelected == 21)) {
+        saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, particles.player.hp);
+      } else {
+        saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, levelLoopCount);
+      }
+    }
+  } catch (e) {
+
   }
+  particles = {};
   goMain();
   save();
 }

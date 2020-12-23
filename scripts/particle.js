@@ -198,7 +198,7 @@ class Particle {
   }
 
   collisionWith(particle) {
-    if ((this.sides == 4 && particle.sides == 4) || this.sides == -1 || particle.sides == -1) {
+    if ((this.sides == 4 && particle.sides == 4 && particle.rotateDeg == 0 && this.rotateDeg == 0) || this.sides == -1 || particle.sides == -1) {
       if (
         Math.abs(this.position[0]-particle.position[0]) < Math.abs(this.getHitboxSize()[0]+particle.getHitboxSize()[0]) &&
         Math.abs(this.position[1]-particle.position[1]) < Math.abs(this.getHitboxSize()[1]+particle.getHitboxSize()[1])
@@ -301,7 +301,7 @@ class Particle {
     if (this.sides != -2) {
       var p = this.position;
       var s = this.sides;
-      var d = this.rotateDeg;
+      var d = -this.rotateDeg;
       var d1 = (-d + 180 / s) % 360;
       var sScale = 1/(this.sides/2*Math.cos(Math.rad((180-(180/this.sides*(this.sides-2)))/2)))/0.7071067811865475;
       var centerL = Math.csc(Math.rad(180 / s)) * this.absSize*sScale*this.hitboxSize*-1;
@@ -326,6 +326,14 @@ class Particle {
   }
   awayFrom(particles) {
     return Math.sqrt((this.position[0]-particles.position[0])**2+(this.position[0]-particles.position[0])**2);
+  }
+
+  spawnAtPoints() {
+    var points = this.getPoints();
+    var k = Math.floor(Math.random()*16**5).toString(16);
+    for (var i = 0; i < points.length; i++) {
+      particles[`K${k}T${new Date().getTime()}P${i}`] = new Particle({'position': [points[i].x, points[i].y], 'zIndex': this.zIndex+1, 'color': '#f00', 'type': 'decoration'});
+    }
   }
 }
 

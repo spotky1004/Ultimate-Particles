@@ -746,6 +746,221 @@ function level_46() {
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.2, 'text': 'dash!', 'color': '#c49b29', 'zIndex': 0});
   levelTasks.activateAll();
 }
+//level 4-7, made by RedMountain
+function level_47() {
+    levelInit();
+
+    levelFunctions = new Task([
+    {callback: function(){
+        particles['core']['sides'] = 10 - Math.floor(smallLoopCount / 4)
+        if (particles['core']['rotateDegI'] == 0) {
+            particles['core']['rotateDegI'] = 1440
+        } else {
+            particles['core']['rotateDegI'] = 0
+        }
+        if (smallLoopCount < 20) {levelFunctions.activate(0)}
+    }, time: tickSpeed * 400, activated: false},
+    {callback: function() {
+        if (phase3count % 3 == 1) {particles[`${phase3count}`] = new Particle({'speed': 15 + 5 * Math.random(), 'atk': 2, 'color': hslToRgb(Math.random(), 1, 0.8), 'absSize': 0.8, 'effects': ["glow"], 'position': [-0.5, 0.9]}).tickTraceTo(particles.player)}
+        if (phase3count % 3 == 2) {particles[`${phase3count}`] = new Particle({'speed': 15 + 5 * Math.random(), 'atk': 2, 'color': hslToRgb(Math.random(), 1, 0.8), 'absSize': 0.8, 'effects': ["glow"], 'position': [0, 0.9]}).tickTraceTo(particles.player)}
+        if (phase3count % 3 == 0) {particles[`${phase3count}`] = new Particle({'speed': 15 + 5 * Math.random(), 'atk': 2, 'color': hslToRgb(Math.random(), 1, 0.8), 'absSize': 0.8, 'effects': ["glow"], 'position': [0.5, 0.9]}).tickTraceTo(particles.player)}
+        if (phase3count % 10 == 0) {
+            particles[`Laser_S${phase3count}`] = new Particle({'type': 'decoration', 'alpha': 0.2, 'color': '#fff', 'size': [1.2, 0.07 + 0.0005 * phase3count], 'position': [0, Math.random() * 1.8 - 1]});
+        }
+        if (phase3count % 10 == 9) {
+            particles[`Laser${phase3count}`] = new Particle({'atk': 10, 'color': hslToRgb(Math.random(), 1, 0.85), 'size': [1.2, 0.07 + 0.0005 * phase3count], 'hitboxSize': 0.95, 'position': [2.5, particles[`Laser_S${phase3count - 9}`].position[1]], 'outOfBounds': [[-10, 10], [-2, 2]], 'deg': 270, 'speed': 100, 'speedI': 6, 'speedIType': 'multiply'});
+          delete particles[`Laser_S${phase3count - 9}`]
+        }
+        phase3count++
+        if (smallLoopCount < 75) {levelFunctions.activate(1)} else {
+            for (i in particles) {
+                if (i.includes('Laser_S')) {
+                    delete particles[i]
+                }
+            }
+        }
+    }, time: tickSpeed * 6, activated: false}
+    ]);
+
+    levelTasks = new Task([
+    {callback: function(){
+        screenSettings.color = '#000'
+        smallLoopCount = 0
+        phase3count = 0
+        particles.player["playerSpeed"] = 0.015
+        particles.player["hp"] = 120
+        // particles.player["screenParallaxPer"] = 1
+        particles['core'] = new Particle({'speed': 0, 'deg': 0, 'speedI': 0, 'speedIType': 'span', 'zIndex': 3,
+        'color': hslToRgb(Math.random(), 1, 0.8), 'atk': 3, 'breakOnAttack': 0, 'sides': 7, 'absSize': 12, 'position': [0, 0.9],
+        'spanPer': 120, 'rotateDeg': 360, 'hsvRotateI': 0.03, 'hsvRotateIType': 'increment', 'rotateDegI': 0, 'rotateDegIType': 'span'})
+        particles['core1'] = new Particle({'speed': 0, 'deg': 0, 'speedI': 0, 'speedIType': 'span', 'zIndex': 3,
+        'color': hslToRgb(Math.random(), 1, 0.8), 'atk': 3, 'breakOnAttack': 0, 'sides': 5, 'absSize': 9, 'position': [-0.5, 1.2],
+        'spanPer': 120, 'rotateDeg': 360, 'hsvRotateI': 0.03, 'hsvRotateIType': 'increment'})
+        particles['core2'] = new Particle({'speed': 0, 'deg': 0, 'speedI': 0, 'speedIType': 'span', 'zIndex': 3,
+        'color': hslToRgb(Math.random(), 1, 0.8), 'atk': 3, 'breakOnAttack': 0, 'sides': 5, 'absSize': 9, 'position': [0.5, 1.2],
+        'spanPer': 120, 'rotateDeg': 360, 'hsvRotateI': 0.03, 'hsvRotateIType': 'increment'})
+    }, time: 0, activated: false},
+    ]);
+
+    levelLoop = setInterval( function () {
+        smallLoopCount++
+        if (smallLoopCount == 2) {
+            particles['core']['sides'] = 6 + Math.floor(4 * Math.random())
+            if (particles['core']['rotateDegI'] == 0) {
+                particles['core']['rotateDegI'] = 1440
+            } else {
+                particles['core']['rotateDegI'] = 0
+            }
+            levelFunctions.activate(0)
+        }
+        if (smallLoopCount <= 24) {
+            particles['phasetext']['text'] = 'phase 1 / 4'
+            if (smallLoopCount % 4 == 1) {
+
+                particles[`${smallLoopCount}_1`] = new Particle({'atk': 2, 'breakOnAttack': 0, 'color': hslToRgb(Math.random(), 1, 0.7),
+                'absSize': 2, 'sides': 5, 'position': [(-0.7 * Math.random()) - 0.3, 1], 'spanPer': 50, 'speed': 15,
+                'speedI': 0, 'speedIType': 'span', 'onPlayerCollision': `this.type = 'decoration'`})
+
+                particles[`${smallLoopCount}_2`] = new Particle({'atk': 2, 'breakOnAttack': 0, 'color': hslToRgb(Math.random(), 1, 0.7),
+                'absSize': 2, 'sides': 5, 'position': [Math.random() * 0.3 * signRand(), 1], 'spanPer': 50, 'speed': 15,
+                'speedI': 0, 'speedIType': 'span'})
+
+                particles[`${smallLoopCount}_3`] = new Particle({'atk': 2, 'breakOnAttack': 0, 'color': hslToRgb(Math.random(), 1, 0.7),
+                'absSize': 2, 'sides': 5, 'position': [(0.7 * Math.random()) + 0.3, 1], 'spanPer': 50, 'speed': 15,
+                'speedI': 0, 'speedIType': 'span'})
+            }
+            if (smallLoopCount % 4 == 2) {
+                seed = 19 + Math.floor(smallLoopCount / 3)
+
+                for (i = 0; i < seed; i++) { particles[`${smallLoopCount}_1_${i}`] = new Particle({'atk': 5,
+                'color': hslToRgb(Math.random(), 1, 0.8), 'rotateDeg': 45, 'deg': i * (360 / seed), 'absSize': 1.2,
+                'sides': 4, 'position': [particles[`${smallLoopCount - 1}_1`]['position'][0],particles[`${smallLoopCount - 1}_1`]['position'][1]],
+                'speed': 20, 'speedI': -10, 'speedC': [-25, 20], 'speedIType': 'increment', 'outOfBounds': [[-4, 4], [-4, 4]]}) }
+
+                for (i = 0; i < seed; i++) { particles[`${smallLoopCount}_2_${i}`] = new Particle({'atk': 5,
+                'color': hslToRgb(Math.random(), 1, 0.8), 'rotateDeg': 45, 'deg': i * (360 / seed), 'absSize': 1.2,
+                'sides': 4, 'position': [particles[`${smallLoopCount - 1}_2`]['position'][0],particles[`${smallLoopCount - 1}_2`]['position'][1]],
+                'speed': 20, 'speedI': -10, 'speedC': [-25, 20], 'speedIType': 'increment', 'outOfBounds': [[-4, 4], [-4, 4]]}) }
+
+                for (i = 0; i < seed; i++) { particles[`${smallLoopCount}_3_${i}`] = new Particle({'atk': 5,
+                'color': hslToRgb(Math.random(), 1, 0.8), 'rotateDeg': 45, 'deg': i * (360 / seed), 'absSize': 1.2,
+                'sides': 4, 'position': [particles[`${smallLoopCount - 1}_3`]['position'][0],particles[`${smallLoopCount - 1}_3`]['position'][1]],
+                'speed': 20, 'speedI': -10, 'speedC': [-25, 20], 'speedIType': 'increment', 'outOfBounds': [[-4, 4], [-4, 4]]}) }
+
+                delete particles[`${smallLoopCount - 1}_1`]
+                delete particles[`${smallLoopCount - 1}_2`]
+                delete particles[`${smallLoopCount - 1}_3`]
+            }
+        }
+        else if (smallLoopCount >= 30 && smallLoopCount <= 45) {
+            particles['phasetext']['text'] = 'phase 2 / 4'
+            for (k = 0; k < 5; k++) {
+                particles[`${smallLoopCount}_${k}`] = new Particle({'atk': 3, 'color': hslToRgb(Math.random(), 1, 0.8), 'deg': k * 72,
+                'speed': 15, 'sides': 5, 'absSize': 1.2, 'zIndex': 1, 'specialAttrs': ['bounce']})
+                particles[`${smallLoopCount}_${k}`]['rotateDeg'] = particles[`${smallLoopCount}_${k}`]['deg']
+            }
+            setTimeout( function() {
+              try {
+                for (k = 0; k < 5; k++) {
+                    particles[`${smallLoopCount}_${k}`]['speed'] = 0
+                    particles[`${smallLoopCount}_${k}`]['speedI'] = 10
+                    particles[`${smallLoopCount}_${k}`]['speedC'] = [0, 15]
+                    particles[`${smallLoopCount}_${k}`]['zIndex'] = 4
+                    particles[`${smallLoopCount}_${k}`].tickTraceTo(particles.player)
+                    particles[`${smallLoopCount}_${k}`].fade(400, 0.3)
+                }
+              } catch (e) {
+
+              }
+            }, tickSpeed * 40)
+        }
+        else if (smallLoopCount >= 50 && smallLoopCount <= 75) {
+            particles['phasetext']['text'] = 'phase 3 / 4'
+        } else if (smallLoopCount >= 80 && smallLoopCount <= 110) {
+            particles['phasetext']['text'] = 'phase 4 / 4'
+            if (smallLoopCount == 80) {
+                particles[`Shadow_${smallLoopCount}`] = new Particle({'type': 'decoration', 'alpha': 0.2, 'color': '#fff', 'speed': 0, 'position': [Math.random(), Math.random()], 'absSize': 0.5 * smallLoopCount - 28})
+                particles[`Shadow2_${smallLoopCount}`] = new Particle({'type': 'decoration', 'alpha': 0.2, 'color': '#fff', 'speed': 0, 'position': [Math.random(), -1 * Math.random()], 'absSize': 0.5 * smallLoopCount - 28})
+                particles[`Shadow3_${smallLoopCount}`] = new Particle({'type': 'decoration', 'alpha': 0.2, 'color': '#fff', 'speed': 0, 'position': [-1 * Math.random(), Math.random()], 'absSize': 0.5 * smallLoopCount - 28})
+                particles[`Shadow4_${smallLoopCount}`] = new Particle({'type': 'decoration', 'alpha': 0.2, 'color': '#fff', 'speed': 0, 'position': [-1 * Math.random(), -1 * Math.random()], 'absSize': 0.5 * smallLoopCount - 28})
+              } else {
+                if (smallLoopCount != 110) {
+                    particles[`Shadow_${smallLoopCount}`] = new Particle({'type': 'decoration', 'alpha': 0.2, 'color': '#fff', 'speed': 0, 'position': [Math.random(), Math.random()], 'absSize': 0.5 * smallLoopCount - 28})
+                    particles[`Shadow2_${smallLoopCount}`] = new Particle({'type': 'decoration', 'alpha': 0.2, 'color': '#fff', 'speed': 0, 'position': [Math.random(), -1 * Math.random()], 'absSize': 0.5 * smallLoopCount - 28})
+                    particles[`Shadow3_${smallLoopCount}`] = new Particle({'type': 'decoration', 'alpha': 0.2, 'color': '#fff', 'speed': 0, 'position': [-1 * Math.random(), Math.random()], 'absSize': 0.5 * smallLoopCount - 28})
+                    particles[`Shadow4_${smallLoopCount}`] = new Particle({'type': 'decoration', 'alpha': 0.2, 'color': '#fff', 'speed': 0, 'position': [-1 * Math.random(), -1 * Math.random()], 'absSize': 0.5 * smallLoopCount - 28})
+                }
+                particles[`Main_${smallLoopCount}`] = new Particle({'atk': 12, 'alpha': 0.1, 'speed': 0, 'position': [particles[`Shadow_${smallLoopCount-1}`].position[0],particles[`Shadow_${smallLoopCount-1}`].position[1]], 'absSize': 0.5 * smallLoopCount - 28.5}).fade(2, 0)
+                particles[`Main2_${smallLoopCount}`] = new Particle({'atk': 12, 'alpha': 0.1, 'speed': 0, 'position': [particles[`Shadow2_${smallLoopCount-1}`].position[0],particles[`Shadow2_${smallLoopCount-1}`].position[1]], 'absSize': 0.5 * smallLoopCount - 28.5}).fade(2, 0)
+                particles[`Main3_${smallLoopCount}`] = new Particle({'atk': 12, 'alpha': 0.1, 'speed': 0, 'position': [particles[`Shadow3_${smallLoopCount-1}`].position[0],particles[`Shadow3_${smallLoopCount-1}`].position[1]], 'absSize': 0.5 * smallLoopCount - 28.5}).fade(2, 0)
+                particles[`Main4_${smallLoopCount}`] = new Particle({'atk': 12, 'alpha': 0.1, 'speed': 0, 'position': [particles[`Shadow4_${smallLoopCount-1}`].position[0],particles[`Shadow4_${smallLoopCount-1}`].position[1]], 'absSize': 0.5 * smallLoopCount - 28.5}).fade(2, 0)
+                particles[`Light_${smallLoopCount}`] = new Particle({'type': 'decoration', 'color': hslToRgb(Math.random(), 1, 0.8), 'speed': 0, 'position': [particles[`Shadow_${smallLoopCount-1}`].position[0],particles[`Shadow_${smallLoopCount-1}`].position[1]], 'absSize': 0.5 * smallLoopCount - 28.5}).fade(25, 0)
+                particles[`Light2_${smallLoopCount}`] = new Particle({'type': 'decoration', 'color': hslToRgb(Math.random(), 1, 0.8), 'speed': 0, 'position': [particles[`Shadow2_${smallLoopCount-1}`].position[0],particles[`Shadow2_${smallLoopCount-1}`].position[1]], 'absSize': 0.5 * smallLoopCount - 28.5}).fade(25, 0)
+                particles[`Light3_${smallLoopCount}`] = new Particle({'type': 'decoration', 'color': hslToRgb(Math.random(), 1, 0.8), 'speed': 0, 'position': [particles[`Shadow3_${smallLoopCount-1}`].position[0],particles[`Shadow3_${smallLoopCount-1}`].position[1]], 'absSize': 0.5 * smallLoopCount - 28.5}).fade(25, 0)
+                particles[`Light4_${smallLoopCount}`] = new Particle({'type': 'decoration', 'color': hslToRgb(Math.random(), 1, 0.8), 'speed': 0, 'position': [particles[`Shadow4_${smallLoopCount-1}`].position[0],particles[`Shadow4_${smallLoopCount-1}`].position[1]], 'absSize': 0.5 * smallLoopCount - 28.5}).fade(25, 0)
+                for (i = 0; i < 7; i++) {
+                    particles[`Normal_${smallLoopCount}_${i}`] = new Particle({'atk': 2, 'sides': 4 + Math.floor(5 * Math.random()), 'deg': Math.random() * 360,'color': hslToRgb(Math.random(), 1, 0.85), 'speed': 12, 'position': [particles[`Shadow_${smallLoopCount-1}`].position[0],particles[`Shadow_${smallLoopCount-1}`].position[1]], 'absSize': 1.2})
+                }
+                for (i = 0; i < 7; i++) {
+                    particles[`Normal2_${smallLoopCount}_${i}`] = new Particle({'atk': 2, 'sides': 4 + Math.floor(5 * Math.random()), 'deg': Math.random() * 360,'color': hslToRgb(Math.random(), 1, 0.85), 'speed': 12, 'position': [particles[`Shadow2_${smallLoopCount-1}`].position[0],particles[`Shadow2_${smallLoopCount-1}`].position[1]], 'absSize': 1.2})
+                }
+                for (i = 0; i < 7; i++) {
+                    particles[`Normal3_${smallLoopCount}_${i}`] = new Particle({'atk': 2, 'sides': 4 + Math.floor(5 * Math.random()), 'deg': Math.random() * 360,'color': hslToRgb(Math.random(), 1, 0.85), 'speed': 12, 'position': [particles[`Shadow3_${smallLoopCount-1}`].position[0],particles[`Shadow3_${smallLoopCount-1}`].position[1]], 'absSize': 1.2})
+                }
+                for (i = 0; i < 7; i++) {
+                    particles[`Normal4_${smallLoopCount}_${i}`] = new Particle({'atk': 2, 'sides': 4 + Math.floor(5 * Math.random()), 'deg': Math.random() * 360,'color': hslToRgb(Math.random(), 1, 0.85), 'speed': 12, 'position': [particles[`Shadow4_${smallLoopCount-1}`].position[0],particles[`Shadow4_${smallLoopCount-1}`].position[1]], 'absSize': 1.2})
+                }
+                delete particles[`Shadow_${smallLoopCount-1}`]
+                delete particles[`Shadow2_${smallLoopCount-1}`]
+                delete particles[`Shadow3_${smallLoopCount-1}`]
+                delete particles[`Shadow4_${smallLoopCount-1}`]
+            }
+        }
+        // core move
+        if (smallLoopCount == 26) {
+            particles['core']['speed'] = 7.5
+            particles['core']['speedI'] = 0
+            particles['core']['rotateDegI'] = 0
+        }
+        if (smallLoopCount == 42) {
+            particles[`coremove`] = new Particle({'type': 'decoration', 'alpha': 0.2, 'color': '#fff', 'size': [0.15, 0.6], 'position': [0, 0.6]});
+        }
+        if (smallLoopCount == 45) {
+            particles['core']['speed'] = -7
+            particles['core']['speedI'] = 0
+            particles['core']['rotateDegI'] = 1440
+            particles['core1']['speed'] = 3
+            particles['core2']['speed'] = 3
+            delete particles[`coremove`]
+        }
+        if (smallLoopCount == 50) {
+            levelFunctions.activate(1)
+        }
+        if (smallLoopCount == 80) {
+            particles['core1']['speed'] = -3
+            particles['core2']['speed'] = -3
+            particles['core']['speed'] = -5
+            particles['core']['rotateDegI'] = 0
+        }
+        if (smallLoopCount == 112) {
+            particles['core']['speed'] = 4
+            particles['text']['text'] = 'clear!'
+            particles['phasetext']['text'] = `score: ${particles.player.hp}`
+            delete particles[`Shadow_110`]
+            delete particles[`Shadow2_110`]
+            delete particles[`Shadow3_110`]
+            delete particles[`Shadow4_110`]
+        }
+        if (smallLoopCount == 116) {
+          playerDead();
+        }
+    }, tickSpeed*100);
+
+    particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+    particles['text'] = new Particle({'type': 'text', 'text': 'boss stage!', 'absSize': 0.11, 'color': '#faa', 'zIndex': 1})
+    particles['phasetext'] = new Particle({'type': 'text', 'text': 'phase 0 / 4', 'absSize': 0.07, 'color': '#faa', 'zIndex': 1, 'position': [0, -0.7]})
+    levelTasks.activateAll();
+}
 
 //level 5-1, made by RedMountain
 function level_51() {
@@ -1156,6 +1371,38 @@ function level_56() {
   levelTasks.activateAll();
   levelFunctions.activate(0);
 }
+//level 5-7, made by Spotky1004
+function level_57() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    //levelLoopCount++;
+    //some functions here!
+  }, tickSpeed*100);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [1, 1], 'hp': 1e10});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.1, 'text': 'windmill!', 'color': '#c49b29', 'zIndex': 0});
+
+  for (var i = 0; i < 40; i++) {
+    particles[`W0S${i}`] = new Particle({'size':[0.05, 0.05], 'position': [1.5-0.1*i, 0], 'rotateDegI': 10, 'moveType': ['circle', [0, 0]], 'speed': 0.15, 'breakOnAttack': 0});
+  }
+  for (var i = 0; i < 40; i++) {
+    particles[`W1S${i}`] = new Particle({'size':[0.05, 0.05], 'position': [0, 1.5-0.1*i], 'rotateDegI': 10, 'moveType': ['circle', [0, 0]], 'speed': 0.15, 'breakOnAttack': 0});
+  }
+  levelTasks.activateAll();
+}
 
 function levelTemplate() {
   levelInit();
@@ -1413,7 +1660,7 @@ function pointTest() {
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [1, 1], 'hp': 1e10});
 }
 
-var playDebug = 0;
+var playDebug = 1;
 if (playDebug) {
-  function level_11() {pointTest()};
+  function level_11() {redMountain3_1()};
 }
