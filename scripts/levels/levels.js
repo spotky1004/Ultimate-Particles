@@ -1396,10 +1396,10 @@ function level_57() {
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.1, 'text': 'windmill!', 'color': '#c49b29', 'zIndex': 0});
 
   for (var i = 0; i < 40; i++) {
-    particles[`W0S${i}`] = new Particle({'size':[0.05, 0.05], 'position': [1.5-0.1*i, 0], 'rotateDegI': 10, 'moveType': ['circle', [0, 0]], 'speed': 0.15, 'breakOnAttack': 0});
+    particles[`W0S${i}`] = new Particle({'size':[0.05, 0.05], 'position': [1.5-0.1*i, 0], 'rotateDegI': 20, 'moveType': ['circle', [0, 0]], 'speed': 0.3, 'breakOnAttack': 0});
   }
   for (var i = 0; i < 40; i++) {
-    particles[`W1S${i}`] = new Particle({'size':[0.05, 0.05], 'position': [0, 1.5-0.1*i], 'rotateDegI': 10, 'moveType': ['circle', [0, 0]], 'speed': 0.15, 'breakOnAttack': 0});
+    particles[`W1S${i}`] = new Particle({'size':[0.05, 0.05], 'position': [0, 1.5-0.1*i], 'rotateDegI': 20, 'moveType': ['circle', [0, 0]], 'speed': 0.3, 'breakOnAttack': 0});
   }
   levelTasks.activateAll();
 }
@@ -1659,8 +1659,35 @@ function pointTest() {
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [1, 1], 'hp': 1e10});
 }
+function levelIncremental() {
+  levelInit();
 
-var playDebug = 1;
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    //levelLoopCount++;
+    particles.text.text = levelVars[0];
+  }, tickSpeed*5);
+
+  levelVars.push(10);
+  levelVars.push(0);
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.13, 'text': '0', 'color': '#c49b29', 'zIndex': 0, 'hsvRotateI': 8});
+  particles['point'] = new Particle({'atk': 0, 'onPlayerCollision': 'levelVars[0]+=levelVars[1]; particles[pName].position = [screenRand(), screenRand()];', 'breakOnAttack'});
+  levelTasks.activateAll();
+}
+
+var playDebug = 0;
 if (playDebug) {
   function level_11() {redMountain3_1()};
 }
