@@ -1387,13 +1387,13 @@ function level_57() {
       levelFunctions.activate(0);
     }, time: tickSpeed*40, activated: false},
     {callback: function(){
-      for (var i = 0; i < 2; i++) {
+      /*for (var i = 0; i < 2; i++) {
         for (var j = 0; j < 30; j++) {
           particles[`W${i}S${j}`].rotateDeg += 45;
           particles[`W${i}S${j}`].position = rotatePoint(particles[`W${i}S${j}`].position, [0, 0], 45);
         }
       }
-      levelFunctions.activate(1);
+      levelFunctions.activate(1);*/
     }, time: tickSpeed*80, activated: false},
   ]);
 

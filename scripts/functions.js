@@ -55,22 +55,63 @@ const timer = ms => new Promise(
 var keypress = {};
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp);
+var resetP = 0, resetTimeout;
 function keyDown(e) {
   keypress[e.keyCode] = true;
 
-  // redirect asdf key to arrow keys
   switch (e.keyCode) {
     case 87:
+    // redirect wasd key to arrow keys
     keypress[38] = true;
       break;
     case 65:
+    // redirect wasd key to arrow keys
     keypress[37] = true;
       break;
     case 83:
+    // redirect wasd key to arrow keys
     keypress[40] = true;
       break;
     case 68:
+    // redirect wasd key to arrow keys
     keypress[39] = true;
+      break;
+    // esc
+    case 27:
+    if (playing) {
+      playerDead();
+    }
+      break;
+    // R
+    case 82:
+    if (playing) {
+      clearTimeout(resetTimeout);
+      resetP = 1;
+      sendInfo('press enter to confrim restart', 3000);
+      resetTimeout = setTimeout( function () {
+        resetP = 0;
+      }, 3000);
+    }
+      break;
+    // enter
+    case 13:
+    if (playing && resetP) {
+      clearTimeout(resetTimeout);
+      try {
+        levelTasks.cancelAll();
+      } catch (e) {
+
+      }
+      try {
+        levelFunctions.cancelAll();
+      } catch (e) {
+
+      }
+      clearInterval(levelLoop);
+      particles = {};
+      new Function(`${levelSelectedFunc}()`)();
+      resetP = 0;
+    }
       break;
   }
 }
@@ -365,7 +406,27 @@ function gameStatusUpdate() {
   document.getElementById('hp').innerHTML = `hp: ${(particles.player ? particles.player.hp : 0)}`;
   score = getScore();
   document.getElementById('score').innerHTML = `score: ${score}`;
+  document.getElementById('info').style.bottom = `${infoVars[0]}vh`;
+  document.getElementById('info').style.opacity = `${infoVars[1].toString()}`;
   //document.getElementById('noControllTick').innerHTML = `c: ${Math.floor(noControllTick/10)}/50`;
+}
+var infoTimeout, infoTimeout2;
+var infoVars = [-1, 0];
+function sendInfo(str, lastTime=2000) {
+  document.getElementById('info').innerHTML = str.toString();
+  clearInterval(infoTimeout);
+  clearTimeout(infoTimeout2);
+  infoTimeout = setInterval( function () {
+    infoVars[0] = Math.min(1, Math.max(-2, infoVars[0]+0.1));
+    infoVars[1] = Math.min(1, Math.max(0, infoVars[1]+0.1));
+  }, 20);
+  infoTimeout2 = setTimeout( function () {
+    clearInterval(infoTimeout);
+    infoTimeout = setInterval( function () {
+      infoVars[0] = Math.min(1, Math.max(-2, infoVars[0]-0.1));
+      infoVars[1] = Math.min(1, Math.max(0, infoVars[1]-0.1));
+    }, 20);
+  }, lastTime);
 }
 
 //document event
@@ -415,6 +476,11 @@ function goMain() {
   screenSettings.size = 0;
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [parseInt('-hi there... AAaAAAaAAA', 36), -3009059676390311], 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'effects': ['glow']}); //base10 -> base36?
   levelSelected = -1;
+}
+function goExtra() {
+  screenState = 'extra';
+  screenSettings.size = 1;
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [parseInt('-hi there... AAaAAAaAAA', 36), -3009059676390311], 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'effects': ['glow']}); //base10 -> base36?
 }
 function playerDead() {
   try {

@@ -17,7 +17,7 @@ var levelSelected = -1;
 var score = 0;
 
 //updateScreen
-var levelSelectedName, maxLeng;
+var levelSelectedName, maxLeng, levelSelectedFunc;
 function updateScreen() {
   var screenMaxLeng = Math.min(innerWidth, innerHeight);
   maxLeng = screenMaxLeng*0.96;
@@ -68,6 +68,7 @@ function updateScreen() {
           if (keypress['13'] && levelSelected == -1) {
             try {
               levelSelectedName = `${Math.max(i,j)+1}${((i!=j)?(Math.min(i,j)+((i>j)?i:0)):i*2)+1}`;
+              levelSelectedFunc = `level_${levelSelectedName}`;
               new Function(`level_${levelSelectedName}`)();
               levelSelected = levelOn;
               playing = 1;
@@ -80,7 +81,7 @@ function updateScreen() {
                   setTimeout( function () {
                     screenState = 'game';
                     playing = 1;
-                    new Function(`level_${levelSelectedName}()`)();
+                    new Function(`${levelSelectedFunc}()`)();
                   }, tickSpeed*50);
                 }, tickSpeed*25);
               }, 1000);
@@ -195,7 +196,7 @@ function updateScreen() {
     }
       break;
   }
-  if (screenState == 'main' || screenState == 'game') {
+  if (screenState == 'main' || screenState == 'game' || screenState == 'extra' || 1) {
     for (var z = 0; z < 5; z++) {
       for (var name in particles) {
         if (particles[name].zIndex != z || !particles[name].update(name)) continue;
