@@ -31,7 +31,7 @@ class Task {
     }
   }
 
-  activate(index, arg) {
+  activate(index, arg=null) {
     this._data[index].activated = true;
     this._dataRaw[index] = setTimeout(this._data[index].callback, this._data[index].time, arg);
   }
