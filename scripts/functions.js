@@ -31,9 +31,9 @@ class Task {
     }
   }
 
-  activate(index) {
+  activate(index, arg) {
     this._data[index].activated = true;
-    this._dataRaw[index] = setTimeout(this._data[index].callback, this._data[index].time);
+    this._dataRaw[index] = setTimeout(this._data[index].callback, this._data[index].time, arg);
   }
 
   activateAll() {
@@ -336,6 +336,11 @@ function getCenter(points) {
     cy += (points[i].y+points[(i+1)%l].y)*c2;
   }
   return [cx, cy, a];
+}
+function rotatePoint(position, center, deg) {
+  var dist = Math.sqrt((position[0]-center[0])**2+(position[1]-center[1])**2);
+  var centerDeg = (Math.atan2(position[1]-center[1], position[0]-center[0])*180/Math.PI-(deg%360)+810)%360;
+  return [Math.sin(Math.rad(centerDeg))*dist+center[0], -Math.cos(Math.rad(centerDeg))*dist+center[1]];
 }
 
 //short random

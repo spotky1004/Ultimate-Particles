@@ -1377,8 +1377,24 @@ function level_57() {
 
   levelFunctions = new Task([
     {callback: function(){
-      //some functions here!
-    }, time: 0, activated: false},
+      levelVars[0]++;
+      for (var i = 0; i < 2; i++) {
+        for (var j = 0; j < 30; j++) {
+          if (j == 15 || j%3 != 0) continue;
+          particles[`W${i}S${j}S${levelVars[0]}`] = new Particle({'speed': 12, 'deg': 360-particles[`W${i}S${j}`].rotateDeg, 'position': [particles[`W${i}S${j}`].position[0], particles[`W${i}S${j}`].position[1]], 'color': ( j > 15 ? ( i == 0 ? '#eb543d' : '#80eb3d') : ( i == 0 ? '#3d94eb' : '#cb3deb') )});
+        }
+      }
+      levelFunctions.activate(0);
+    }, time: tickSpeed*40, activated: false},
+    {callback: function(){
+      for (var i = 0; i < 2; i++) {
+        for (var j = 0; j < 30; j++) {
+          particles[`W${i}S${j}`].rotateDeg += 45;
+          particles[`W${i}S${j}`].position = rotatePoint(particles[`W${i}S${j}`].position, [0, 0], 45);
+        }
+      }
+      levelFunctions.activate(1);
+    }, time: tickSpeed*80, activated: false},
   ]);
 
   levelTasks = new Task([
@@ -1392,16 +1408,22 @@ function level_57() {
     //some functions here!
   }, tickSpeed*100);
 
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [1, 1], 'hp': 1e10});
-  particles['text'] = new Particle({'type': 'text', 'absSize': 0.1, 'text': 'windmill!', 'color': '#c49b29', 'zIndex': 0});
+  screenSettings.color = '#28bdd1';
 
-  for (var i = 0; i < 40; i++) {
-    particles[`W0S${i}`] = new Particle({'size':[0.05, 0.05], 'position': [1.5-0.1*i, 0], 'rotateDegI': 20, 'moveType': ['circle', [0, 0]], 'speed': 0.3, 'breakOnAttack': 0});
+  levelVars.push(0);
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [1, 1], 'hp': 1e10});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.1, 'text': 'windmill!', 'color': '#fff', 'zIndex': 0});
+
+  for (var i = 0; i < 30; i++) {
+    particles[`W0S${i}`] = new Particle({'size':[0.05, 0.05], 'position': [1.5-0.1*i, 0], 'rotateDegI': 20, 'rotateDegC': [0, 1e300], 'rotateDeg': ( i > 15 ? 0 : 180), 'moveType': ['circle', [0, 0]], 'speed': 0.3, 'breakOnAttack': 0, 'color': ( i > 15 ? '#eb543d' : ( i == 15 ? '#000' : '#3d94eb')), 'zIndex': 3});
   }
-  for (var i = 0; i < 40; i++) {
-    particles[`W1S${i}`] = new Particle({'size':[0.05, 0.05], 'position': [0, 1.5-0.1*i], 'rotateDegI': 20, 'moveType': ['circle', [0, 0]], 'speed': 0.3, 'breakOnAttack': 0});
+  for (var i = 0; i < 30; i++) {
+    particles[`W1S${i}`] = new Particle({'size':[0.05, 0.05], 'position': [0, 1.5-0.1*i], 'rotateDegI': 20, 'rotateDegC': [0, 1e300], 'rotateDeg': ( i > 15 ? 270 : 90), 'moveType': ['circle', [0, 0]], 'speed': 0.3, 'breakOnAttack': 0, 'color': ( i > 15 ? '#80eb3d' : ( i == 15 ? '#000' : '#cb3deb')), 'zIndex': 3});
   }
+
   levelTasks.activateAll();
+  levelFunctions.activate(0);
+  levelFunctions.activate(1);
 }
 
 function levelTemplate() {
