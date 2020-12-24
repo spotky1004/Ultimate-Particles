@@ -78,13 +78,13 @@ function keyDown(e) {
       break;
     // esc
     case 27:
-    if (playing) {
+    if (innerPlaying) {
       playerDead();
     }
       break;
     // R
     case 82:
-    if (playing) {
+    if (innerPlaying) {
       clearTimeout(resetTimeout);
       resetP = 1;
       sendInfo('press enter to confrim restart', 3000);
@@ -95,7 +95,7 @@ function keyDown(e) {
       break;
     // enter
     case 13:
-    if (playing && resetP) {
+    if (innerPlaying && resetP) {
       clearTimeout(resetTimeout);
       try {
         levelTasks.cancelAll();
@@ -239,6 +239,9 @@ function hexToNum(hex) {
     }
   }
   return colors;
+}
+function numToRgb(arr) {
+  return `#${Math.floor(arr[0]).toString(16).padStart(2, Math.floor(arr[0]).toString(16))}${Math.floor(arr[1]).toString(16).padStart(2, Math.floor(arr[1]).toString(16))}${Math.floor(arr[2]).toString(16).padStart(2, Math.floor(arr[2]).toString(16))}`;
 }
 function hslToRgb(h, s, l){
     var r, g, b;
@@ -409,6 +412,11 @@ function gameStatusUpdate() {
   document.getElementById('info').style.bottom = `${infoVars[0]}vh`;
   document.getElementById('info').style.opacity = `${infoVars[1].toString()}`;
   //document.getElementById('noControllTick').innerHTML = `c: ${Math.floor(noControllTick/10)}/50`;
+  document.getElementById('worldChange').style.display = (playing ? 'none' : 'block');
+  document.getElementById('worldChange').innerHTML = (getScore() < 1500 ? '1500 score' : screenState);
+  if (getScore() > 1500) {
+    document.getElementById('worldChange').classList.remove('disabled');
+  }
 }
 var infoTimeout, infoTimeout2;
 var infoVars = [-1, 0];
@@ -467,6 +475,8 @@ function levelInit() {
   levelLoop = 0;
   levelLoopCount = 0;
   levelVars = [];
+
+  innerPlaying = 1;
 }
 
 //screen change
@@ -476,11 +486,15 @@ function goMain() {
   screenSettings.size = 0;
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [parseInt('-hi there... AAaAAAaAAA', 36), -3009059676390311], 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'effects': ['glow']}); //base10 -> base36?
   levelSelected = -1;
+  innerPlaying = 0;
 }
 function goExtra() {
   screenState = 'extra';
+  screenSettings.p = [0, 0];
   screenSettings.size = 1;
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [parseInt('-hi there... AAaAAAaAAA', 36), -3009059676390311], 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'effects': ['glow']}); //base10 -> base36?
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [0, 0], 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'effects': ['glow']}); //base10 -> base36?
+  extraIdxPoint = 0;
+  innerPlaying = 0;
 }
 function playerDead() {
   try {
@@ -506,6 +520,7 @@ function playerDead() {
 
   }
   particles = {};
+  innerPlaying = 0;
   goMain();
   save();
 }

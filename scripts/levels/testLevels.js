@@ -1239,6 +1239,148 @@ function redMountain3_1() {
     particles['phasetext'] = new Particle({'type': 'text', 'text': 'phase 0 / 4', 'absSize': 0.07, 'color': '#faa', 'zIndex': 1, 'position': [0, -0.7]})
     levelTasks.activateAll();
 }
+// Calculator Evolution
+function redMountain4() {
+    levelInit();
+
+    levelFunctions = new Task([
+      {callback: function(){
+        for (i=0; i<4; i++) {if (levelVars[1][i] > 0) (levelVars[1][i] -= 1)}
+        if (levelVars[1][0] < 4) {particles[`module_increment`].color = '#800'} else {particles[`module_increment`].color = '#0a0'}
+        if (levelVars[1][1] < 4) {particles[`module_mine`].color = '#800'} else {particles[`module_mine`].color = '#0a0'}
+        if (levelVars[1][2] < 4) {particles[`module_memory`].color = '#800'} else {particles[`module_memory`].color = '#0a0'}
+        if (!levelVars[0].extramodules.includes('baseup')) {particles[`module_baseup`].color = '#444'} else if (levelVars[1][3] < 4) {particles[`module_baseup`].color = '#800'} else {particles[`module_baseup`].color = '#0a0'}
+        buydelay++
+
+        levelFunctions.activate(5, [levelVars[0].number.toString(levelVars[0].base), levelVars[0].memorysize])
+        levelFunctions.activate(0)
+        particles[`number`].text = `number: ${returna} (${levelVars[0].base})`
+        SIcount = 0
+        dataSI = levelVars[0].data / 1000
+        while (dataSI > 1000) {dataSI /= 1000; SIcount++}
+        particles[`data`].text = `data: ${(dataSI).toFixed(3 - String(Math.floor(dataSI)).length)} ${SIunit[SIcount]}b`
+        SIcount = 0
+        dataSI = levelVars[0].cpuhz
+        while (dataSI > 1000) {dataSI /= 1000; SIcount++}
+        if (SIunit[SIcount - 1] == undefined) {particles[`shop_cpu_text1`].text = `cpu ${dataSI.toFixed(0)}hz`} else {particles[`shop_cpu_text1`].text = `cpu ${dataSI.toFixed(0)}${SIunit[SIcount - 1]}hz`}
+        SIcount = 0
+        dataSI = 100 * (3 + (Math.log2(levelVars[0].cpuhz) / 9)) ** Math.log2(levelVars[0].cpuhz)
+        while (dataSI > 1000) {dataSI /= 1000; SIcount++}
+        particles[`shop_cpu_text2`].text = `cost: ${(dataSI).toFixed(3 - String(Math.floor(dataSI)).length)} ${SIunit[SIcount]}b`
+        if (levelVars[0].data > 100000 * (3 + (Math.log2(levelVars[0].cpuhz) / 9)) ** Math.log2(levelVars[0].cpuhz)) {particles['shop_cpu'].color = '#0a0'} else {particles['shop_cpu'].color = '#800'}
+        if (levelVars[0].data > 30000) {particles['shop_baseup'].color = '#0a0'} else {particles['shop_baseup'].color = '#800'}
+        if (levelVars[0].data > 1e11) {particles['shop_minever2'].color = '#0a0'} else {particles['shop_minever2'].color = '#800'}
+
+        if (levelVars[0].extramodules.includes('baseup')) {
+          particles['shop_baseup'].onPlayerCollision = ""
+          particles['shop_baseup'].color = '#444'
+        }
+        if (levelVars[0].extramodules.includes('minever2')) {
+          particles['shop_minever2'].onPlayerCollision = ""
+          particles['shop_minever2'].color = '#444'
+        }
+      }, time: tickSpeed, activated: false},
+      {callback: function(){
+        if (levelVars[0].cpuhz <= 64) {realhz = levelVars[0].cpuhz; hzboost = 1} else {realhz = 64; hzboost = levelVars[0].cpuhz / 64}
+        if (levelVars[1][0] < 5) (levelVars[1][0] += 2)
+        incrementcount++
+        if (incrementcount >= Math.floor(60 / realhz)) {
+          if (levelVars[0].number < levelVars[0].base ** levelVars[0].memorysize - 1) {levelVars[0].number += hzboost}
+          incrementcount = 0
+          if (levelVars[0].number > levelVars[0].base ** levelVars[0].memorysize - 1) {levelVars[0].number = levelVars[0].base ** levelVars[0].memorysize - 1}
+        }
+      }, time: 0, activated: false},
+      {callback: function(){
+        if (levelVars[1][1] < 5) (levelVars[1][1] += 2)
+        levelVars[0].data += levelVars[0].number * levelVars[0].cpuhz * ((1 + (0.2 * levelVars[0].base)) ** Number(levelVars[0].extramodules.includes('minever2')))
+      }, time: 0, activated: false},
+      {callback: function(){
+        if (levelVars[1][2] < 5) (levelVars[1][2] += 2)
+        if (levelVars[0].number == levelVars[0].base ** levelVars[0].memorysize - 1 && levelVars[0].memorysize != 6) {
+          levelVars[0].number = 0
+          levelVars[0].memorysize++
+        }
+      }, time: 0, activated: false},
+      {callback: function(){
+        if (levelVars[1][3] < 5) (levelVars[1][3] += 2)
+        if (levelVars[0].number == levelVars[0].base ** levelVars[0].memorysize - 1 && levelVars[0].memorysize == 6) {
+          levelVars[0].number = 0
+          levelVars[0].memorysize = 1
+          levelVars[0].base++
+        }
+      }, time: 0, activated: false},
+      {callback: function(r){
+        function leadingZeros(n, digits) {
+          var zero = '';
+          if (n.length < digits) {
+            for (var i = 0; i < digits - n.length; i++)
+              zero += '0';
+          }
+          return zero + n;
+        }
+        returna = leadingZeros(r[0], r[1])
+      }, time: 0, activated: false},
+      {callback: function(){
+        if (levelVars[0].data > 100000 * (3 + (Math.log2(levelVars[0].cpuhz) / 9)) ** Math.log2(levelVars[0].cpuhz) && buydelay > 30) {
+          levelVars[0].data -= 100000 * (3 + (Math.log2(levelVars[0].cpuhz) / 9)) ** Math.log2(levelVars[0].cpuhz)
+          levelVars[0].cpuhz *= 2
+          buydelay = 0
+        }
+      }, time: 0, activated: false},
+    ]);
+
+    levelTasks = new Task([
+      {callback: function(){
+        levelFunctions.activate(0)
+        levelVars.push({"number": 0, "memorysize": 1, "base": 2, "data": 0, "extramodules": [], 'cpuhz': 1})
+        levelVars.push([0, 0, 0, 0])
+        try {levelVars[0] = JSON.parse(localStorage.calculator)} catch {levelVars[0] = {"number": 0, "memorysize": 1, "base": 2, "data": 0, "extramodules": [], 'cpuhz': 1}}
+        screenSettings.color = '#000'
+        incrementcount = 0
+        buydelay = 0
+        returna = "0"
+        SIunit = ['k', 'm', 'g', 't', 'p', 'e', 'z', 'y']
+        particles[`number`] = new Particle({'type': 'text', 'absSize': 0.025, 'text': 'number: 0 (2)', 'position': [-0.5, 0.9], 'color': '#faa', 'hsvRotateI': 0.03})
+        particles[`data`] = new Particle({'type': 'text', 'absSize': 0.02, 'text': 'data: 0 kb', 'position': [-0.5, 0.83], 'color': '#faa', 'hsvRotateI': 0.03})
+
+        particles[`text_programs`] = new Particle({'type': 'text', 'absSize': 0.02, 'text': 'programs', 'position': [-0.5, 0.7], 'color': '#6f6'})
+        particles[`module_increment_text`] = new Particle({'type': 'text', 'absSize': 0.015, 'text': '(1) increment.exe', 'position': [-0.5, 0.6], 'color': '#afa', 'zIndex': 3})
+        particles[`module_increment`] = new Particle({'atk': 0, 'breakOnAttack': 0, 'size': [0.25, 0.02], 'position': [-0.5, 0.6], 'color': '#800', 'alpha': 0.8, "onPlayerCollision": "levelFunctions.activate(1); console.log(2)"})
+        particles[`module_mine_text`] = new Particle({'type': 'text', 'absSize': 0.015, 'text': '(2) mine.exe', 'position': [-0.5, 0.5], 'color': '#afa', 'zIndex': 3})
+        particles[`module_mine`] = new Particle({'atk': 0, 'breakOnAttack': 0, 'size': [0.25, 0.02], 'position': [-0.5, 0.5], 'color': '#800', 'alpha': 0.8, "onPlayerCollision": "levelFunctions.activate(2)"})
+        particles[`module_memory_text`] = new Particle({'type': 'text', 'absSize': 0.015, 'text': '(3) memory.exe', 'position': [-0.5, 0.4], 'color': '#afa', 'zIndex': 3})
+        particles[`module_memory`] = new Particle({'atk': 0, 'breakOnAttack': 0, 'size': [0.25, 0.02], 'position': [-0.5, 0.4], 'color': '#800', 'alpha': 0.8, "onPlayerCollision": "levelFunctions.activate(3)"})
+        particles[`module_baseup_text`] = new Particle({'type': 'text', 'absSize': 0.015, 'text': '(4) base_increase.exe', 'position': [-0.5, 0.3], 'color': '#afa', 'zIndex': 3})
+        particles[`module_baseup`] = new Particle({'atk': 0, 'breakOnAttack': 0, 'size': [0.25, 0.02], 'position': [-0.5, 0.3], 'color': '#800', 'alpha': 0.8, "onPlayerCollision": "if (levelVars[0].extramodules.includes('baseup')) {levelFunctions.activate(4)}"})
+
+        particles[`text_shop`] = new Particle({'type': 'text', 'absSize': 0.02, 'text': 'shop', 'position': [0.3, 0.85], 'color': '#6f6'})
+        particles[`shop_cpu_text1`] = new Particle({'type':'text', 'absSize': 0.02, 'position': [0.3, 0.72], 'text': 'cpu 1hz', 'color': '#afa', 'zIndex': 3})
+        particles[`shop_cpu_text2`] = new Particle({'type':'text', 'absSize': 0.015, 'position': [0.3, 0.68], 'text': 'cost: 100 kb', 'color': '#afa', 'zIndex': 3})
+        particles[`shop_cpu`] = new Particle({'atk': 0, 'breakOnAttack': 0, 'size': [0.18, 0.07], 'position': [0.3, 0.7], 'color': '#0a0', 'alpha': 0.8, "onPlayerCollision": "if (keypress[32]) {levelFunctions.activate(6)}"})
+        particles[`shop_baseup_text1`] = new Particle({'type': 'text', 'absSize': 0.018, 'position': [0.7, 0.72], 'color': '#afa', 'text': 'base_increase', 'zIndex': 3})
+        particles[`shop_baseup_text2`] = new Particle({'type': 'text', 'absSize': 0.015, 'position': [0.7, 0.68], 'color': '#afa', 'text': 'cost: 30 kb', 'zIndex': 3})
+        particles[`shop_baseup`] = new Particle({'atk': 0, 'breakOnAttack': 0, 'size': [0.18, 0.07], 'position': [0.7, 0.7], 'color': '#0a0', 'alpha': 0.8, "onPlayerCollision": "if (levelVars[0].data > 30000) {levelVars[0].data -= 30000; levelVars[0].extramodules.push('baseup')}"})
+        particles[`shop_minever2_text1`] = new Particle({'type': 'text', 'absSize': 0.018, 'position': [0.7, 0.57], 'color': '#afa', 'text': 'mine 2.0', 'zIndex': 3})
+        particles[`shop_minever2_text2`] = new Particle({'type': 'text', 'absSize': 0.015, 'position': [0.7, 0.53], 'color': '#afa', 'text': 'cost: 100 gb', 'zIndex': 3})
+        particles[`shop_minever2`] = new Particle({'atk': 0, 'breakOnAttack': 0, 'size': [0.18, 0.07], 'position': [0.7, 0.55], 'color': '#0a0', 'alpha': 0.8, "onPlayerCollision": "if (levelVars[0].data > 1e11) {levelVars[0].data -= 1e11; levelVars[0].extramodules.push('minever2')}"})
+
+        particles[`text_research`] = new Particle({'type': 'text', 'absSize': 0.02, 'text': 'research', 'position': [0.3, -0.3], 'color': '#6f6'})
+        particles[`text_research`] = new Particle({'type': 'text', 'absSize': 0.02, 'text': 'research', 'position': [0.3, -0.3], 'color': '#6f6'})
+
+        particles[`save`] = new Particle({'atk': 0, 'breakOnAttack': 0, 'size': [0.15, 0.05], 'position': [-0.85, -0.95], 'color': '#3f3', 'alpha': 0.8, "onPlayerCollision": "localStorage.calculator = JSON.stringify(levelVars[0])"})
+        particles[`save_text`] = new Particle({'type': 'text', 'text': 'save', 'absSize': 0.02, 'position': [-0.85, -0.95], 'color': '#afa', 'alpha': 0.8, 'zIndex': 3})
+
+      }, time: 0, activated: false},
+    ]);
+
+    levelLoop = setInterval( function () {
+
+
+    }, tickSpeed*100);
+
+    particles['player'] = new Particle({'type': 'player', 'color': '#fff', 'effects': ['glow'], 'zIndex': 4});
+    levelTasks.activateAll();
+  }
 
 function levelPlayer() {
   levelInit();

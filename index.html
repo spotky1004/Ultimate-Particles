@@ -25,6 +25,9 @@
     <div id="info" style="position: absolute; font-size: 3vh; color: #5af542; font-weight: bolder; right: 1.5vw; bottom: -2vh; z-index: 2; text-shadow: 0.5vh 0.3vw 0 rgba(50, 50, 50, 0.4); opacity: 0;">
       info
     </div>
+    <div id="worldChange" class="disabled" onclick="if(getScore() >= 1500 && screenState == 'main') {goExtra();} else if (getScore() >= 1500) {goMain();}">
+      1500 score
+    </div>
     <div id="canvasBorder" style=" z-index: 1;">
       <canvas id="canvas" width="300" height="300"></canvas>
     </div>

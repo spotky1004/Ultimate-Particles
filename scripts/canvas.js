@@ -17,7 +17,7 @@ var levelSelected = -1;
 var score = 0;
 
 //updateScreen
-var levelSelectedName, maxLeng, levelSelectedFunc;
+var levelSelectedName, maxLeng, levelSelectedFunc, extraIdxPoint = 0;
 function updateScreen() {
   var screenMaxLeng = Math.min(innerWidth, innerHeight);
   maxLeng = screenMaxLeng*0.96;
@@ -192,6 +192,117 @@ function updateScreen() {
         } else {
           c.fillText(txtToWrite, maxLeng*(i+.5)/ic-c.measureText((txtToWrite).toString()).width/2-levelScreenOffset[0], maxLeng*(j+.5)/jc-levelScreenOffset[1]);
         }
+      }
+    }
+      break;
+    case 'extra':
+    extraIdxPoint = Math.min(extraLevels.length-1, Math.max(0, extraIdxPoint-(Math.max(0.15, Math.abs(particles.player.position[1]))-0.15)/tps*Math.sign(particles.player.position[1])*4));
+    var idxSel = Math.round(extraIdxPoint);
+    if (keypress['13'] && !playing) {
+      levelSelectedFunc = extraLevels[idxSel].funcName;
+      screenState = 'game';
+      playing = 1;
+      new Function(`${levelSelectedFunc}()`)();
+    }
+    for (var i = 0; i < 7; i++) {
+      var thisIdx = Math.floor(extraIdxPoint+i-3);
+      var isVaild = (thisIdx >= 0 && thisIdx < extraLevels.length);
+      if (thisIdx >= 0 && thisIdx < extraLevels.length) {
+        var colSet = hexToNum(hsvToRgb((thisIdx/14)%1, 0.56, 0.91));
+        var colSet2 = [255, 255, 255];
+        if (idxSel == thisIdx) {
+          var temp = colSet;
+          colSet = [...colSet2];
+          colSet2 = [...temp];
+        }
+      } else {
+        var colSet = [44, 44, 44];
+        var colSet2 = [44, 44, 44];
+      }
+
+      var topOffset = (extraIdxPoint%1)*maxLeng/5;
+
+      // level rect
+      resetCanvasSettings();
+      c.beginPath();
+      c.rect(0, maxLeng/5*(i-1)-topOffset, maxLeng, maxLeng/2.5);
+      c.fillStyle = `#${colSet[0].toString(16).padStart(2, '0')}${colSet[1].toString(16).padStart(2, '0')}${colSet[2].toString(16).padStart(2, '0')}`;
+      if (blockOn) {
+        c.fillStyle = numToRgb(colSet);
+      }
+      c.fill();
+
+      // "nr" text
+      resetCanvasSettings();
+      c.beginPath();
+      c.font = `bold ${maxLeng*0.03}px Major Mono Display`;
+      c.textBaseline = 'middle';
+      c.fillStyle = numToRgb(colSet2);
+      var txtToWrite = `nr`;
+      c.fillText(txtToWrite, maxLeng*0.05-c.measureText((txtToWrite).toString()).width/2, maxLeng*(0.2*i-0.15)-topOffset);
+
+      // level idx text
+      resetCanvasSettings();
+      c.beginPath();
+      c.font = `bold ${maxLeng*0.1}px Major Mono Display`;
+      c.textBaseline = 'middle';
+      c.fillStyle = numToRgb(colSet2);
+      var txtToWrite = `${thisIdx+1}`;
+      c.fillText(txtToWrite, maxLeng*0.02, maxLeng*(0.2*i-0.1)-topOffset);
+
+      // level name text
+      if (isVaild) {
+        resetCanvasSettings();
+        c.beginPath();
+        c.font = `bold ${maxLeng*0.055}px Major Mono Display`;
+        c.textBaseline = 'middle';
+        c.fillStyle = numToRgb(colSet2);
+        var txtToWrite = `${extraLevels[thisIdx].levelName}`;
+        c.fillText(txtToWrite, maxLeng*0.55-c.measureText((txtToWrite).toString()).width/2, maxLeng*(0.2*i-0.15)-topOffset);
+      }
+
+      // level func name text
+      if (isVaild) {
+        resetCanvasSettings();
+        c.beginPath();
+        c.font = `bold ${maxLeng*0.022}px Major Mono Display`;
+        c.textBaseline = 'middle';
+        c.fillStyle = numToRgb(colSet2);
+        var txtToWrite = `(${extraLevels[thisIdx].funcName})`;
+        c.fillText(txtToWrite, maxLeng*0.55-c.measureText((txtToWrite).toString()).width/2, maxLeng*(0.2*i-0.11)-topOffset);
+      }
+
+      // level difficulty text
+      if (isVaild) {
+        resetCanvasSettings();
+        c.beginPath();
+        c.font = `bold ${maxLeng*0.05}px Major Mono Display`;
+        c.textBaseline = 'middle';
+        c.fillStyle = numToRgb(colSet2);
+        var txtToWrite = `${extraLevels[thisIdx].diff}`;
+        c.fillText(txtToWrite, maxLeng*0.25-c.measureText((txtToWrite).toString()).width/2, maxLeng*(0.2*i-0.05)-topOffset);
+      }
+
+      // "difficulty" text
+      if (isVaild) {
+        resetCanvasSettings();
+        c.beginPath();
+        c.font = `bold ${maxLeng*0.014}px Major Mono Display`;
+        c.textBaseline = 'middle';
+        c.fillStyle = numToRgb(colSet2);
+        var txtToWrite = 'difficulty';
+        c.fillText(txtToWrite, maxLeng*0.22, maxLeng*(0.2*i-0.08)-topOffset);
+      }
+
+      // level creator text
+      if (isVaild) {
+        resetCanvasSettings();
+        c.beginPath();
+        c.font = `bold ${maxLeng*0.05}px Major Mono Display`;
+        c.textBaseline = 'middle';
+        c.fillStyle = numToRgb(colSet2);
+        var txtToWrite = `by ${extraLevels[thisIdx].creator}`;
+        c.fillText(txtToWrite, maxLeng*0.98-c.measureText((txtToWrite).toString()).width, maxLeng*(0.2*i-0.03)-topOffset);
       }
     }
       break;

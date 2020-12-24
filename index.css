@@ -12,3 +12,24 @@
   padding: calc(0.02 * var(--thisLen));
   box-shadow: 0 0 calc(0.03* var(--thisLen)) #666; background-color: #666;
 }
+
+#worldChange {
+  width: 15vw; height: 4.5vh;
+  padding-top: 1.5vh;
+  position: absolute;
+  right: 1.5vw; top: 2vh;
+  color: #428df5; text-shadow: 0.1vw 0.2vh 0.3vh #222; font-size: 3vh; text-align: center; font-weight: bold;
+  background-color: #ebc96c; box-shadow: 0.1vw 0.2vh 0 #222;
+  overflow: visible; cursor: pointer;
+  transition: filter 0.2s;
+}
+#worldChange.disabled {
+  opacity: 0.3;
+  cursor: auto;
+}
+#worldChange:not(.disabled):hover {
+  filter: brightness(0.8);
+}
+#worldChange:not(.disabled):active {
+  filter: brightness(0.7);
+}

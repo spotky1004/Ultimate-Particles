@@ -11,7 +11,8 @@ var gameScripts = [
 ];
 var levelScripts = [
   'scripts/levels/testLevels.js',
-  'scripts/levels/levels.js'
+  'scripts/levels/levels.js',
+  'scripts/levels/extraLevels.js'
 ];
 
 //script loader (https://stackoverflow.com/questions/14521108/dynamically-load-js-inside-js)

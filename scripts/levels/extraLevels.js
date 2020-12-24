@@ -1,0 +1,16 @@
+var extraLevels = [
+  {'diff': -1, 'creator': 'Spotky1004', 'funcName': 'levelTest', 'levelName': 'test map'},
+  {'diff': -1, 'creator': 'Spotky1004', 'funcName': 'levelTest2', 'levelName': 'bumping square'},
+  {'diff': -1, 'creator': 'Spotky1004', 'funcName': 'levelTest3', 'levelName': 'tracing square'},
+  {'diff': -1, 'creator': 'Spotky1004', 'funcName': 'levelTest4', 'levelName': 'blinking square'},
+  {'diff': -1, 'creator': 'Spotky1004', 'funcName': 'levelCalc', 'levelName': 'math!'},
+  {'diff': -1, 'creator': 'Spotky1004', 'funcName': 'levelIncremental', 'levelName': 'increment'},
+  {'diff': -1, 'creator': 'PillowPrism', 'funcName': 'levelPillowTest', 'levelName': 'bottom aviod'},
+  {'diff': -1, 'creator': 'PillowPrism', 'funcName': 'PillowLevelTest7', 'levelName': 'Fixed Position!'},
+  {'diff': -1, 'creator': 'RedMountain', 'funcName': 'redMountain2', 'levelName': 'wave!'},
+  {'diff': -1, 'creator': 'RedMountain', 'funcName': 'redMountain4', 'levelName': 'calc. evolution'},
+  {'diff': -1, 'creator': 'Spotky1004', 'funcName': 'levelIcon', 'levelName': 'favicon'},
+  {'diff': -1, 'creator': 'Spotky1004', 'funcName': 'onDeleteEventTest', 'levelName': 'test boom'},
+  {'diff': -1, 'creator': 'Spotky1004', 'funcName': 'lagTest', 'levelName': '2000 particles'},
+  {'diff': -1, 'creator': 'Spotky1004', 'funcName': 'sidesTest', 'levelName': 'polygons'},
+];

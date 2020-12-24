@@ -1720,5 +1720,5 @@ function levelIncremental() {
 
 var playDebug = 0;
 if (playDebug) {
-  function level_11() {levelIncremental()};
+  function level_11() {redMountain4()};
 }
