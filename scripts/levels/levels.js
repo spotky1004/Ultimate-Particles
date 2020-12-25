@@ -1746,7 +1746,7 @@ function pointTest2() {
 
 }
 
-var playDebug = 1;
+var playDebug = 0;
 if (playDebug) {
   function level_11() {pointTest2()};
 }
