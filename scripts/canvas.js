@@ -351,8 +351,8 @@ function updateScreen() {
           ];
           if (s == -2) {
             var posOffset = [
-              (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5),
-              ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5)
+              (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + particles[name].position[0]/2*screenSettings.scale),
+              ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - particles[name].position[1]/2*screenSettings.scale)
             ];
             var center = getCenter(particles[name].points);
             for (var i = 0, l = particles[name].points.length; i < l; i++) {

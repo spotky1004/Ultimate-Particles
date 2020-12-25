@@ -315,11 +315,18 @@ class Particle {
         tempPosition[1] -= Math.cos(Math.PI * 2 / this.sides * i + Math.rad(d + 270)) * (this.getHitboxSize()[1]) * sScale * 2;
       }
     } else {
-      var center = getCenter(this.points);
-      for (var i = 0; i < this.points.length; i++) {
-        var dist = Math.sqrt((this.points[i].x-center[0])**2+(this.points[i].y-center[1])**2);
-        var centerDeg = (Math.atan2(this.points[i].y-center[1], this.points[i].x-center[0])*180/Math.PI-(this.rotateDeg%360)+450)%360;
-        points.push({'x': Math.sin(Math.rad(centerDeg))*dist+center[0], 'y': -Math.cos(Math.rad(centerDeg))*dist+center[1]});
+      var tempPoints = JSON.parse(JSON.stringify(this.points));
+      if (!(this.position.every(ele => ele == 0))) {
+        for (var i = 0, l = tempPoints.length; i < l; i++) {
+          tempPoints[i].x += this.position[0];
+          tempPoints[i].y += this.position[1];
+        }
+      }
+      var center = getCenter(tempPoints);
+      for (var i = 0; i < tempPoints.length; i++) {
+        var dist = Math.sqrt((tempPoints[i].x-center[0])**2+(tempPoints[i].y-center[1])**2);
+        var centerDeg = (Math.atan2(tempPoints[i].y-center[1], tempPoints[i].x-center[0])*180/Math.PI-(this.rotateDeg%360)+450)%360;
+        points.push({'x': -Math.sin(Math.rad(centerDeg))*dist+center[0], 'y': -Math.cos(Math.rad(centerDeg))*dist+center[1]});
       }
     }
     return points;

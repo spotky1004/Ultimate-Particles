@@ -1377,24 +1377,8 @@ function level_57() {
 
   levelFunctions = new Task([
     {callback: function(){
-      levelVars[0]++;
-      for (var i = 0; i < 2; i++) {
-        for (var j = 0; j < 30; j++) {
-          if (j == 15 || j%3 != 0) continue;
-          particles[`W${i}S${j}S${levelVars[0]}`] = new Particle({'speed': 12, 'deg': 360-particles[`W${i}S${j}`].rotateDeg, 'position': [particles[`W${i}S${j}`].position[0], particles[`W${i}S${j}`].position[1]], 'color': ( j > 15 ? ( i == 0 ? '#eb543d' : '#80eb3d') : ( i == 0 ? '#3d94eb' : '#cb3deb') )});
-        }
-      }
-      levelFunctions.activate(0);
-    }, time: tickSpeed*40, activated: false},
-    {callback: function(){
-      /*for (var i = 0; i < 2; i++) {
-        for (var j = 0; j < 30; j++) {
-          particles[`W${i}S${j}`].rotateDeg += 45;
-          particles[`W${i}S${j}`].position = rotatePoint(particles[`W${i}S${j}`].position, [0, 0], 45);
-        }
-      }
-      levelFunctions.activate(1);*/
-    }, time: tickSpeed*80, activated: false},
+      //some functions here!
+    }, time: 0, activated: false},
   ]);
 
   levelTasks = new Task([
@@ -1404,26 +1388,57 @@ function level_57() {
   ]);
 
   levelLoop = setInterval( function () {
-    //levelLoopCount++;
-    //some functions here!
+    levelLoopCount++;
+    if (levelLoopCount == 27) {
+      particles[`WindmillS1B0`].alpha = 0.3;
+      particles[`WindmillS1B1`].alpha = 0.3;
+      particles[`WindmillS2B0`].alpha = 0.3;
+      particles[`WindmillS2B1`].alpha = 0.3;
+    }
+    if (levelLoopCount == 30) {
+      for (var i = 1; i < 3; i++) {
+        for (var j = 0; j < 2; j++) {
+          particles[`WindmillS${i}B${j}`].alpha = 1;
+          particles[`WindmillS${i}B${j}`].type = 'enemy';
+          particles[`WindmillS${i}B${j}`].color = '#fff';
+        }
+      }
+    }
+    if (levelLoopCount == 57) {
+      particles[`WindmillB2`].alpha = 0.3;
+      particles[`WindmillB3`].alpha = 0.3;
+    }
+    if (levelLoopCount == 60) {
+      for (var i = 2; i < 4; i++) {
+        particles[`WindmillB${i}`].alpha = 1;
+        particles[`WindmillB${i}`].type = 'enemy';
+        particles[`WindmillB${i}`].color = '#fff';
+      }
+    }
   }, tickSpeed*100);
 
-  screenSettings.color = '#28bdd1';
-
-  levelVars.push(0);
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [1, 1], 'hp': 1e10});
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [1, 1], 'hp': 100});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.1, 'text': 'windmill!', 'color': '#fff', 'zIndex': 0});
 
-  for (var i = 0; i < 30; i++) {
-    particles[`W0S${i}`] = new Particle({'size':[0.05, 0.05], 'position': [1.5-0.1*i, 0], 'rotateDegI': 20, 'rotateDegC': [0, 1e300], 'rotateDeg': ( i > 15 ? 0 : 180), 'moveType': ['circle', [0, 0]], 'speed': 0.3, 'breakOnAttack': 0, 'color': ( i > 15 ? '#eb543d' : ( i == 15 ? '#000' : '#3d94eb')), 'zIndex': 3});
-  }
-  for (var i = 0; i < 30; i++) {
-    particles[`W1S${i}`] = new Particle({'size':[0.05, 0.05], 'position': [0, 1.5-0.1*i], 'rotateDegI': 20, 'rotateDegC': [0, 1e300], 'rotateDeg': ( i > 15 ? 270 : 90), 'moveType': ['circle', [0, 0]], 'speed': 0.3, 'breakOnAttack': 0, 'color': ( i > 15 ? '#80eb3d' : ( i == 15 ? '#000' : '#cb3deb')), 'zIndex': 3});
-  }
+  particles[`WindmillC`] = new Particle({'color': '#fff', 'size': [0.14, 0.14], 'breakOnAttack': 0});
 
+  particles[`WindmillB0`] = new Particle({'sides': -2, 'moveType': ['circle', [0, 0]], 'speed': 0.2, 'color': '#fff', 'breakOnAttack': 0, 'points': [{x:-0.04, y:Math.sqrt(2)}, {x:0.04, y:Math.sqrt(2)}, {x:0.04, y:-Math.sqrt(2)},{x:-0.04, y:-Math.sqrt(2)}], 'rotateDegI': 20, 'rotateDegC': [-1e308, 1e308]});
+  particles[`WindmillB1`] = new Particle({'sides': -2, 'moveType': ['circle', [0, 0]], 'speed': 0.2, 'color': '#fff', 'breakOnAttack': 0, 'points': [{y:-0.04, x:Math.sqrt(2)}, {y:0.04, x:Math.sqrt(2)}, {y:0.04, x:-Math.sqrt(2)},{y:-0.04, x:-Math.sqrt(2)}], 'rotateDegI': 20, 'rotateDegC': [-1e308, 1e308]});
+  particles[`WindmillB2`] = new Particle({'type': 'decoration', 'alpha': 0, 'sides': -2, 'rotateDeg': 45, 'moveType': ['circle', [0, 0]], 'speed': 0.2, 'color': '#f00', 'breakOnAttack': 0, 'points': [{x:-0.04, y:Math.sqrt(2)}, {x:0.04, y:Math.sqrt(2)}, {x:0.04, y:-Math.sqrt(2)},{x:-0.04, y:-Math.sqrt(2)}], 'rotateDegI': 20, 'rotateDegC': [-1e308, 1e308]});
+  particles[`WindmillB3`] = new Particle({'type': 'decoration', 'alpha': 0, 'sides': -2, 'rotateDeg': 45, 'moveType': ['circle', [0, 0]], 'speed': 0.2, 'color': '#f00', 'breakOnAttack': 0, 'points': [{y:-0.04, x:Math.sqrt(2)}, {y:0.04, x:Math.sqrt(2)}, {y:0.04, x:-Math.sqrt(2)},{y:-0.04, x:-Math.sqrt(2)}], 'rotateDegI': 20, 'rotateDegC': [-1e308, 1e308]});
+
+
+  particles[`WindmillS0B0`] = new Particle({'sides': -2, 'color': '#fff', 'breakOnAttack': 0, 'moveType': ['circle', [0, 0]], 'speed': 0.4, 'position': [0.5, 0.5], 'points': [{x:-0.05, y:0.5}, {x:0.05, y:0.5}, {x:0.05, y:-0.5},{x:-0.05, y:-0.5}], 'rotateDegI': -80, 'rotateDegC': [-1e308, 1e308]});
+  particles[`WindmillS0B1`] = new Particle({'sides': -2, 'color': '#fff', 'breakOnAttack': 0, 'moveType': ['circle', [0, 0]], 'speed': 0.4, 'position': [0.5, 0.5], 'points': [{y:-0.05, x:0.5}, {y:0.05, x:0.5}, {y:0.05, x:-0.5},{y:-0.05, x:-0.5}], 'rotateDegI': -80, 'rotateDegC': [-1e308, 1e308]});
+  particles[`WindmillS1B0`] = new Particle({'type': 'decoration', 'alpha': 0, 'sides': -2, 'color': '#f00', 'breakOnAttack': 0, 'moveType': ['circle', [0, 0]], 'speed': 0.4, 'position': [-0.5, 0.5], 'points': [{x:-0.05, y:0.5}, {x:0.05, y:0.5}, {x:0.05, y:-0.5},{x:-0.05, y:-0.5}], 'rotateDegI': 80, 'rotateDegC': [-1e308, 1e308]});
+  particles[`WindmillS1B1`] = new Particle({'type': 'decoration', 'alpha': 0, 'sides': -2, 'color': '#f00', 'breakOnAttack': 0, 'moveType': ['circle', [0, 0]], 'speed': 0.4, 'position': [-0.5, 0.5], 'points': [{y:-0.05, x:0.5}, {y:0.05, x:0.5}, {y:0.05, x:-0.5},{y:-0.05, x:-0.5}], 'rotateDegI': 80, 'rotateDegC': [-1e308, 1e308]});
+  particles[`WindmillS2B0`] = new Particle({'type': 'decoration', 'alpha': 0, 'sides': -2, 'color': '#f00', 'breakOnAttack': 0, 'moveType': ['circle', [0, 0]], 'speed': 0.4, 'position': [0.5, -0.5], 'points': [{x:-0.05, y:0.5}, {x:0.05, y:0.5}, {x:0.05, y:-0.5},{x:-0.05, y:-0.5}], 'rotateDegI': -80, 'rotateDegC': [-1e308, 1e308]});
+  particles[`WindmillS2B1`] = new Particle({'type': 'decoration', 'alpha': 0, 'sides': -2, 'color': '#f00', 'breakOnAttack': 0, 'moveType': ['circle', [0, 0]], 'speed': 0.4, 'position': [0.5, -0.5], 'points': [{y:-0.05, x:0.5}, {y:0.05, x:0.5}, {y:0.05, x:-0.5},{y:-0.05, x:-0.5}], 'rotateDegI': -80, 'rotateDegC': [-1e308, 1e308]});
+  particles[`WindmillS3B0`] = new Particle({'sides': -2, 'color': '#fff', 'breakOnAttack': 0, 'moveType': ['circle', [0, 0]], 'speed': 0.4, 'position': [-0.5, -0.5], 'points': [{x:-0.05, y:0.5}, {x:0.05, y:0.5}, {x:0.05, y:-0.5},{x:-0.05, y:-0.5}], 'rotateDegI': 80, 'rotateDegC': [-1e308, 1e308]});
+  particles[`WindmillS3B1`] = new Particle({'sides': -2, 'color': '#fff', 'breakOnAttack': 0, 'moveType': ['circle', [0, 0]], 'speed': 0.4, 'position': [-0.5, -0.5], 'points': [{y:-0.05, x:0.5}, {y:0.05, x:0.5}, {y:0.05, x:-0.5},{y:-0.05, x:-0.5}], 'rotateDegI': 80, 'rotateDegC': [-1e308, 1e308]});
+
+  screenSettings.color = "#28bdd1";
   levelTasks.activateAll();
-  levelFunctions.activate(0);
-  levelFunctions.activate(1);
 }
 
 function levelTemplate() {
@@ -1717,8 +1732,21 @@ function levelIncremental() {
   screenSettings.color = '#000';
   levelTasks.activateAll();
 }
+function pointTest2() {
+  levelInit();
 
-var playDebug = 0;
+  particles['hehe'] = new Particle({
+    'sides': -2,
+    'points': [{x:-0.1, y:1}, {x:0.1, y:1}, {x:0.1, y:-1},{x:-0.1, y:-1}],
+    'color': '#666',
+    'breakOnAttack': 0
+  });
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [1, 1], 'hp': 1e10});
+
+}
+
+var playDebug = 1;
 if (playDebug) {
-  function level_11() {redMountain4()};
+  function level_11() {pointTest2()};
 }
