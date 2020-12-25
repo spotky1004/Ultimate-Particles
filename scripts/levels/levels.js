@@ -1140,6 +1140,8 @@ function level_52() {
 }
 //level 5-3, made by Spotky1004
 function level_53() {
+  sendInfo('use portal!');
+
   levelInit();
 
   levelFunctions = new Task([
@@ -1197,6 +1199,8 @@ function level_53() {
 }
 //level 5-4, made by Spotky1004
 function level_54() {
+  sendInfo('you can destory particles when you become grey!');
+
   levelInit();
 
   levelFunctions = new Task([
@@ -1373,6 +1377,8 @@ function level_56() {
 }
 //level 5-7, made by Spotky1004
 function level_57() {
+  sendInfo('find the path! don\'t give up!');
+
   levelInit();
 
   levelFunctions = new Task([
