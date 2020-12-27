@@ -79,7 +79,7 @@ function keyDown(e) {
     // esc
     case 27:
     if (innerPlaying) {
-      playerDead();
+      playerDead(1);
     }
       break;
     // R
@@ -459,6 +459,17 @@ var levelSettings, levelLoopCount;
 var levelLoop = 0;
 var levelFunctions, levelTasks, levelLoop, levelLoopCount, levelVars;
 function levelInit() {
+  try {
+    levelTasks.cancelAll();
+  } catch (e) {
+
+  }
+  try {
+    levelFunctions.cancelAll();
+  } catch (e) {
+
+  }
+  clearInterval(levelLoop);
   levelSettings = {};
   for (var i in levelSettingsCopy) {
     levelSettings[i] = levelSettingsCopy[i];
@@ -481,6 +492,7 @@ function levelInit() {
 
 //screen change
 function goMain() {
+  levelInit();
   screenState = 'main';
   playing = 0;
   screenSettings.size = 0;
@@ -489,6 +501,7 @@ function goMain() {
   innerPlaying = 0;
 }
 function goExtra() {
+  levelInit();
   screenState = 'extra';
   screenSettings.p = [0, 0];
   screenSettings.size = 1;
@@ -496,29 +509,23 @@ function goExtra() {
   extraIdxPoint = 0;
   innerPlaying = 0;
 }
-function playerDead() {
-  try {
-    levelTasks.cancelAll();
-  } catch (e) {
-
-  }
-  try {
-    levelFunctions.cancelAll();
-  } catch (e) {
-
-  }
-  clearInterval(levelLoop);
-  try {
-    if (saveData.levelData[`level${levelSelected}`] !== undefined) {
-      if (particles.player.hp !== undefined && (levelSelected == 21)) {
-        saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, particles.player.hp);
-      } else {
-        saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, levelLoopCount);
+function playerDead(skipSave=0) {
+  var bossLevels = [21];
+  if (!skipSave || !bossLevels.includes(levelSelected)) {
+    try {
+      if (saveData.levelData[`level${levelSelected}`] !== undefined) {
+        if (particles.player.hp !== undefined && bossLevels.includes(levelSelected)) {
+          saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, particles.player.hp);
+        } else {
+          console.log(levelLoopCount);
+          saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, levelLoopCount);
+        }
       }
-    }
-  } catch (e) {
+    } catch (e) {
 
+    }
   }
+  levelInit();
   particles = {};
   innerPlaying = 0;
   goMain();

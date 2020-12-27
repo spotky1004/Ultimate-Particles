@@ -20,7 +20,7 @@
   right: 1.5vw; top: 2vh;
   color: #428df5; text-shadow: 0.1vw 0.2vh 0.3vh #222; font-size: 3vh; text-align: center; font-weight: bold;
   background-color: #ebc96c; box-shadow: 0.1vw 0.2vh 0 #222;
-  overflow: visible; cursor: pointer;
+  overflow: visible; cursor: pointer; z-index: 2;
   transition: filter 0.2s;
 }
 #worldChange.disabled {

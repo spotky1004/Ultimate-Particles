@@ -54,6 +54,7 @@ class Particle {
     this.onDelete = attrs.onDelete || ""; // on delete by 'outOfBounds' or 'deleteTick' etc..
 
     // Increments
+    this.disableC = attrs.disableC || 0;
     for (var i = 0, l = propertyI.length; i < l; i++) {
       if (typeof this[propertyI[i]] == 'number') {
         this[`${propertyI[i]}I`] = attrs[`${propertyI[i]}I`] || 0;
@@ -79,6 +80,7 @@ class Particle {
     }
   }
 
+  // in-game
   update(name) {
     // moveType
     switch (this.moveType[0]) {
@@ -118,8 +120,8 @@ class Particle {
 
     // move
     if (this.moveType[0] != 'circle') {
-      this.position[0] = Math.min(this.positionC[0][1], Math.max(this.positionC[0][0], this.position[0]+(this.speed*Math.sin(Math.rad(this.deg))+this.linearSpeed[0])/1000*levelSettings.particleSpeed));
-      this.position[1] = Math.min(this.positionC[1][1], Math.max(this.positionC[1][0], this.position[1]-(this.speed*Math.cos(Math.rad(this.deg))-this.linearSpeed[1])/1000*levelSettings.particleSpeed));
+      this.position[0] = Math.min(this.positionC[0][1]+this.disableC*1e308, Math.max(this.positionC[0][0]-this.disableC*1e308, this.position[0]+(this.speed*Math.sin(Math.rad(this.deg))+this.linearSpeed[0])/1000*levelSettings.particleSpeed));
+      this.position[1] = Math.min(this.positionC[1][1]+this.disableC*1e308, Math.max(this.positionC[1][0]-this.disableC*1e308, this.position[1]-(this.speed*Math.cos(Math.rad(this.deg))-this.linearSpeed[1])/1000*levelSettings.particleSpeed));
     }
 
     // special
@@ -146,14 +148,14 @@ class Particle {
     // increment properties
     var speedI = 1/tps;
     for (var i = 0, l = propertyI.length; i < l; i++) {
-      if ((this[`${propertyI[i]}I`] == 0 || this[`${propertyI[i]}I`] == [0, 0]) && this[`${propertyI[i]}IType`] == 'increment') continue;
+      if ((this[`${propertyI[i]}I`] == 0 || (typeof this[`${propertyI[i]}I`] == 'object' && this[`${propertyI[i]}I`].every(ele => ele == 0))) && this[`${propertyI[i]}IType`] == 'increment') continue;
       if (typeof this[`${propertyI[i]}`] == 'number') {
         switch (this[`${propertyI[i]}IType`]) {
           case 'increment':
-          this[`${propertyI[i]}`] = Math.min(this[`${propertyI[i]}C`][1], Math.max(this[`${propertyI[i]}C`][0], incrementCalc(this[`${propertyI[i]}`], this[`${propertyI[i]}I`], speedI)));
+          this[`${propertyI[i]}`] = Math.min(this[`${propertyI[i]}C`][1]+this.disableC*1e308, Math.max(this[`${propertyI[i]}C`][0]-this.disableC*1e308, incrementCalc(this[`${propertyI[i]}`], this[`${propertyI[i]}I`], speedI)));
             break;
           case 'multiply':
-          this[`${propertyI[i]}`] = Math.min(this[`${propertyI[i]}C`][1], Math.max(this[`${propertyI[i]}C`][0], multiplyCalc(this[`${propertyI[i]}`], this[`${propertyI[i]}I`], speedI)));
+          this[`${propertyI[i]}`] = Math.min(this[`${propertyI[i]}C`][1]+this.disableC*1e308, Math.max(this[`${propertyI[i]}C`][0]-this.disableC*1e308, multiplyCalc(this[`${propertyI[i]}`], this[`${propertyI[i]}I`], speedI)));
             break;
           case 'span':
           this[`${propertyI[i]}`] = spanCalc(this[`${propertyI[i]}`], this[`${propertyI[i]}I`], this.spanPer);
@@ -169,10 +171,10 @@ class Particle {
         for (var j = 0, l2 = this[`${propertyI[i]}`].length; j < l2; j++) {
           switch (this[`${propertyI[i]}IType`]) {
             case 'increment':
-            this[`${propertyI[i]}`][j] = Math.min(this[`${propertyI[i]}C`][j][1], Math.max(this[`${propertyI[i]}C`][j][0], incrementCalc(this[`${propertyI[i]}`][j], this[`${propertyI[i]}I`][j], speedI)));
+            this[`${propertyI[i]}`][j] = Math.min(this[`${propertyI[i]}C`][j][1]+this.disableC*1e308, Math.max(this[`${propertyI[i]}C`][j][0]-this.disableC*1e308, incrementCalc(this[`${propertyI[i]}`][j], this[`${propertyI[i]}I`][j], speedI)));
               break;
             case 'multiply':
-            this[`${propertyI[i]}`][j] = Math.min(this[`${propertyI[i]}C`][j][1], Math.max(this[`${propertyI[i]}C`][j][0], multiplyCalc(this[`${propertyI[i]}`][j], this[`${propertyI[i]}I`][j], speedI)));
+            this[`${propertyI[i]}`][j] = Math.min(this[`${propertyI[i]}C`][j][1]+this.disableC*1e308, Math.max(this[`${propertyI[i]}C`][j][0]-this.disableC*1e308, multiplyCalc(this[`${propertyI[i]}`][j], this[`${propertyI[i]}I`][j], speedI)));
               break;
             case 'span':
             this[`${propertyI[i]}`][j] = spanCalc(this[`${propertyI[i]}`][j], this[`${propertyI[i]}I`][j], this.spanPer);
@@ -196,9 +198,14 @@ class Particle {
     }
     return 1;
   }
-
   collisionWith(particle) {
-    if ((this.sides == 4 && particle.sides == 4 && particle.rotateDeg == 0 && this.rotateDeg == 0) || this.sides == -1 || particle.sides == -1) {
+    if ((this.sides == -1 && particle.sides != -1) || (this.sides != -1 && particle.sides == -1)) {
+      var point = (this.sides > particle.sides ? this : particle).getPoints();
+      var circle = (this.sides < particle.sides ? this : particle);
+      for (var i = 0, l = point.length; i < l; i++) {
+        if (Math.abs(Math.sqrt((point[i].x-circle.position[0])**2+(point[i].y-circle.position[1])**2)) < circle.size[0]*circle.absSize) return 1;
+      }
+    } else if (this.sides == 4 && particle.sides == 4 && particle.rotateDeg == 0 && this.rotateDeg == 0) {
       if (
         Math.abs(this.position[0]-particle.position[0]) < Math.abs(this.getHitboxSize()[0]+particle.getHitboxSize()[0]) &&
         Math.abs(this.position[1]-particle.position[1]) < Math.abs(this.getHitboxSize()[1]+particle.getHitboxSize()[1])
@@ -212,6 +219,8 @@ class Particle {
     }
     return 0;
   }
+
+  // change properties easily
   tickTraceTo(particle) {
     var toTrace = particle;
     if (toTrace !== undefined) {
@@ -220,7 +229,6 @@ class Particle {
 
     return this;
   }
-
   randMove(type='') {
     type = type.replace(/R/g, Math.floor(Math.random()*4).toString()); //change 'R' to '0' ~ '3', so that change sides random easily!
     switch (type) {
@@ -261,7 +269,13 @@ class Particle {
     }
     return this;
   }
+  fade(deleteTick=100, alpha=0.3) {
+    this.deleteTick = deleteTick;
+    this.alphaI = (this.alpha-alpha)/(deleteTick+1)*-1000/tickSpeed;
+    return this;
+  }
 
+  // change a property
   moveTo(position=[0,0]) {
     this.position = position;
     return this;
@@ -283,27 +297,23 @@ class Particle {
     return this;
   }
 
-  fade(deleteTick=100, alpha=0.3) {
-    this.deleteTick = deleteTick;
-    this.alphaI = (this.alpha-alpha)/(deleteTick+1)*-1000/tickSpeed;
-    return this;
-  }
-
+  // get info
   getTotAbsSize() {
     return [this.absSize*this.size[0], this.absSize*this.size[1]];
   }
   getHitboxSize(){
     return [this.getTotAbsSize()[0]*this.hitboxSize, this.getTotAbsSize()[1]*this.hitboxSize];
   }
-
   getPoints() {
     var points = [];
-    if (this.sides != -2) {
+    if (this.sides == -1) {
+      points = new Particle({'sides': 50, 'size': [this.size[0], this.size[0]]}).getPoints();
+    } else if (this.sides != -2) {
       var p = this.position;
       var s = this.sides;
       var d = -this.rotateDeg;
       var d1 = (-d + 180 / s) % 360;
-      var sScale = 1/(this.sides/2*Math.cos(Math.rad((180-(180/this.sides*(this.sides-2)))/2)))/0.7071067811865475;
+      var sScale = 1/(this.sides/2*Math.cos(Math.rad((180-(180/this.sides*(this.sides-2)))/2)))/0.7071067811865475*(this.sides==3?0.7071067811865475:1);
       var centerL = Math.csc(Math.rad(180 / s)) * this.absSize*sScale*this.hitboxSize*-1;
       var tempPosition = [
         p[0] - Math.sin(Math.rad(d1)) * centerL * this.size[0],
@@ -325,8 +335,8 @@ class Particle {
       var center = getCenter(tempPoints);
       for (var i = 0; i < tempPoints.length; i++) {
         var dist = Math.sqrt((tempPoints[i].x-center[0])**2+(tempPoints[i].y-center[1])**2);
-        var centerDeg = (Math.atan2(tempPoints[i].y-center[1], tempPoints[i].x-center[0])*180/Math.PI-(this.rotateDeg%360)+450)%360;
-        points.push({'x': -Math.sin(Math.rad(centerDeg))*dist+center[0], 'y': -Math.cos(Math.rad(centerDeg))*dist+center[1]});
+        var centerDeg = (Math.atan2(tempPoints[i].y-center[1], tempPoints[i].x-center[0])*180/Math.PI-(this.rotateDeg%360)+630)%360;
+        points.push({'x': -Math.sin(Math.rad(centerDeg))*dist*this.absSize+center[0], 'y': -Math.cos(Math.rad(centerDeg))*dist*this.absSize+center[1]});
       }
     }
     return points;
@@ -335,6 +345,7 @@ class Particle {
     return Math.sqrt((this.position[0]-particles.position[0])**2+(this.position[0]-particles.position[0])**2);
   }
 
+  // debug
   spawnAtPoints() {
     var points = this.getPoints();
     var k = Math.floor(Math.random()*16**5).toString(16);

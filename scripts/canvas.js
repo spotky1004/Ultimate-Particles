@@ -333,7 +333,7 @@ function updateScreen() {
         var d = particles[name].rotateDeg;
         switch (particles[name].type) {
           case 'text':
-          c.font = `bold ${maxLeng*particles[name].absSize}px Major Mono Display`;
+          c.font = `bold ${maxLeng*particles[name].absSize*screenSettings.scale}px Major Mono Display`;
           c.textBaseline = 'middle';
           var lastPos = [
             maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale)-c.measureText(particles[name].text).width/2,
@@ -343,7 +343,7 @@ function updateScreen() {
             break;
           default:
           var d1 = (-d + 180 / s) % 360;
-          var sScale = 1/(particles[name].sides/2*Math.cos(Math.rad((180-(180/particles[name].sides*(particles[name].sides-2)))/2)))/0.7071067811865475;
+          var sScale = 1/(particles[name].sides/2*Math.cos(Math.rad((180-(180/particles[name].sides*(particles[name].sides-2)))/2)))/0.7071067811865475*(particles[name].sides==3?0.7071067811865475:1);
           var centerL = Math.csc(Math.rad(180 / s)) / 2 * particles[name].absSize*sScale;
           var lastPos = [
             maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale - Math.sin(Math.rad(d1)) * centerL * particles[name].size[0] * screenSettings.scale),
@@ -360,8 +360,8 @@ function updateScreen() {
               var centerDeg = (Math.atan2(particles[name].points[i].y-center[1], particles[name].points[i].x-center[0])*180/Math.PI-(d%360)+810)%360;
               var tempPos = [Math.sin(Math.rad(centerDeg))*dist+center[0], -Math.cos(Math.rad(centerDeg))*dist+center[1]];
               var lastPos = [
-                (tempPos[0]/2*screenSettings.scale+posOffset[0])*maxLeng,
-                (tempPos[1]/2*screenSettings.scale+posOffset[1])*maxLeng
+                (tempPos[0]/2*screenSettings.scale*particles[name].absSize+posOffset[0])*maxLeng,
+                (tempPos[1]/2*screenSettings.scale*particles[name].absSize+posOffset[1])*maxLeng
               ];
               if (i != 0) {
                 c.lineTo(lastPos[0], lastPos[1]);
@@ -375,9 +375,9 @@ function updateScreen() {
               maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale ),
               maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale )
             ];
-            c.arc(lastPos[0], lastPos[1], maxLeng*particles[name].getTotAbsSize()[0]/2, 0, 2*Math.PI);
+            c.arc(lastPos[0], lastPos[1], maxLeng*particles[name].getTotAbsSize()[0]/2*screenSettings.scale, 0, 2*Math.PI);
           } else if (s == 4 && d == 0) {
-            c.rect(lastPos[0], lastPos[1], maxLeng*particles[name].getTotAbsSize()[0], maxLeng*particles[name].getTotAbsSize()[1]);
+            c.rect(lastPos[0], lastPos[1], maxLeng*particles[name].getTotAbsSize()[0]*screenSettings.scale, maxLeng*particles[name].getTotAbsSize()[1]*screenSettings.scale);
           } else {
             c.moveTo(lastPos[0], lastPos[1]);
             for (var i = 0; i < particles[name].sides; i++) {

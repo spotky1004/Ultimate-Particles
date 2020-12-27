@@ -1446,6 +1446,56 @@ function level_57() {
   screenSettings.color = "#28bdd1";
   levelTasks.activateAll();
 }
+//level 5-8, made by Spotky1004
+function level_58() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      var tempP = Math.pow(levelLoopCount, 1/4);
+      screenSettings.scale /= 1.004**tempP;
+      particles.player.absSize *= 1.00399**tempP;
+      particles.blackhole.absSize *= 1.005**tempP;
+      console.log(1/particles.player.absSize/screenSettings.scale);
+      particles.player.playerSpeed *= 1.00399**tempP;
+      levelFunctions.activate(0);
+    }, time: tickSpeed*3, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+  levelLoopCount = 30;
+  levelLoop = setInterval( function () {
+    //levelLoopCount++;
+    for (var i = 0; i < 4+Math.sqrt(levelLoopCount); i++) {
+      particles[`P${levelLoopCount}S${i}`] = new Particle({'sides': Math.floor(Math.random()*Math.min(6, levelLoopCount/10)+3), 'rotateDeg': 180, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'absSize': Math.floor(Math.sqrt(levelLoopCount)+Math.random()*2+0.5)/screenSettings.scale, 'speedC': [0, 1e308]}).fade(1000, 0);
+      var tempD = Math.random()*Math.PI*2;
+      var tempL = Math.random()*0.3+1.2;
+      particles[`P${levelLoopCount}S${i}`].position = [Math.sqrt(2)*tempL*Math.sin(tempD)/screenSettings.scale, -Math.sqrt(2)*tempL*Math.cos(tempD)/screenSettings.scale];
+    }
+    if (levelLoopCount%5 == 0) {
+      particles[`P${levelLoopCount}Text`] = new Particle({'type': 'text', 'absSize': 1/screenSettings.scale, 'text': `${levelLoopCount}`, 'color': '#c49b29', 'zIndex': 0, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'position': [0, 2/screenSettings.scale]}).fade(2000);
+    }
+    if (levelLoopCount >= 30) {
+      /*for (var i = Math.floor(Math.random()*4), l = i+3; i < l; i++) {
+        var tempD = Math.PI*2*(i/4);
+        particles[`P${levelLoopCount}W${i}`] = new Particle({'disableC': 1, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'sides': -2, 'absSize': 1/screenSettings.scale, 'points': [{'x': -0.05, 'y': 1.15}, {'x': 0.05, 'y': 1.15}, {'x': 0.05, 'y': -1.15}, {'x': -0.05, 'y': -1.15}], 'position': [Math.sin(tempD)*1.1/screenSettings.scale, -Math.cos(tempD)*1.1/screenSettings.scale], 'rotateDeg': (i%2?0:90)});
+      }*/
+
+      //particles[`P${levelLoopCount}B`] = new Particle({'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'atk': 3, 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'speedC': [0, 1e308], 'size': [1/screenSettings.scale, 1/screenSettings.scale], 'sizeC': [[-1e308, 1e308], [-1e308, 1e308]], 'speed': 6/screenSettings.scale, 'position': [(levelLoopCount%2?2:-2)/screenSettings.scale,0]}).tickTraceTo(new Particle({}));
+    }
+  }, tickSpeed*120);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'position': [0.5, 0.5]});
+  particles['blackhole'] = new Particle({'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'absSize': 6, 'sides': -1, 'breakOnAttack': 0});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 1, 'text': 'shrink!', 'color': '#c49b29', 'zIndex': 0});
+
+  levelTasks.activateAll();
+  levelFunctions.activate(0);
+}
 
 function levelTemplate() {
   levelInit();
@@ -1751,8 +1801,16 @@ function pointTest2() {
   particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [1, 1], 'hp': 1e10});
 
 }
+function circleTest() {
+  levelInit();
 
-var playDebug = 0;
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'absSize': 8, 'hp': 1e10, 'position': [-1, -1], 'playerSpeed': 0.005});
+  particles['circle'] = new Particle({'size': [0.4 , 0], 'breakOnAttack': 0, 'sides': -1});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.20, 'text': 'text!', 'color': '#c49b29', 'zIndex': 0});
+  levelTasks.activateAll();
+}
+
+var playDebug = 1;
 if (playDebug) {
-  function level_11() {pointTest2()};
+  function level_11() {circleTest()};
 }
