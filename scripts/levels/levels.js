@@ -1526,6 +1526,63 @@ function level_58() {
   levelFunctions.activate(0);
 }
 
+//level 6-1, made by Spotky1004
+function level_61() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+
+    for (var i = 0; i < Math.min(18-(levelLoopCount>=60 ? 8 : 0), 15+Math.pow(levelLoopCount, 1/3)); i++) {
+      particles[`P${levelLoopCount}S${i}`] = new Particle({'color': hsvToRgb(Math.random(), 0.5, 0.6), 'speed': 6, 'absSizeI': 0.3, 'absSizeIType': 'span', 'spanPer': 1000}).randMove('rR');
+      if (i%3 == 0) {
+        particles[`P${levelLoopCount}S${i}`].tickTraceTo(particles.player);
+        particles[`P${levelLoopCount}S${i}`].deg += Math.random()*10-5;
+      }
+    }
+
+    screenSettings.size = 0.9;
+    screenSizeSpan(1, 20, 90);
+
+    if (levelLoopCount >= 30) {
+      var tempB = (levelLoopCount >= 60 ? 0.45 : 0.52);
+      var tempP = [...particles.player.position];
+      particles.BlindS0.positionI[0] = 2+tempB+tempP[0];
+      particles.BlindS1.positionI[0] = -2-tempB+tempP[0];
+      particles.BlindS2.positionI[1] = 2+tempB+tempP[1];
+      particles.BlindS3.positionI[1] = -2-tempB+tempP[1];
+    }
+
+    if (levelLoopCount >= 60) {
+      particles[`P${levelLoopCount}T`] = new Particle({'moveType': ['trace', 'player'], 'absSize': 1.2, 'absSizeI': -0.17, 'deleteTick': 5200/tickSpeed, 'speed': 5, 'sppedI': -0.5, 'color': '#666'}).randMove('rR');
+    }
+  }, tickSpeed*100);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.11, 'text': 'welcome v2!', 'color': '#c49b29', 'zIndex': 0});
+
+  particles[`BlindS0`] = new Particle({'size': [2, 2], 'position': [8, 0], 'positionI': [8, 0], 'positionIType': 'span', 'spanPer': 30, 'outOfBounds': [[-10, 10], [-10, 10]], 'type': 'decoration', 'zIndex': 4});
+  particles[`BlindS1`] = new Particle({'size': [2, 2], 'position': [-8, 0], 'positionI': [-8, 0], 'positionIType': 'span', 'spanPer': 30, 'outOfBounds': [[-10, 10], [-10, 10]], 'type': 'decoration', 'zIndex': 4});
+  particles[`BlindS2`] = new Particle({'size': [2, 2], 'position': [0, 8], 'positionI': [0, 8], 'positionIType': 'span', 'spanPer': 30, 'outOfBounds': [[-10, 10], [-10, 10]], 'type': 'decoration', 'zIndex': 4});
+  particles[`BlindS3`] = new Particle({'size': [2, 2], 'position': [0, -8], 'positionI': [0, -8], 'positionIType': 'span', 'spanPer': 30, 'outOfBounds': [[-10, 10], [-10, 10]], 'type': 'decoration', 'zIndex': 4});
+
+  levelTasks.activateAll();
+
+  sendInfo("Welcome to chapter 6...");
+}
+
 function levelTemplate() {
   levelInit();
 
