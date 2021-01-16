@@ -1512,7 +1512,6 @@ function level_58() {
             particles['P${levelLoopCount}S${i}BC'] = new Particle({'size': [2, 0.03], 'position': [0, ${tempP}], 'color': '${tempC}'}).fade(30);
           `
         });
-        console.log(particles[`P${levelLoopCount}S${i}B`].onDelete)
       }
     }
   }, tickSpeed*65);
