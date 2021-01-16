@@ -189,7 +189,7 @@ class Particle {
 
     //delete
     if (!(this.outOfBounds[0][0] <= this.position[0] && this.position[0] <= this.outOfBounds[0][1] && this.outOfBounds[1][0] <= this.position[1] && this.position[1] <= this.outOfBounds[1][1]) || (this.deleteTick <= 0 && this.deleteTick != -1)) {
-      new Function('pName', this.onDelete)(name);
+      new Function('pName', this.onDelete).bind(this)(name);
       delete particles[name];
       return 0;
     }

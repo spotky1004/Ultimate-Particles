@@ -1452,14 +1452,17 @@ function level_58() {
 
   levelFunctions = new Task([
     {callback: function(){
-      var tempP = Math.pow(levelLoopCount, 1/4);
-      screenSettings.scale /= 1.004**tempP;
-      particles.player.absSize *= 1.00399**tempP;
-      particles.blackhole.absSize *= 1.005**tempP;
-      console.log(1/particles.player.absSize/screenSettings.scale);
-      particles.player.playerSpeed *= 1.00399**tempP;
+      levelVars[0]++;
+      particles[`T0P${levelVars[0]}S0`] = new Particle({'position': [-0.88, -1.1], 'size': [0.1, 0.1], 'deg': 180, 'speed': 5, 'color': hsvToRgb(Math.random(), 0.7, 0.5), 'zIndex': 4, 'alpha': 0.3});
+      particles[`T0P${levelVars[0]}S1`] = new Particle({'position': [-1.1, 0.88], 'size': [0.1, 0.1], 'deg': 90, 'speed': 5, 'color': hsvToRgb(Math.random(), 0.7, 0.5), 'zIndex': 4, 'alpha': 0.3});
+      particles[`T0P${levelVars[0]}S2`] = new Particle({'position': [0.88, 1.1], 'size': [0.1, 0.1], 'deg': 0, 'speed': 5, 'color': hsvToRgb(Math.random(), 0.7, 0.5), 'zIndex': 4, 'alpha': 0.3});
+      particles[`T0P${levelVars[0]}S3`] = new Particle({'position': [1.1, -0.88], 'size': [0.1, 0.1], 'deg': 270, 'speed': 5, 'color': hsvToRgb(Math.random(), 0.7, 0.5), 'zIndex': 4, 'alpha': 0.3});
       levelFunctions.activate(0);
-    }, time: tickSpeed*3, activated: false},
+    }, time: tickSpeed*50, activated: false},
+    {callback: function(){
+      particles['acidBeam'].alpha = 1;
+      particles['acidBeam'].type = 'enemy';
+    }, time: tickSpeed*20, activated: false}
   ]);
 
   levelTasks = new Task([
@@ -1467,32 +1470,59 @@ function level_58() {
       //some functions here!
     }, time: 0, activated: false},
   ]);
-  levelLoopCount = 30;
+
   levelLoop = setInterval( function () {
-    //levelLoopCount++;
-    for (var i = 0; i < 4+Math.sqrt(levelLoopCount); i++) {
-      particles[`P${levelLoopCount}S${i}`] = new Particle({'sides': Math.floor(Math.random()*Math.min(6, levelLoopCount/10)+3), 'rotateDeg': 180, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'absSize': Math.floor(Math.sqrt(levelLoopCount)+Math.random()*2+0.5)/screenSettings.scale, 'speedC': [0, 1e308]}).fade(1000, 0);
-      var tempD = Math.random()*Math.PI*2;
-      var tempL = Math.random()*0.3+1.2;
-      particles[`P${levelLoopCount}S${i}`].position = [Math.sqrt(2)*tempL*Math.sin(tempD)/screenSettings.scale, -Math.sqrt(2)*tempL*Math.cos(tempD)/screenSettings.scale];
+    levelLoopCount++;
+    var tempP = [Math.random()*1.6-0.8, Math.random()*1.6-0.8];
+    var tempC = 8+Math.floor(levelLoopCount/20);
+    for (var i = 0; i < tempC; i++) {
+      var tempD = Math.PI*(2/tempC)*i;
+      particles[`P${levelLoopCount}S${i}`] = new Particle({'type': 'decoration', 'absSize': 0.6, 'alpha': 0.4, 'color': hsvToRgb(Math.random(), 0.7, 0.7), 'hsvRotateI': 0.10, 'speed': 7.2*2, 'position': [tempP[0]+Math.sin(tempD)*2, tempP[1]-Math.cos(tempD)*2], 'outOfBounds': [[-8, 8], [-8, 8]]}).tickTraceTo(new Particle({'position': [tempP[0], tempP[1]]}));
     }
-    if (levelLoopCount%5 == 0) {
-      particles[`P${levelLoopCount}Text`] = new Particle({'type': 'text', 'absSize': 1/screenSettings.scale, 'text': `${levelLoopCount}`, 'color': '#c49b29', 'zIndex': 0, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'position': [0, 2/screenSettings.scale]}).fade(2000);
+    if (levelLoopCount >= 3) {
+      for (var i = 0; i < 8+Math.floor((levelLoopCount-2)/20); i++) {
+        particles[`P${levelLoopCount-2}S${i}`].type = 'enemy';
+        particles[`P${levelLoopCount-2}S${i}`].alpha = 1;
+        particles[`P${levelLoopCount-2}S${i}`].effects = ['glow'];
+      }
     }
-    if (levelLoopCount >= 30) {
-      /*for (var i = Math.floor(Math.random()*4), l = i+3; i < l; i++) {
-        var tempD = Math.PI*2*(i/4);
-        particles[`P${levelLoopCount}W${i}`] = new Particle({'disableC': 1, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'sides': -2, 'absSize': 1/screenSettings.scale, 'points': [{'x': -0.05, 'y': 1.15}, {'x': 0.05, 'y': 1.15}, {'x': 0.05, 'y': -1.15}, {'x': -0.05, 'y': -1.15}], 'position': [Math.sin(tempD)*1.1/screenSettings.scale, -Math.cos(tempD)*1.1/screenSettings.scale], 'rotateDeg': (i%2?0:90)});
-      }*/
-
-      //particles[`P${levelLoopCount}B`] = new Particle({'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'atk': 3, 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'speedC': [0, 1e308], 'size': [1/screenSettings.scale, 1/screenSettings.scale], 'sizeC': [[-1e308, 1e308], [-1e308, 1e308]], 'speed': 6/screenSettings.scale, 'position': [(levelLoopCount%2?2:-2)/screenSettings.scale,0]}).tickTraceTo(new Particle({}));
+    if (levelLoopCount == 30) {
+      particles['acidBeam'] = new Particle({
+        'size': [4, 0.08], 'sizeI': [4, 0.02], 'sizeIType': 'span', 'spanPer': 20, 'position': [0, 0.9], 'color': hsvToRgb(Math.random(), 0.8, 0.8), 'hsvRotateI': 0.2, 'breakOnAttack': 0,
+        'onPlayerCollision': `
+          this.alpha = 0.3;
+          this.type = 'decoration';
+          levelFunctions.activate(1);
+        `
+      });
     }
-  }, tickSpeed*120);
+    if (levelLoopCount > 30) {
+      particles['acidBeam'].position[1] -= 0.2;
+      particles['acidBeam'].size[1] = 0.08;
+    }
+    if (levelLoopCount > 30 && levelLoopCount%10 == 0) particles['acidBeam'].position[1] = 0.9;
+    if (levelLoopCount > 60 && levelLoopCount%2 == 0) {
+      for (var i = 0; i < 2; i++) {
+        var tempP = screenRand()*0.84;
+        var tempC = hsvToRgb(Math.random(), 0.7, 0.8);
+        particles[`P${levelLoopCount}S${i}B`] = new Particle({
+          'type': 'decoration', 'alpha': 0.4, 'position': [(i*2-1)*0.99, tempP], 'size': [0.03, 0.03], 'deg': 90+180*i, 'speed': 7, 'color': tempC, 'outOfBounds': [[-1, 1], [-1, 1]], 'effects': ['glow'],
+          'onDelete':
+          `
+            particles['P${levelLoopCount}S${i}BC'] = new Particle({'size': [2, 0.03], 'position': [0, ${tempP}], 'color': '${tempC}'}).fade(30);
+          `
+        });
+        console.log(particles[`P${levelLoopCount}S${i}B`].onDelete)
+      }
+    }
+  }, tickSpeed*65);
 
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'position': [0.5, 0.5]});
-  particles['blackhole'] = new Particle({'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'absSize': 6, 'sides': -1, 'breakOnAttack': 0});
-  particles['text'] = new Particle({'type': 'text', 'absSize': 1, 'text': 'shrink!', 'color': '#c49b29', 'zIndex': 0});
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.15, 'text': 'acid!', 'color': '#fff', 'alpha': 0.3, 'zIndex': 0});
 
+  levelVars.push(0);
+
+  screenSettings.color = '#000';
   levelTasks.activateAll();
   levelFunctions.activate(0);
 }
@@ -1808,6 +1838,55 @@ function circleTest() {
   particles['circle'] = new Particle({'size': [0.4 , 0], 'breakOnAttack': 0, 'sides': -1});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.20, 'text': 'text!', 'color': '#c49b29', 'zIndex': 0});
   levelTasks.activateAll();
+}
+function levelShrink() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      var tempP = Math.pow(levelLoopCount, 1/4);
+      screenSettings.scale /= 1.004**tempP;
+      particles.player.absSize *= 1.00399**tempP;
+      particles.blackhole.absSize *= 1.005**tempP;
+      console.log(1/particles.player.absSize/screenSettings.scale);
+      particles.player.playerSpeed *= 1.00399**tempP;
+      levelFunctions.activate(0);
+    }, time: tickSpeed*3, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+  levelLoopCount = 30;
+  levelLoop = setInterval( function () {
+    //levelLoopCount++;
+    for (var i = 0; i < 4+Math.sqrt(levelLoopCount); i++) {
+      particles[`P${levelLoopCount}S${i}`] = new Particle({'sides': Math.floor(Math.random()*Math.min(6, levelLoopCount/10)+3), 'rotateDeg': 180, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'absSize': Math.floor(Math.sqrt(levelLoopCount)+Math.random()*2+0.5)/screenSettings.scale, 'speedC': [0, 1e308]}).fade(1000, 0);
+      var tempD = Math.random()*Math.PI*2;
+      var tempL = Math.random()*0.3+1.2;
+      particles[`P${levelLoopCount}S${i}`].position = [Math.sqrt(2)*tempL*Math.sin(tempD)/screenSettings.scale, -Math.sqrt(2)*tempL*Math.cos(tempD)/screenSettings.scale];
+    }
+    if (levelLoopCount%5 == 0) {
+      particles[`P${levelLoopCount}Text`] = new Particle({'type': 'text', 'absSize': 1/screenSettings.scale, 'text': `${levelLoopCount}`, 'color': '#c49b29', 'zIndex': 0, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'position': [0, 2/screenSettings.scale]}).fade(2000);
+    }
+    if (levelLoopCount >= 30) {
+      /*for (var i = Math.floor(Math.random()*4), l = i+3; i < l; i++) {
+        var tempD = Math.PI*2*(i/4);
+        particles[`P${levelLoopCount}W${i}`] = new Particle({'disableC': 1, 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'sides': -2, 'absSize': 1/screenSettings.scale, 'points': [{'x': -0.05, 'y': 1.15}, {'x': 0.05, 'y': 1.15}, {'x': 0.05, 'y': -1.15}, {'x': -0.05, 'y': -1.15}], 'position': [Math.sin(tempD)*1.1/screenSettings.scale, -Math.cos(tempD)*1.1/screenSettings.scale], 'rotateDeg': (i%2?0:90)});
+      }*/
+
+      //particles[`P${levelLoopCount}B`] = new Particle({'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'atk': 3, 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'speedC': [0, 1e308], 'size': [1/screenSettings.scale, 1/screenSettings.scale], 'sizeC': [[-1e308, 1e308], [-1e308, 1e308]], 'speed': 6/screenSettings.scale, 'position': [(levelLoopCount%2?2:-2)/screenSettings.scale,0]}).tickTraceTo(new Particle({}));
+    }
+  }, tickSpeed*120);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'position': [0.5, 0.5]});
+  particles['blackhole'] = new Particle({'outOfBounds': [[-1e308, 1e308], [-1e308, 1e308]], 'positionC': [[-1e308, 1e308], [-1e308, 1e308]], 'absSize': 6, 'sides': -1, 'breakOnAttack': 0});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 1, 'text': 'shrink!', 'color': '#c49b29', 'zIndex': 0});
+
+  levelTasks.activateAll();
+  levelFunctions.activate(0);
 }
 
 var playDebug = 0;

@@ -517,7 +517,6 @@ function playerDead(skipSave=0) {
         if (particles.player.hp !== undefined && bossLevels.includes(levelSelected)) {
           saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, particles.player.hp);
         } else {
-          console.log(levelLoopCount);
           saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, levelLoopCount);
         }
       }
