@@ -1488,7 +1488,7 @@ function level_58() {
     }
     if (levelLoopCount == 30) {
       particles['acidBeam'] = new Particle({
-        'size': [4, 0.08], 'sizeI': [4, 0.02], 'sizeIType': 'span', 'spanPer': 20, 'position': [0, 0.9], 'color': hsvToRgb(Math.random(), 0.8, 0.8), 'hsvRotateI': 0.2, 'breakOnAttack': 0,
+        'size': [4, 0.05], 'sizeI': [4, 0.03], 'sizeIType': 'span', 'spanPer': 20, 'position': [0, 0.9], 'color': hsvToRgb(Math.random(), 0.8, 0.8), 'hsvRotateI': 0.2, 'breakOnAttack': 0,
         'onPlayerCollision': `
           this.alpha = 0.3;
           this.type = 'decoration';
@@ -1498,7 +1498,7 @@ function level_58() {
     }
     if (levelLoopCount > 30) {
       particles['acidBeam'].position[1] -= 0.2;
-      particles['acidBeam'].size[1] = 0.08;
+      particles['acidBeam'].size[1] = 0.05;
     }
     if (levelLoopCount > 30 && levelLoopCount%10 == 0) particles['acidBeam'].position[1] = 0.9;
     if (levelLoopCount > 60 && levelLoopCount%2 == 0) {
