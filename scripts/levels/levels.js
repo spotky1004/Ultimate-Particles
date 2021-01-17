@@ -1546,7 +1546,7 @@ function level_61() {
     levelLoopCount++;
 
     for (var i = 0; i < Math.min(18-(levelLoopCount>=60 ? 8 : 0), 15+Math.pow(levelLoopCount, 1/3)); i++) {
-      particles[`P${levelLoopCount}S${i}`] = new Particle({'color': hsvToRgb(Math.random(), 0.5, 0.6), 'speed': 6, 'absSizeI': 0.3, 'absSizeIType': 'span', 'spanPer': 1000}).randMove('rR');
+      particles[`P${levelLoopCount}S${i}`] = new Particle({'color': hsvToRgb(Math.random(), 0.5, 0.6), 'speed': 6, 'absSizeI': 0.3, 'absSizeIType': 'span', 'spanPer': 1000, 'zIndex': 1}).randMove('rR');
       if (i%3 == 0) {
         particles[`P${levelLoopCount}S${i}`].tickTraceTo(particles.player);
         particles[`P${levelLoopCount}S${i}`].deg += Math.random()*10-5;
@@ -1566,17 +1566,17 @@ function level_61() {
     }
 
     if (levelLoopCount >= 60) {
-      particles[`P${levelLoopCount}T`] = new Particle({'moveType': ['trace', 'player'], 'absSize': 1.2, 'absSizeI': -0.17, 'deleteTick': 5200/tickSpeed, 'speed': 5, 'sppedI': -0.5, 'color': '#666'}).randMove('rR');
+      particles[`P${levelLoopCount}T`] = new Particle({'moveType': ['trace', 'player'], 'absSize': 1.2, 'absSizeI': -0.17, 'deleteTick': 5200/tickSpeed, 'speed': 5, 'sppedI': -0.5, 'color': '#666', 'zIndex': 4, 'effects': ['glow'], 'alpha': 0.3, 'alphaI': 0.3, 'alphaC': [0, 1]}).randMove('rR');
     }
   }, tickSpeed*100);
 
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'zIndex': 1});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.11, 'text': 'welcome v2!', 'color': '#c49b29', 'zIndex': 0});
 
-  particles[`BlindS0`] = new Particle({'size': [2, 2], 'position': [8, 0], 'positionI': [8, 0], 'positionIType': 'span', 'spanPer': 30, 'outOfBounds': [[-10, 10], [-10, 10]], 'type': 'decoration', 'zIndex': 4});
-  particles[`BlindS1`] = new Particle({'size': [2, 2], 'position': [-8, 0], 'positionI': [-8, 0], 'positionIType': 'span', 'spanPer': 30, 'outOfBounds': [[-10, 10], [-10, 10]], 'type': 'decoration', 'zIndex': 4});
-  particles[`BlindS2`] = new Particle({'size': [2, 2], 'position': [0, 8], 'positionI': [0, 8], 'positionIType': 'span', 'spanPer': 30, 'outOfBounds': [[-10, 10], [-10, 10]], 'type': 'decoration', 'zIndex': 4});
-  particles[`BlindS3`] = new Particle({'size': [2, 2], 'position': [0, -8], 'positionI': [0, -8], 'positionIType': 'span', 'spanPer': 30, 'outOfBounds': [[-10, 10], [-10, 10]], 'type': 'decoration', 'zIndex': 4});
+  particles[`BlindS0`] = new Particle({'size': [2, 2], 'position': [8, 0], 'positionI': [8, 0], 'positionIType': 'span', 'spanPer': 30, 'outOfBounds': [[-10, 10], [-10, 10]], 'type': 'decoration', 'zIndex': 3});
+  particles[`BlindS1`] = new Particle({'size': [2, 2], 'position': [-8, 0], 'positionI': [-8, 0], 'positionIType': 'span', 'spanPer': 30, 'outOfBounds': [[-10, 10], [-10, 10]], 'type': 'decoration', 'zIndex': 3});
+  particles[`BlindS2`] = new Particle({'size': [2, 2], 'position': [0, 8], 'positionI': [0, 8], 'positionIType': 'span', 'spanPer': 30, 'outOfBounds': [[-10, 10], [-10, 10]], 'type': 'decoration', 'zIndex': 3});
+  particles[`BlindS3`] = new Particle({'size': [2, 2], 'position': [0, -8], 'positionI': [0, -8], 'positionIType': 'span', 'spanPer': 30, 'outOfBounds': [[-10, 10], [-10, 10]], 'type': 'decoration', 'zIndex': 3});
 
   levelTasks.activateAll();
 
