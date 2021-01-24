@@ -1582,6 +1582,59 @@ function level_61() {
 
   sendInfo("Welcome to chapter 6...");
 }
+//level 6-2, made by Spotky1004
+function level_62() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    for (var j = 0; j < 1+Math.sqrt(levelLoopCount); j++) {
+      var tempP = new Particle().randMove('rR');
+      var tempC = Math.random();
+      for (var i = 0; i < 5; i++) {
+        particles[`P${levelLoopCount}A${j}S${i}_bump`] = new Particle({
+          'position': [...tempP.position], 'positionIType': 'span', 'positionI': [...tempP.position], 'deg': tempP.deg, 'spanPer': (i/2+1)*8, 'color': hsvToRgb(tempC, 0.6-i/20, 0.6-i/20), 'outOfBounds': [[-1, 1], [-1, 1]]
+        });
+        if (levelLoopCount >= 60 && Math.random() < 0.2) particles[`P${levelLoopCount}A${j}S${i}_bump`].tickTraceTo(particles.player);
+        if (levelLoopCount >= 30 && i == 0) {
+          particles[`P${levelLoopCount}A${j}S${i}_bump`].onDelete = `
+            particles['P${levelLoopCount}A${j}S${i}Sd'] = new Particle({
+              'deg': Math.random()*360, 'speed': 8, 'position': [this.position[0], this.position[1]], 'color': '${hsvToRgb(tempC, 0.6-i/20, 0.6-i/20)}'
+            });
+            if (boolRand()) particles['P${levelLoopCount}A${j}S${i}Sd'].tickTraceTo(particles.player)
+          `;
+          particles[`P${levelLoopCount}A${j}S${i}_bump`].effects = ['glow'];
+        }
+      }
+    }
+    for (var i in particles) {
+      if (!i.endsWith('_bump')) continue;
+      var t = particles[i];
+      if (levelLoopCount >= 60) t.deg += Math.min(5, Math.sqrt(levelLoopCount-60))+3;
+      t.positionI = [t.positionI[0]+Math.sin(Math.rad(t.deg))*0.5, t.positionI[1]-Math.cos(Math.rad(t.deg))*0.5];
+    }
+    if (levelLoopCount >= 30) {
+      screenSettings.scale = 1.1;
+      screenScaleSpan(1, 20, 50);
+    }
+  }, tickSpeed*70);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 25});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.15, 'text': 'bump!', 'color': '#c49b29', 'zIndex': 0});
+  levelTasks.activateAll();
+}
 
 function levelTemplate() {
   levelInit();
