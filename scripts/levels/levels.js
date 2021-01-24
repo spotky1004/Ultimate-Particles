@@ -1603,11 +1603,12 @@ function level_62() {
     for (var j = 0; j < 1+Math.sqrt(levelLoopCount); j++) {
       var tempP = new Particle().randMove('rR');
       var tempC = Math.random();
+      var tempB = levelLoopCount >= 60 && Math.random() < 0.2;
       for (var i = 0; i < 5; i++) {
         particles[`P${levelLoopCount}A${j}S${i}_bump`] = new Particle({
           'position': [...tempP.position], 'positionIType': 'span', 'positionI': [...tempP.position], 'deg': tempP.deg, 'spanPer': (i/2+1)*8, 'color': hsvToRgb(tempC, 0.6-i/20, 0.6-i/20), 'outOfBounds': [[-1.1, 1.1], [-1.1, 1.1]]
         });
-        if (levelLoopCount >= 60 && Math.random() < 0.2) particles[`P${levelLoopCount}A${j}S${i}_bump`].tickTraceTo(particles.player);
+        if (tempB) particles[`P${levelLoopCount}A${j}S${i}_bump`].tickTraceTo(particles.player);
         if (levelLoopCount >= 30 && i == 0) {
           particles[`P${levelLoopCount}A${j}S${i}_bump`].onDelete = `
             particles['P${levelLoopCount}A${j}S${i}Sd'] = new Particle({
