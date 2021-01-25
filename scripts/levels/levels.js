@@ -1636,6 +1636,31 @@ function level_62() {
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.15, 'text': 'bump!', 'color': '#c49b29', 'zIndex': 0});
   levelTasks.activateAll();
 }
+//level 6-3, made by Spotky1004
+function level_63t() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    //some functions here!
+  }, tickSpeed*100);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.20, 'text': 'text!', 'color': '#c49b29', 'zIndex': 0});
+  levelTasks.activateAll();
+}
 
 function levelTemplate() {
   levelInit();
@@ -2003,3 +2028,21 @@ var playDebug = 0;
 if (playDebug) {
   function level_11() {circleTest()};
 }
+
+var levelNames = [
+  'welcome!', 'circle!', 'bounce!', 'swing!', 'laser v2!', '',
+  'boom!', 'zigzag!', 'move!', 'speed!', 'boom v2!', '',
+  'grid!', 'laser!', 'stop,go!', 'dash!', 'windmill!', '',
+  'lava!', 'circle v2!', 'sprial!', 'boss stage!', 'acid!', '',
+  'turret!', 'fusion!', 'wall!', 'bounce v2!', '', '',
+  'welcome v2!', 'bump!', '', '', '', '',
+];
+
+var levelCreator = [
+  'Spotky1004', 'Spotky1004', 'Spotky1004', 'Spotky1004', 'Spotky1004', '',
+  'PillowPrism', 'PillowPrism', 'Spotky1004', 'Spotky1004', 'Spotky1004', '',
+  'PillowPrism', 'Spotky1004', 'Spotky1004', 'Spotky1004', 'Spotky1004', '',
+  'PillowPrism', 'Spotky1004', 'Spotky1004', 'RedMountain', 'Spotky1004', '',
+  'RedMountain', 'Spotky1004', 'Spotky1004', 'Spotky1004', '', '',
+  'Spotky1004', 'Spotky1004', '', '', '', ''
+];

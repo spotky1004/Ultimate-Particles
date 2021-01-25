@@ -175,6 +175,32 @@ function updateScreen() {
         var txtToWrite = `${saveData.levelData[`level${i+j*ijc}`].phase}`;
         c.fillText(txtToWrite, maxLeng*(i+.05)/ic-levelScreenOffset[0], maxLeng*(j+.05)/jc-levelScreenOffset[1]);
 
+        //name text
+        resetCanvasSettings();
+        c.beginPath();
+        c.font = `bold ${maxLeng*0.06/ijc}px Major Mono Display`;
+        c.textBaseline = 'top';
+        c.fillStyle = '#fff';
+        if (blockOn) {
+          c.fillStyle = onFill;
+        }
+        var txtToWrite = levelNames[i+j*6];
+        c.fillText(txtToWrite, maxLeng*(i+.97)/ic-levelScreenOffset[0]-c.measureText((txtToWrite).toString()).width, maxLeng*(j+.02)/jc-levelScreenOffset[1]);
+
+        //creator text
+        if (levelCreator[i+j*6] != "Spotky1004") {
+          resetCanvasSettings();
+          c.beginPath();
+          c.font = `bold ${maxLeng*0.04/ijc}px Major Mono Display`;
+          c.textBaseline = 'top';
+          c.fillStyle = '#fff';
+          if (blockOn) {
+            c.fillStyle = onFill;
+          }
+          var txtToWrite = levelCreator[i+j*6];
+          c.fillText(txtToWrite, maxLeng*(i+.97)/ic-levelScreenOffset[0]-c.measureText((txtToWrite).toString()).width, maxLeng*(j+.08)/jc-levelScreenOffset[1]);
+        }
+
         //stage text
         resetCanvasSettings();
         c.beginPath();
