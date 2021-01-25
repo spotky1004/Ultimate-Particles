@@ -1557,7 +1557,7 @@ function level_61() {
     screenSizeSpan(1, 20, 90);
 
     if (levelLoopCount >= 30) {
-      var tempB = (levelLoopCount >= 60 ? 0.45 : 0.52);
+      var tempB = 0.52;
       var tempP = [...particles.player.position];
       particles.BlindS0.positionI[0] = 2+tempB+tempP[0];
       particles.BlindS1.positionI[0] = -2-tempB+tempP[0];
@@ -1566,7 +1566,7 @@ function level_61() {
     }
 
     if (levelLoopCount >= 60) {
-      particles[`P${levelLoopCount}T`] = new Particle({'moveType': ['trace', 'player'], 'absSize': 1.2, 'absSizeI': -0.17, 'deleteTick': 5200/tickSpeed, 'speed': 5, 'sppedI': -0.5, 'color': '#666', 'zIndex': 4, 'effects': ['glow'], 'alpha': 0.3, 'alphaI': 0.3, 'alphaC': [0, 1]}).randMove('rR');
+      particles[`P${levelLoopCount}T`] = new Particle({'moveType': ['trace', 'player'], 'absSize': 1.2, 'absSizeI': -0.17, 'deleteTick': 5200/tickSpeed, 'speed': 5, 'sppedI': -0.6, 'color': '#666', 'zIndex': 4, 'effects': ['glow'], 'alpha': 0.3, 'alphaI': 0.3, 'alphaC': [0, 1]}).randMove('rR');
     }
   }, tickSpeed*100);
 
