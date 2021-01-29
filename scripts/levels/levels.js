@@ -1637,7 +1637,7 @@ function level_62() {
   levelTasks.activateAll();
 }
 //level 6-3, made by Spotky1004
-function level_63t() {
+function level_63() {
   levelInit();
 
   levelFunctions = new Task([
@@ -1654,11 +1654,13 @@ function level_63t() {
 
   levelLoop = setInterval( function () {
     levelLoopCount++;
-    //some functions here!
+    screenRotateSpan(screenSettings.screenRotate+10, 10, 90);
   }, tickSpeed*100);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
-  particles['text'] = new Particle({'type': 'text', 'absSize': 0.20, 'text': 'text!', 'color': '#c49b29', 'zIndex': 0});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.14, 'text': 'rotate!', 'color': '#c49b29', 'zIndex': 0});
+  screenSettings.size = 1/Math.sqrt(2);
+  screenSettings.scale = 1/Math.sqrt(2);
   levelTasks.activateAll();
 }
 
@@ -2023,10 +2025,36 @@ function levelShrink() {
   levelTasks.activateAll();
   levelFunctions.activate(0);
 }
+function levelWallTest() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    //some functions here!
+  }, tickSpeed*100);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.20, 'text': 'text!', 'color': '#c49b29', 'zIndex': 0});
+
+  particles['wall'] = new Particle({'type': "wall", 'absSize': 5, 'position': [0, 0.5], 'moveType': ['circle', [0, 0]], 'speed': 0.5, 'alpha': 0.3});
+  particles['wall2'] = new Particle({'type': "wall", 'absSize': 5, 'alpha': 0.3});
+  levelTasks.activateAll();
+}
 
 var playDebug = 0;
 if (playDebug) {
-  function level_11() {circleTest()};
+  function level_11() {levelWallTest()};
 }
 
 var levelNames = [

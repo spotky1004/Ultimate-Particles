@@ -155,6 +155,12 @@ async function screenPositionSpan(position=[0, 0], per=1, loop=100) {
   await timer(tickSpeed);
   screenPositionSpan(position, per, loop-1);
 }
+async function screenRotateSpan(deg=0, per=1, loop=100) {
+  screenSettings.screenRotate = (deg+screenSettings.screenRotate*per)/(per+1);
+  if(loop == 0 || Math.abs(screenSettings.screenRotate-deg) < 0.001 || playing == 0) return;
+  await timer(tickSpeed);
+  screenRotateSpan(deg, per, loop-1);
+}
 async function particleSpeedSpan(speed=1, per=1, loop=100) {
   levelSettings.particleSpeed = (speed+levelSettings.particleSpeed*per)/(per+1);
   if(loop == 0 || Math.abs(levelSettings.particleSpeed-speed) < 0.001 || playing == 0) return;

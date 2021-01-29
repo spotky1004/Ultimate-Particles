@@ -11,7 +11,7 @@ var propertyI = [
 class Particle {
   constructor(attrs={}) {
     // important
-    this.type = attrs.type || 'enemy'; // 'enemy' for enemy, 'player' for controlable player, 'text' for text, 'decoration' for decoration
+    this.type = attrs.type || 'enemy'; // 'enemy' for enemy, 'player' for controlable player, 'text' for text, 'decoration' for decoration, 'wall' for player wall (only for square)
 
     // view
     this.color = attrs.color || '#000'; // fill color for particle and text

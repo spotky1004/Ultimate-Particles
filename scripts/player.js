@@ -33,17 +33,39 @@ function updatePlayer() {
     if (particles[i].position[1] < -getScreenAbsSize()+particles[i].size[1]*particles[i].absSize+screenSettings.p[1]) particles[i].position[1] = -getScreenAbsSize()+particles[i].size[1]*particles[i].absSize+screenSettings.p[1];
     if (particles[i].position[1] > getScreenAbsSize()-particles[i].size[1]*particles[i].absSize+screenSettings.p[1]) particles[i].position[1] = getScreenAbsSize()-particles[i].size[1]*particles[i].absSize+screenSettings.p[1];
     for (var j in particles) {
-      if (particles[j].type == 'player' || particles[j].type != 'enemy' || i == j) continue;
+      if (particles[j].type == 'player' || (particles[j].type != "enemy" && particles[j].type != "wall") || i == j) continue;
       if (particles[i].collisionWith(particles[j])) {
-        particles[i].hp -= particles[j].atk*levelSettings.atkMult;
-        if (particles[i].hp <= 0) {
-          playerDead();
-          return;
-        } else {
-          new Function('pName', particles[j].onPlayerCollision).bind(particles[j])(j);
-        }
-        if (particles[j].breakOnAttack == 1) {
-          delete particles[j];
+        switch (particles[j].type) {
+          case "enemy":
+          particles[i].hp -= particles[j].atk*levelSettings.atkMult;
+          if (particles[i].hp <= 0) {
+            playerDead();
+            return;
+          } else {
+            new Function('pName', particles[j].onPlayerCollision).bind(particles[j])(j);
+          }
+          if (particles[j].breakOnAttack == 1) {
+            delete particles[j];
+          }
+            break;
+          case "wall":
+          var vx = particles[i].position[0]-particles[j].position[0], vy = particles[i].position[1]-particles[j].position[1];
+          if (vy**2 > vx**2) {
+            if (vy < 0) {
+              particles[i].position[1] = particles[j].position[1]-particles[j].getTotAbsSize()[1]-particles[i].getTotAbsSize()[1];
+            } else {
+              particles[i].position[1] = particles[j].position[1]+particles[j].getTotAbsSize()[1]+particles[i].getTotAbsSize()[1];
+            }
+          } else {
+            if (vx < 0) {
+              particles[i].position[0] = particles[j].position[0]-particles[j].getTotAbsSize()[0]-particles[i].getTotAbsSize()[0];
+            } else {
+              particles[i].position[0] = particles[j].position[0]+particles[j].getTotAbsSize()[0]+particles[i].getTotAbsSize()[0];
+            }
+          }
+            break;
+          default:
+
         }
       }
     }

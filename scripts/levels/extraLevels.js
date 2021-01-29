@@ -9,6 +9,7 @@ var extraLevels = [
   {'diff': 3, 'creator': 'PillowPrism', 'funcName': 'levelPillowTest', 'levelName': 'bottom aviod'},
   {'diff': 1, 'creator': 'RedMountain', 'funcName': 'redMountain2', 'levelName': 'wave!'},
   {'diff': 0, 'creator': 'Spotky1004', 'funcName': 'levelIcon', 'levelName': 'favicon'},
+  {'diff': 0, 'creator': 'Spotky1004', 'funcName': 'levelWallTest', 'levelName': 'sturdy wall'},
   {'diff': 2, 'creator': 'Spotky1004', 'funcName': 'onDeleteEventTest', 'levelName': 'test boom'},
   {'diff': 7, 'creator': 'Spotky1004', 'funcName': 'lagTest', 'levelName': '2000 particles'},
   {'diff': 3, 'creator': 'Spotky1004', 'funcName': 'levelCalc', 'levelName': 'math!'},

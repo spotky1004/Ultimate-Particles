@@ -25,6 +25,7 @@ function updateScreen() {
   document.getElementById('canvasBorder').style.setProperty('--thisLen', `${screenMaxLeng*screenSettings.size}px`);
   document.getElementById('canvasBorder').style.left = `${(innerWidth-(screenMaxLeng*(-screenSettings.p[0]+1-(1-screenSettings.size))))/2}px`;
   document.getElementById('canvasBorder').style.top = `${(innerHeight-(screenMaxLeng*(screenSettings.p[1]+1-(1-screenSettings.size))))/2}px`;
+  document.getElementById('canvasBorder').style.transform = `rotate(${screenSettings.screenRotate}deg)`;
 
   var canvasSize = maxLeng*screenSettings.size;
   canvas.width = canvasSize;
