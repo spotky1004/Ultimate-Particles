@@ -33,7 +33,10 @@ function load() {
   if (saveData.d < 1) {
     saveData.levelData[`level27`].phase = 0;
     saveData.d = 1;
-    save();
+  }
+  if (saveData.d < 2) {
+    saveData.levelData.level32.phase = 0;
+    saveData.d = 2;
   }
 }
 

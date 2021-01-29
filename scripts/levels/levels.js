@@ -1637,7 +1637,7 @@ function level_62() {
   levelTasks.activateAll();
 }
 //level 6-3, made by Spotky1004
-function level_63() {
+function level_63t() {
   levelInit();
 
   levelFunctions = new Task([
