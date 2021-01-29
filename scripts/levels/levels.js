@@ -2048,7 +2048,7 @@ function levelWallTest() {
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.20, 'text': 'text!', 'color': '#c49b29', 'zIndex': 0});
 
   particles['wall'] = new Particle({'type': "wall", 'absSize': 5, 'position': [0, 0.5], 'moveType': ['circle', [0, 0]], 'speed': 0.5, 'alpha': 0.3});
-  particles['wall2'] = new Particle({'type': "wall", 'absSize': 5, 'alpha': 0.3});
+  particles['wall2'] = new Particle({'type': "wall", 'absSize': 5, 'alpha': 0.3, 'moveType': ['trace', 'player'], 'speed': 5});
   levelTasks.activateAll();
 }
 
