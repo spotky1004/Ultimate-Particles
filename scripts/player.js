@@ -49,7 +49,7 @@ function updatePlayer() {
           }
             break;
           case "wall":
-          var vx = particles[i].position[0]-particles[j].position[0], vy = particles[i].position[1]-particles[j].position[1];
+          var vx = (particles[i].position[0]-particles[j].position[0])/particles[j].getTotAbsSize()[0]/particles[i].getTotAbsSize()[0], vy = (particles[i].position[1]-particles[j].position[1])/particles[j].getTotAbsSize()[1]/particles[i].getTotAbsSize()[1];
           if (vy**2 > vx**2) {
             if (vy < 0) {
               particles[i].position[1] = particles[j].position[1]-particles[j].getTotAbsSize()[1]-particles[i].getTotAbsSize()[1];
