@@ -53,6 +53,9 @@ class Particle {
     this.onPlayerCollision = attrs.onPlayerCollision || ""; // on enemy particle collision with player particle
     this.onDelete = attrs.onDelete || ""; // on delete by 'outOfBounds' or 'deleteTick' etc..
 
+    // etc
+    this.tag = attrs.tag || {}; // place to store data
+
     // Increments
     this.disableC = attrs.disableC || 0;
     for (var i = 0, l = propertyI.length; i < l; i++) {
