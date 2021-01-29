@@ -411,8 +411,7 @@ function calcAlphaI(tick, power=1) {
 
 //dom update
 function gameStatusUpdate() {
-  document.getElementById('phase').innerHTML = `phase: ${levelLoopCount}`;
-  document.getElementById('hp').innerHTML = `hp: ${(particles.player ? particles.player.hp : 0)}`;
+  document.getElementById('infoUi').innerHTML = new Function('return `' + screenSettings.infoUi + '`')();
   score = getScore();
   document.getElementById('score').innerHTML = `score: ${score}`;
   document.getElementById('info').style.bottom = `${infoVars[0]}vh`;
@@ -484,7 +483,8 @@ function levelInit() {
     'size': 1,
     'p': [0, 0], 'scale': 1,
     'color': '#f5c542',
-    'screenRotate': 0
+    'screenRotate': 0,
+    'infoUi': "phase: ${levelLoopCount}<br>hp: ${(particles.player ? particles.player.hp : 0)}"
   }
 
   levelFunctions = new Task();

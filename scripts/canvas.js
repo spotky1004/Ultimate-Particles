@@ -9,7 +9,8 @@ var screenSettings = {
   'size': 1,
   'p': [0, 0], 'scale': 1,
   'color': '#f5c542',
-  'screenRotate': 0
+  'screenRotate': 0,
+  'infoUi': "phase: ${levelLoopCount}<br>hp: ${(particles.player ? particles.player.hp : 0)}"
 }
 var levelOn = -1;
 var levelSelected = -1;
