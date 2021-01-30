@@ -2041,7 +2041,8 @@ function levelWallTest() {
   ]);
 
   levelLoop = setInterval( function () {
-    //some functions here!
+    levelLoopCount++;
+    particles[`P${levelLoopCount}`] = new Particle({'speed': 5, 'specialAttrs': ['bounce']}).randMove('rR');
   }, tickSpeed*100);
 
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
@@ -2049,6 +2050,10 @@ function levelWallTest() {
 
   particles['wall'] = new Particle({'type': "wall", 'absSize': 5, 'position': [0, 0.5], 'moveType': ['circle', [0, 0]], 'speed': 0.5, 'alpha': 0.3});
   particles['wall2'] = new Particle({'type': "wall", 'absSize': 5, 'alpha': 0.3, 'moveType': ['trace', 'player'], 'speed': 5});
+  particles['wall3'] = new Particle({'type': "wall", 'size': [1, 0.04], 'position': [0, 0.975], 'alpha': 0.3});
+
+  levelSettings.advancedMode = 1;
+
   levelTasks.activateAll();
 }
 

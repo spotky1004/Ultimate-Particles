@@ -148,6 +148,30 @@ class Particle {
       }
     }
 
+    // wall
+    if (levelSettings.advancedMode && this.type == "wall") {
+      for (var i in particles) {
+        if (!particles[i].specialAttrs.includes('bounce')) continue;
+        if (!this.collisionWith(particles[i]) || name == i) continue;
+        var vx = (particles[i].position[0]-this.position[0])/particles[i].getTotAbsSize()[0]/this.getTotAbsSize()[0], vy = (particles[i].position[1]-this.position[1])/particles[i].getTotAbsSize()[1]/this.getTotAbsSize()[1];
+        if (vy**2 > vx**2) {
+          if (vy < 0) {
+            particles[i].position[1] = this.position[1]-this.getTotAbsSize()[1]-particles[i].getTotAbsSize()[1];
+          } else {
+            particles[i].position[1] = this.position[1]+this.getTotAbsSize()[1]+particles[i].getTotAbsSize()[1];
+          }
+          particles[i].deg = (540-particles[i].deg)%360;
+        } else {
+          if (vx < 0) {
+            particles[i].position[0] = this.position[0]-this.getTotAbsSize()[0]-particles[i].getTotAbsSize()[0];
+          } else {
+            particles[i].position[0] = this.position[0]+this.getTotAbsSize()[0]+particles[i].getTotAbsSize()[0];
+          }
+          particles[i].deg = (360-particles[i].deg)%360;
+        }
+      }
+    }
+
     // increment properties
     var speedI = 1/tps;
     for (var i = 0, l = propertyI.length; i < l; i++) {

@@ -458,7 +458,8 @@ function resetCanvasSettings() {
 }
 var levelSettingsCopy = {
   'particleSpeed': 1,
-  'atkMult': 1
+  'atkMult': 1,
+  'advancedMode': 0
 }
 var levelSettings, levelLoopCount;
 var levelLoop = 0;
