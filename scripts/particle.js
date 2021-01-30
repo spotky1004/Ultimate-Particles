@@ -53,8 +53,9 @@ class Particle {
     this.onPlayerCollision = attrs.onPlayerCollision || ""; // on enemy particle collision with player particle
     this.onDelete = attrs.onDelete || ""; // on delete by 'outOfBounds' or 'deleteTick' etc..
 
-    // etc
+    // advanced
     this.tag = attrs.tag || {}; // place to store data
+    this.layer = attrs.layer || 0; // all particles can interect with same layer (-1 to any)
 
     // Increments
     this.disableC = attrs.disableC || 0;
@@ -151,8 +152,8 @@ class Particle {
     // wall
     if (levelSettings.advancedMode && this.type == "wall") {
       for (var i in particles) {
-        if (!particles[i].specialAttrs.includes('bounce')) continue;
-        if (!this.collisionWith(particles[i]) || name == i) continue;
+        if (!particles[i].specialAttrs.includes('bounce') || name == i) continue;
+        if (!this.collisionWith(particles[i])) continue;
         var vx = (particles[i].position[0]-this.position[0])/particles[i].getTotAbsSize()[0]/this.getTotAbsSize()[0], vy = (particles[i].position[1]-this.position[1])/particles[i].getTotAbsSize()[1]/this.getTotAbsSize()[1];
         if (vy**2 > vx**2) {
           if (vy < 0) {
@@ -225,7 +226,10 @@ class Particle {
     }
     return 1;
   }
+
+  // bool return
   collisionWith(particle) {
+    if (!this.layerCheck(particle)) return 0;
     if ((this.sides == -1 && particle.sides != -1) || (this.sides != -1 && particle.sides == -1)) {
       var point = (this.sides > particle.sides ? this : particle).getPoints();
       var circle = (this.sides < particle.sides ? this : particle);
@@ -245,6 +249,10 @@ class Particle {
       }
     }
     return 0;
+  }
+  layerCheck(particle) {
+    if (this.layer == particle.layer || this.layer == -1 || particle.layer == -1) return true;
+    return false;
   }
 
   // change properties easily

@@ -33,7 +33,7 @@ function updatePlayer() {
     if (particles[i].position[1] < -getScreenAbsSize()+particles[i].size[1]*particles[i].absSize+screenSettings.p[1]) particles[i].position[1] = -getScreenAbsSize()+particles[i].size[1]*particles[i].absSize+screenSettings.p[1];
     if (particles[i].position[1] > getScreenAbsSize()-particles[i].size[1]*particles[i].absSize+screenSettings.p[1]) particles[i].position[1] = getScreenAbsSize()-particles[i].size[1]*particles[i].absSize+screenSettings.p[1];
     for (var j in particles) {
-      if ( i == j) continue;
+      if (i == j) continue;
       if (particles[i].collisionWith(particles[j])) {
         switch (particles[j].type) {
           case "enemy":
