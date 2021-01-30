@@ -1,6 +1,7 @@
 var extraLevels = [
   {'diff': 0, 'creator': 'RedMountain', 'funcName': 'redMountain4', 'levelName': 'calc. evolution'},
   {'diff': 3, 'creator': 'PillowPrism', 'funcName': 'PillowLevelTest7', 'levelName': 'Fixed Position!'},
+  {'diff': 3, 'creator': 'Spotky1004', 'funcName': 'levelPingPong', 'levelName': 'ping pong!'},
   {'diff': 1, 'creator': 'Spotky1004', 'funcName': 'levelTest', 'levelName': 'test map'},
   {'diff': 2, 'creator': 'Spotky1004', 'funcName': 'levelTest2', 'levelName': 'bumping square'},
   {'diff': 3, 'creator': 'Spotky1004', 'funcName': 'levelTest3', 'levelName': 'tracing square'},

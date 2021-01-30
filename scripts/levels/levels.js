@@ -2056,10 +2056,53 @@ function levelWallTest() {
 
   levelTasks.activateAll();
 }
+function levelPingPong() {
+  levelInit();
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      particles['playerPaddle'].positionI[0] = particles.player.position[0];
+      particles['ememyPaddle'].positionI[0] = particles.ball.position[0];
+      if (particles.playerGoal.collisionWith(particles.ball)) {
+        particles.ball.speed = 0;
+        particles.ball.speedI = 0;
+        particles.text.text = 'you lose!';
+      }
+      if (particles.enemyGoal.collisionWith(particles.ball)) {
+        particles.ball.speed = 0;
+        particles.ball.speedI = 0;
+        particles.text.text = 'you win!';
+      }
+      levelTasks.activate(0);
+    }, time: tickSpeed, activated: false},
+  ]);
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [0, 0.9], 'playerSpeed': 0.008});
+  particles['ball'] = new Particle({'specialAttrs': ['bounce'], 'speed': 4, 'speedI': 0.2, 'deg': -48, 'color': '#fff', 'type': 'decoration', 'color': '#e3c58d'});
+  particles['playerPaddle'] = new Particle({'type': 'wall', 'size': [0.16, 0.0125], 'position': [0, 0.8525], 'positionI': [0, 0.8525], 'positionIType': 'span', 'color': '#8de3dc', 'spanPer': 40});
+  particles['ememyPaddle'] = new Particle({'type': 'wall', 'size': [0.16, 0.0125], 'position': [0, -0.8525], 'positionI': [0, -0.8525], 'positionIType': 'span', 'color': '#e38d8d', 'spanPer': 25});
+  particles['playerGoal'] = new Particle({'size': [1, 0.04], 'position': [0, 0.98], 'alpha': 0.2, 'color': '#f00', 'type': 'decoration'});
+  particles['enemyGoal'] = new Particle({'size': [1, 0.04], 'position': [0, -0.98], 'alpha': 0.2, 'color': '#f00', 'type': 'decoration'});
+  particles['line'] = new Particle({'size': [1, 0.005], 'color': '#fff', 'spanPer': 25, 'alpha': 0.3, 'atk': 10});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.1, 'text': 'ping pong!', 'color': '#fff', 'zIndex': 0, 'alpha': 0.7});
+
+  levelTasks.activateAll();
+
+  screenSettings.color = '#000';
+  levelSettings.advancedMode = 1;
+
+  sendInfo('wasn\'t this bullet hell game??');
+}
 
 var playDebug = 0;
 if (playDebug) {
-  function level_11() {levelWallTest()};
+  function level_11() {levelPingPong()};
 }
 
 var levelNames = [
