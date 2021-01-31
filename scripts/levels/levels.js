@@ -1660,12 +1660,15 @@ function level_63t() {
   particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.14, 'text': 'rotate!', 'color': '#c49b29', 'zIndex': 0});
   screenSettings.size = 1/Math.sqrt(2);
-  screenSettings.scale = 1/Math.sqrt(2);
   levelTasks.activateAll();
 }
 
 function levelTemplate() {
   levelInit();
+
+  levelTickFunction = function() {
+    // this function will called every tick
+  };
 
   levelFunctions = new Task([
     {callback: function(){
@@ -2102,7 +2105,7 @@ function levelPingPong() {
 
 var playDebug = 0;
 if (playDebug) {
-  function level_11() {levelPingPong()};
+  function level_11() {levelShrink()};
 }
 
 var levelNames = [
@@ -2111,7 +2114,7 @@ var levelNames = [
   'grid!', 'laser!', 'stop,go!', 'dash!', 'windmill!', '',
   'lava!', 'circle v2!', 'sprial!', 'boss stage!', 'acid!', '',
   'turret!', 'fusion!', 'wall!', 'bounce v2!', '', '',
-  'welcome v2!', 'bump!', '', '', '', '',
+  'welcome v2!', 'bump!', 'rotate!', '', '', '',
 ];
 
 var levelCreator = [

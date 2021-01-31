@@ -463,7 +463,7 @@ var levelSettingsCopy = {
 }
 var levelSettings, levelLoopCount;
 var levelLoop = 0;
-var levelFunctions, levelTasks, levelLoop, levelLoopCount, levelVars;
+var levelFunctions, levelTasks, levelLoop, levelLoopCount, levelVars, levelTickFunction;
 function levelInit() {
   try {
     levelTasks.cancelAll();
@@ -477,6 +477,7 @@ function levelInit() {
   }
   clearInterval(levelLoop);
   levelSettings = {};
+  levelTickFunction = () => {};
   for (var i in levelSettingsCopy) {
     levelSettings[i] = levelSettingsCopy[i];
   }

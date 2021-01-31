@@ -5,4 +5,5 @@ setInterval( function () {
   updatePlayer();
   updateScreen();
   gameStatusUpdate();
+  levelTickFunction();
 }, tickSpeed);
