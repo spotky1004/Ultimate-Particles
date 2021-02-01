@@ -67,7 +67,11 @@ function updatePlayer() {
           default:
 
         }
-        new Function('pName', particles[j].onPlayerCollision).bind(particles[j])(j);
+        try {
+          new Function('pName', particles[j].onPlayerCollision).bind(particles[j])(j);
+        } catch (e) {
+
+        }
       }
     }
   }

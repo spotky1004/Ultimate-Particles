@@ -56,6 +56,7 @@ class Particle {
     // advanced
     this.tag = attrs.tag || {}; // place to store data
     this.layer = attrs.layer || 0; // all particles can interect with same layer (-1 to any)
+    this.lifeTime = attrs.lifeTime || 0; // increment by 1 every tick
 
     // Increments
     this.disableC = attrs.disableC || 0;
@@ -86,6 +87,8 @@ class Particle {
 
   // in-game
   update(name) {
+    this.lifeTime++;
+
     // moveType
     switch (this.moveType[0]) {
       case 'trace':

@@ -1637,8 +1637,35 @@ function level_62() {
   levelTasks.activateAll();
 }
 //level 6-3, made by Spotky1004
-function level_63t() {
+function level_63() {
   levelInit();
+
+  levelTickFunction = function() {
+    for (var i in particles) {
+      if (i.endsWith('_mass')) {
+        if (particles[i].collisionWith(particles.star)) {
+          delete particles[i];
+          particles.star.tag.absorbed++;
+        }
+      } else if (i.endsWith('_shard') && !particles[i].tag.traced) {
+        if (particles[i].lifeTime > 150) {
+          particles[i].speed = (levelLoopCount>=30?11:8);
+          particles[i].tickTraceTo(particles.player);
+          particles[i].tag.traced = 1;
+        }
+      }
+    }
+    if (particles.star.tag.absorbed >= 100) {
+      particles.star.tag.absorbed = 0;
+      particles.star.tag.bombed++;
+      var tempD = Math.random()*360;
+      for (var i = 0; i < 16; i++) {
+        particles[`B${particles.star.tag.bombed}S${i}_shard`] = new Particle({'speed': (3+(i%2)*1.5)*(levelLoopCount>=30?1.8:1), 'color': '#e65353', 'effects': ['glow'], 'deg': (360/16*i+tempD)%360, 'tag': {'traced': 0}, 'hsvRotateI': 0.2});
+      }
+    }
+    particles.star.absSize = Math.sqrt(particles.star.tag.absorbed)/6+0.5;
+    particles.star.color = hsvToRgb(0, (particles.star.tag.absorbed**2/10000)*0.7+0.3, (particles.star.tag.absorbed**2/10000)*0.7+0.3);
+  };
 
   levelFunctions = new Task([
     {callback: function(){
@@ -1655,11 +1682,16 @@ function level_63t() {
   levelLoop = setInterval( function () {
     levelLoopCount++;
     screenRotateSpan(screenSettings.screenRotate+10, 10, 90);
-  }, tickSpeed*100);
+    for (var i = 0; i < 10+Math.sqrt(levelLoopCount)*1.2; i++) {
+      particles[`P${levelLoopCount}S${i}_mass`] = new Particle({'absSize': 0.73, 'color': (i%2?"#f0eab9":"#dfb9f0"), 'speed': 4}).randMove('rR').tickTraceTo(particles.star);
+    }
+  }, tickSpeed*80);
 
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
-  particles['text'] = new Particle({'type': 'text', 'absSize': 0.14, 'text': 'rotate!', 'color': '#c49b29', 'zIndex': 0});
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'position': [0, -.1]});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.14, 'text': 'star!', 'color': '#fff', 'zIndex': 0, 'alpha': 0.7});
+  particles['star'] = new Particle({'color': '#666', 'absSize': 0.5, 'tag': {'absorbed': 0, 'bombed': 0}, 'breakOnAttack': 0});
   screenSettings.size = 1/Math.sqrt(2);
+  screenSettings.color = '#07011c';
   levelTasks.activateAll();
 }
 
@@ -2114,7 +2146,7 @@ var levelNames = [
   'grid!', 'laser!', 'stop,go!', 'dash!', 'windmill!', '',
   'lava!', 'circle v2!', 'sprial!', 'boss stage!', 'acid!', '',
   'turret!', 'fusion!', 'wall!', 'bounce v2!', '', '',
-  'welcome v2!', 'bump!', 'rotate!', '', '', '',
+  'welcome v2!', 'bump!', 'star!', '', '', '',
 ];
 
 var levelCreator = [

@@ -37,6 +37,10 @@ function updateScreen() {
   c.rect(0, 0, canvas.width, canvas.height);
   c.fill();
 
+  if (screenState != "game") {
+    screenSettings.screenRotate = 0;
+  }
+
   resetCanvasSettings();
   switch (screenState) {
     case 'main':
