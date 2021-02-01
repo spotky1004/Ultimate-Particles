@@ -1649,7 +1649,7 @@ function level_63() {
         }
       } else if (i.endsWith('_shard') && !particles[i].tag.traced) {
         if (particles[i].lifeTime > 150) {
-          particles[i].speed = (levelLoopCount>=30?11:8);
+          particles[i].speed = (levelLoopCount>=60?11:8);
           particles[i].tickTraceTo(particles.player);
           particles[i].tag.traced = 1;
         }
@@ -1660,7 +1660,7 @@ function level_63() {
       particles.star.tag.bombed++;
       var tempD = Math.random()*360;
       for (var i = 0; i < 16; i++) {
-        particles[`B${particles.star.tag.bombed}S${i}_shard`] = new Particle({'speed': (3+(i%2)*1.5)*(levelLoopCount>=30?1.8:1), 'color': '#e65353', 'effects': ['glow'], 'deg': (360/16*i+tempD)%360, 'tag': {'traced': 0}, 'hsvRotateI': 0.2});
+        particles[`B${particles.star.tag.bombed}S${i}_shard`] = new Particle({'speed': (3+(i%2)*1.5)*(levelLoopCount>=60?1.8:1), 'color': '#e65353', 'effects': ['glow'], 'deg': (360/16*i+tempD)%360, 'tag': {'traced': 0}, 'hsvRotateI': 0.2});
       }
     }
     particles.star.absSize = Math.sqrt(particles.star.tag.absorbed)/6+0.5;
