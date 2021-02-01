@@ -1681,7 +1681,7 @@ function level_63() {
 
   levelLoop = setInterval( function () {
     levelLoopCount++;
-    screenRotateSpan(screenSettings.screenRotate+10, 10, 90);
+    if (levelLoopCount>=30) screenRotateSpan(screenSettings.screenRotate+10, 10, 90);
     for (var i = 0; i < 10+Math.sqrt(levelLoopCount)*1.2; i++) {
       particles[`P${levelLoopCount}S${i}_mass`] = new Particle({'absSize': 0.73, 'color': (i%2?"#f0eab9":"#dfb9f0"), 'speed': 4}).randMove('rR').tickTraceTo(particles.star);
     }
