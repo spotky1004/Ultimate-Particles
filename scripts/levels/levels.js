@@ -1660,7 +1660,7 @@ function level_63() {
       particles.star.tag.bombed++;
       var tempD = Math.random()*360;
       for (var i = 0; i < 16; i++) {
-        particles[`B${particles.star.tag.bombed}S${i}_shard`] = new Particle({'speed': (3+(i%2)*1.5)*(levelLoopCount>=60?1.8:1), 'color': '#e65353', 'effects': ['glow'], 'deg': (360/16*i+tempD)%360, 'tag': {'traced': 0}, 'hsvRotateI': 0.2});
+        particles[`B${particles.star.tag.bombed}S${i}_shard`] = new Particle({'speed': (3+(i%2)*1.5)*(levelLoopCount>=30?1.8:1), 'color': '#e65353', 'effects': ['glow'], 'deg': (360/16*i+tempD)%360, 'tag': {'traced': 0}, 'hsvRotateI': 0.2});
       }
     }
     particles.star.absSize = Math.sqrt(particles.star.tag.absorbed)/6+0.5;
@@ -1681,8 +1681,7 @@ function level_63() {
 
   levelLoop = setInterval( function () {
     levelLoopCount++;
-    if (levelLoopCount>=30) screenRotateSpan(screenSettings.screenRotate+10, 10, 90);
-    for (var i = 0; i < 10+Math.sqrt(levelLoopCount)*1.2; i++) {
+    for (var i = 0; i < 10+Math.sqrt(levelLoopCount); i++) {
       particles[`P${levelLoopCount}S${i}_mass`] = new Particle({'absSize': 0.73, 'color': (i%2?"#f0eab9":"#dfb9f0"), 'speed': 4}).randMove('rR').tickTraceTo(particles.star);
     }
   }, tickSpeed*80);
