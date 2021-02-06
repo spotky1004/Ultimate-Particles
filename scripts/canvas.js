@@ -274,6 +274,17 @@ function updateScreen() {
       c.fillText(txtToWrite, maxLeng*0.05-c.measureText((txtToWrite).toString()).width/2, maxLeng*(0.2*i-0.15)-topOffset);
 
       // level idx text
+      if (isVaild) {
+        resetCanvasSettings();
+      c.beginPath();
+      c.font = `bold ${maxLeng*0.03}px Major Mono Display`;
+      c.textBaseline = 'middle';
+      c.fillStyle = numToRgb(colSet2);
+      var txtToWrite = `best ${(typeof saveData.levelData['custom_' + extraLevels[thisIdx].funcName] != "undefined" ? saveData.levelData['custom_' + extraLevels[thisIdx].funcName].phase : 0)}`;
+      c.fillText(txtToWrite, maxLeng*0.02, maxLeng*(0.2*i-0.02)-topOffset);
+      }
+
+      // level best text
       resetCanvasSettings();
       c.beginPath();
       c.font = `bold ${maxLeng*0.1}px Major Mono Display`;

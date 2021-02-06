@@ -527,9 +527,12 @@ function playerDead(skipSave=0) {
         } else {
           saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, levelLoopCount);
         }
+      } else {
+        if (typeof saveData.levelData['custom_' + levelSelectedFunc] == "undefined") saveData.levelData['custom_' + levelSelectedFunc] = {phase: 0};
+        saveData.levelData['custom_' + levelSelectedFunc].phase = levelLoopCount;
       }
     } catch (e) {
-
+      
     }
   }
   levelInit();

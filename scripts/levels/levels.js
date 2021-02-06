@@ -2154,7 +2154,13 @@ function levelTextParse() {
 
   levelLoop = setInterval( function () {
     levelLoopCount++;
-    particles.text.text = levelVars[0][levelLoopCount];
+    if (typeof levelVars[0][levelLoopCount] != "undefined") {
+      particles.text.text = levelVars[0][levelLoopCount];
+    } else {
+      var tempStr = '';
+      for (var i = 0; i < 2+Math.floor(levelLoopCount/10); i++) tempStr += Math.floor(Math.random()*36).toString(36);
+      particles.text.text = tempStr;
+    }
     for (var i = 0; i < 50; i++) {
       for (var j = 0; j < 50; j++) {
         var col = c.getImageData(maxLeng/50*i, maxLeng/50*j, 1, 1).data;
@@ -2171,9 +2177,9 @@ function levelTextParse() {
     }
   }, tickSpeed*300);
 
-  levelVars[0] = ['s', 'p', 'o', 't', 'k', 'y', ':d']; // text to write
+  levelVars[0] = ['s', 'p', 'o', 't', 'k', 'y', ':d', 'bye']; // text to write
 
-  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00', 'hp': 25});
   particles['text'] = new Particle({'type': 'text', 'absSize': 0.5, 'text': levelVars[0][0], 'color': '#000', 'zIndex': 0});
 
   levelTasks.activateAll();
