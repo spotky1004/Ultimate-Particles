@@ -2133,10 +2133,55 @@ function levelPingPong() {
 
   sendInfo('wasn\'t this bullet hell game??');
 }
+function levelTextParse() {
+  levelInit();
 
-var playDebug = 0;
+  levelTickFunction = function() {
+    // this function will called every tick
+  };
+
+  levelFunctions = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      //some functions here!
+    }, time: 0, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    levelLoopCount++;
+    particles.text.text = levelVars[0][levelLoopCount];
+    for (var i = 0; i < 50; i++) {
+      for (var j = 0; j < 50; j++) {
+        var col = c.getImageData(maxLeng/50*i, maxLeng/50*j, 1, 1).data;
+        if ([...col].splice(0, 3).every(d => d == 0)) {
+          var tempP = {x: i/50*2-1, y: -j/50*2+1};
+          var tempR = Math.random()*360;
+          var tempD = Math.sqrt(2)*(1.5+Math.random()*0.5);
+          var tempP2 = {x: tempP.x+tempD*Math.sin(Math.rad(tempR)), y: tempP.y-tempD*Math.cos(Math.rad(tempR))};
+          var tempD2 = Math.sqrt((tempP2.x-tempP.x)**2+(tempP2.y-tempP.y)**2);
+          var tempS = tempD2*5.5;
+          particles[`P${levelLoopCount}Draw${levelVars[0][levelLoopCount-1]}_${i}_${j}`] = new Particle({'absSize': 0.5, 'deg': (tempR+180)%360, 'speed': tempS, 'speedI': 0.99, 'speedIType': 'multiply', 'position': [tempP2.x, tempP2.y], 'color': "#09a7b3", "effects": ['glow'], 'outOfBounds': [[-5, 5], [-5, 5]]});
+        }
+      }
+    }
+  }, tickSpeed*300);
+
+  levelVars[0] = ['s', 'p', 'o', 't', 'k', 'y', ':d']; // text to write
+
+  particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.5, 'text': levelVars[0][0], 'color': '#000', 'zIndex': 0});
+
+  levelTasks.activateAll();
+}
+
+var playDebug = 1;
 if (playDebug) {
-  function level_11() {levelShrink()};
+  function level_11() {levelTextParse()};
 }
 
 var levelNames = [

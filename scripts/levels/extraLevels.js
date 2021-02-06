@@ -4,6 +4,7 @@ var extraLevels = [
   {'diff': 3, 'creator': 'Spotky1004', 'funcName': 'levelPingPong', 'levelName': 'ping pong!'},
   {'diff': 1, 'creator': 'Spotky1004', 'funcName': 'levelTest', 'levelName': 'test map'},
   {'diff': 2, 'creator': 'Spotky1004', 'funcName': 'levelTest2', 'levelName': 'bumping square'},
+  {'diff': 4, 'creator': 'Spotky1004', 'funcName': 'levelTextParse', 'levelName': 'Text to Particle'},
   {'diff': 3, 'creator': 'Spotky1004', 'funcName': 'levelTest3', 'levelName': 'tracing square'},
   {'diff': 3, 'creator': 'Spotky1004', 'funcName': 'levelTest4', 'levelName': 'blinking square'},
   {'diff': 0, 'creator': 'Spotky1004', 'funcName': 'levelIncremental', 'levelName': 'increment'},
