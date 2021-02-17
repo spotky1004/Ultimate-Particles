@@ -494,6 +494,7 @@ function levelInit() {
   levelLoop = 0;
   levelLoopCount = 0;
   levelVars = [];
+  imageCaches = {};
 
   innerPlaying = 1;
 }

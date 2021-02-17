@@ -14,6 +14,7 @@ var screenSettings = {
 }
 var levelOn = -1;
 var levelSelected = -1;
+var imageCaches = {};
 
 var score = 0;
 
@@ -392,7 +393,21 @@ function updateScreen() {
             maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale - Math.sin(Math.rad(d1)) * centerL * particles[name].size[0] * screenSettings.scale),
             maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale - Math.cos(Math.rad(d1)) * centerL * particles[name].size[1] * screenSettings.scale)
           ];
-          if (s == -2) {
+          if (particles[name].image != "") {
+            if (typeof imageCaches[particles[name].image] == "undefined") {
+              imageCaches[particles[name].image] = new Image(100, 100);
+              imageCaches[particles[name].image].src = particles[name].image;
+            }
+            const image = imageCaches[particles[name].image];
+            var d1 = (-d + 180 / s) % 360;
+            var sScale = 1/(particles[name].sides/2*Math.cos(Math.rad((180-(180/particles[name].sides*(particles[name].sides-2)))/2)))/0.7071067811865475*(particles[name].sides==3?0.7071067811865475:1);
+            var centerL = Math.csc(Math.rad(180 / s)) / 2 * particles[name].absSize*sScale;
+            var lastPos = [
+              maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale - Math.sin(Math.rad(d1)) * centerL * particles[name].size[0] * screenSettings.scale),
+              maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale - Math.cos(Math.rad(d1)) * centerL * particles[name].size[1] * screenSettings.scale)
+            ];
+            c.drawImage(image, lastPos[0], lastPos[1], maxLeng*particles[name].getTotAbsSize()[0]*screenSettings.scale, maxLeng*particles[name].getTotAbsSize()[1]*screenSettings.scale);
+          } else if (s == -2) {
             var posOffset = [
               (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + particles[name].position[0]/2*screenSettings.scale),
               ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - particles[name].position[1]/2*screenSettings.scale)

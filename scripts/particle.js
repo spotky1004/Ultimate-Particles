@@ -22,6 +22,7 @@ class Particle {
     this.text = attrs.text || 'text'; // text property for for text
     this.effects = attrs.effects || []; // effects - 'glow'
     this.hsvRotate = attrs.hsvRotate || 0; // hsv deg increment
+    this.image = attrs.image || ""; // image (url), this property will overlap other view properties
 
     // move
     this.moveType = attrs.moveType || ['normal', null]; // moveType - 'trace', 'avoid', 'circle', 'teaceCircle', 'traceAvoid'
