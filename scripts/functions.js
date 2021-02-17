@@ -518,12 +518,12 @@ function goExtra() {
   innerPlaying = 0;
 }
 function playerDead(skipSave=0) {
-  var bossLevels = [21];
+  var bossLevels = [21, 28];
   if (!skipSave || !bossLevels.includes(levelSelected)) {
     try {
       if (saveData.levelData[`level${levelSelected}`] !== undefined) {
         if (particles.player.hp !== undefined && bossLevels.includes(levelSelected)) {
-          saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, particles.player.hp);
+          //saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, particles.player.hp);
         } else {
           saveData.levelData[`level${levelSelected}`].phase = Math.max(saveData.levelData[`level${levelSelected}`].phase, levelLoopCount);
         }

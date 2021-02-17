@@ -952,6 +952,7 @@ function level_47() {
             delete particles[`Shadow4_110`]
         }
         if (smallLoopCount == 116) {
+          saveData.levelData.level21.phase = Math.max(saveData.levelData.level21.phase, particles.player.hp);
           playerDead();
         }
     }, tickSpeed*100);
@@ -959,6 +960,8 @@ function level_47() {
     particles['player'] = new Particle({'type': 'player', 'color': '#f00'});
     particles['text'] = new Particle({'type': 'text', 'text': 'boss stage!', 'absSize': 0.11, 'color': '#faa', 'zIndex': 1})
     particles['phasetext'] = new Particle({'type': 'text', 'text': 'phase 0 / 4', 'absSize': 0.07, 'color': '#faa', 'zIndex': 1, 'position': [0, -0.7]})
+
+    screenSettings.infoUi = "score: ${(particles.player ? particles.player.hp : 0)}<br>hp: ${(particles.player ? particles.player.hp : 0)}";
     levelTasks.activateAll();
 }
 
@@ -1522,6 +1525,143 @@ function level_58() {
   levelVars.push(0);
 
   screenSettings.color = '#000';
+  levelTasks.activateAll();
+  levelFunctions.activate(0);
+}
+//level 5-9, made by Spotky1004
+function level_59() {
+  levelInit();
+
+  levelTickFunction = function() {
+    
+  };
+
+  levelFunctions = new Task([
+    {callback: function(){
+      levelVars[0]++;
+      for (var i in particles) {
+        if (!i.endsWith("_Generator")) continue;
+        particles[`Child_${i}_${levelVars[0]}`] = new Particle({speed: 10, position: [...particles[i].position], zIndex: 1, color: "#f00", absSize: 0.9}).tickTraceTo(new Particle({position: [0, 0]}));
+        particles[i].speed *= 0.9;
+      }
+      levelFunctions.activate(0);
+    }, time: 400, activated: false},
+    {callback: function(){
+      levelVars[0]++;
+      for (var i = 0; i < 10; i++) particles[`Center${levelVars[0]}S${i}`] = new Particle({color: "#000", speed: 6, speedI: 2, absSize: 0.8, hitboxSize: 0.8, deg: (36*i+levelVars[0]**1.7)%360, rotateDeg: (36*i+levelVars[0]**1.7)%360});
+      levelFunctions.activate(1);
+    }, time: 200, activated: false},
+    {callback: function(){
+      levelVars[0]++;
+      for (var i = 0; i < 2; i++) particles[`${levelVars[0]}S${i}_curve`] = new Particle({deg: Math.random()*360, degI: 10+levelVars[0]/5, degC: [0, 1e10], color: hslToRgb((levelVars[0]**2/100)%1, 0.6, 0.6), speed: 4, speedI: 1}).randMove('rR');
+      particles[`${levelVars[0]}S${i}_trace`] = new Particle({speed: 5, speedI: 2, absSize: 0.9}).randMove("rR").tickTraceTo(particles.player);
+      levelFunctions.activate(2);
+    }, time: 150, activated: false},
+  ]);
+
+  levelTasks = new Task([
+    {callback: function(){
+      for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 7; j++) particles[`S${i}P${j}_S0`] = new Particle({color: "#800", position: [(Math.floor(i/2)%2)*2-1, !(Math.floor((i+1)/2)%2)*2-1], deg: i*90+Math.random()*90, speed: 5+Math.random()*5, speedI: 5});
+      }
+    }, time: 500, activated: false},
+    {callback: function(){
+      for (var i in particles) {
+        if (!i.endsWith("_S0")) continue;
+        particles[i].speed = 0;
+      }
+      for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 7; j++) particles[`S${i}P${j}_S1`] = new Particle({color: "#800", position: [(Math.floor(i/2)%2)*2-1, !(Math.floor((i+1)/2)%2)*2-1], deg: i*90+Math.random()*90, speed: 5+Math.random()*5, speedI: 5});
+      }
+    }, time: 2000, activated: false},
+    {callback: function(){
+      for (var i in particles) {
+        if (!i.endsWith("_S1")) continue;
+        particles[i].speed = 0;
+      }
+      for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 7; j++) particles[`S${i}P${j}_S2`] = new Particle({color: "#800", position: [(Math.floor(i/2)%2)*2-1, !(Math.floor((i+1)/2)%2)*2-1], deg: i*90+Math.random()*90, speed: 5+Math.random()*5, speedI: 5});
+      }
+    }, time: 3500, activated: false},
+    {callback: function(){
+      for (var i in particles) {
+        if (!i.endsWith("_S2")) continue;
+        particles[i].speed = 0;
+      }
+      particles.G0_Generator = new Particle({deg: 315, speed: 20, speedI: 1, specialAttrs: ['bounce'], color: "#c49b29", position: [1, 0], absSize: 1.4, breakOnAttack: 0, zIndex: 3});
+      particles.G0_wall = new Particle({rotateDeg: 45, position: [1, -1], size: [Math.sqrt(0.5), Math.sqrt(0.5)], breakOnAttack: 0, color: "#222", alpha: 0.5, zIndex: 2});
+    }, time: 5000, activated: false},
+    {callback: function(){
+      particles.G1_Generator = new Particle({deg: 315, speed: 20, speedI: 2, specialAttrs: ['bounce'], color: "#c49b29", position: [1, 0], absSize: 1.4, breakOnAttack: 0, zIndex: 3});
+      particles.G1_wall = new Particle({rotateDeg: 45, position: [-1, -1], size: [Math.sqrt(0.5), Math.sqrt(0.5)], breakOnAttack: 0, color: "#222", alpha: 0.5, zIndex: 2});
+    }, time: 5500, activated: false},
+    {callback: function(){
+      particles.G2_Generator = new Particle({deg: 315, speed: 20, speedI: 3, specialAttrs: ['bounce'], color: "#c49b29", position: [1, 0], absSize: 1.4, breakOnAttack: 0, zIndex: 3});
+      particles.G2_wall = new Particle({rotateDeg: 45, position: [-1, 1], size: [Math.sqrt(0.5), Math.sqrt(0.5)], breakOnAttack: 0, color: "#222", alpha: 0.5, zIndex: 2});
+    }, time: 6000, activated: false},
+    {callback: function(){
+      particles.G3_Generator = new Particle({deg: 315, speed: 20, speedI: 4, specialAttrs: ['bounce'], color: "#c49b29", position: [1, 0], absSize: 1.4, breakOnAttack: 0, zIndex: 3});
+      particles.G3_wall = new Particle({rotateDeg: 45, position: [1, 1], size: [Math.sqrt(0.5), Math.sqrt(0.5)], breakOnAttack: 0, color: "#222", alpha: 0.5, zIndex: 2});
+    }, time: 6500, activated: false},
+    {callback: function(){
+      for (var i = 0; i < 10; i++) particles[`S0S${i}_hScanLaser`] = new Particle({color: "#f00", size: [1, 0.05], position: [0, -1+0.2*i], alpha: 0.4, type: "decoration"});
+    }, time: 10000, activated: false},
+    {callback: function(){
+      for (var i = 0; i < 10; i++) particles[`S0S${i}_hScanLaser`] = new Particle({color: "#f2dada", size: [1, 0.05], position: [0, -1+0.2*i], breakOnAttack: 0}).fade(20, 0.3);
+      for (var i = 0; i < 10; i++) particles[`S1S${i}_hScanLaser`] = new Particle({color: "#f00", size: [1, 0.05], position: [0, -0.9+0.2*i], alpha: 0.4, type: "decoration"});
+    }, time: 11000, activated: false},
+    {callback: function(){
+      for (var i = 0; i < 10; i++) particles[`S1S${i}_hScanLaser`] = new Particle({color: "#f2dada", size: [1, 0.05], position: [0, -0.9+0.2*i], breakOnAttack: 0}).fade(20, 0.3);
+    }, time: 12000, activated: false},
+    {callback: function(){
+      for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 4; j++) particles[`S${i*4+j}_fragBomb`] = new Particle({color: "#111", speed: 4, speedI: 6, position: [...particles[`G${i}_Generator`].position], deg: Math.random()*360});
+        delete particles[`G${i}_Generator`];
+      }
+      levelFunctions.cancel(0);
+    }, time: 20000, activated: false},
+    {callback: function(){
+      for (var i = 0; i < 16; i++) {
+        for (var j = 0; j < 4; j++) particles[`S${i}S${j}_frag`] = new Particle({color: "#ed4a4a", speedI: 5, position: [...particles[`S${i}_fragBomb`].position], deg: Math.random()*360});
+        delete particles[`S${i}_fragBomb`];
+      }
+      particles[`CenterCircle_warning`] = new Particle({color: "#f00", size: [0.3, 0], alpha: 0.4, sides: -1, type: "decoration"}).fade(200, 0.3);
+      particles[`RotateBox`] = new Particle({sides: -2, color: "#f00", alpha: 0.4, type: "decoration", rotateDegI: 20, breakOnAttack: 0, points: [{x:-0.025, y:Math.sqrt(2)}, {x:0.025, y:Math.sqrt(2)}, {x:0.025, y:-Math.sqrt(2)},{x:-0.025, y:-Math.sqrt(2)}]});
+    }, time: 20800, activated: false},
+    {callback: function(){
+      levelVars[0] = 0;
+      levelFunctions.activate(1);
+      particles[`RotateBox`].type = "enemy";
+      particles[`RotateBox`].alpha = 1;
+      particles[`RotateBox`].color = "#000";
+    }, time: 22300, activated: false},
+    {callback: function(){
+      levelFunctions.cancel(1);
+      delete particles[`RotateBox`];
+      levelVars[0] = 0;
+      levelFunctions.activate(2);
+    }, time: 40000, activated: false},
+    {callback: function(){
+      levelFunctions.cancel(2);
+      for (var i in particles) if (i.endsWith("_curve")) particles[i].tickTraceTo(particles.player).setDeg(particles[i].deg+180).fade(300, 0);
+      saveData.levelData.level28.phase = Math.max(saveData.levelData.level28.phase, particles.player.hp*4);
+    }, time: 60000, activated: false},
+    {callback: function(){
+      playerDead();
+    }, time: 66000, activated: false},
+  ]);
+
+  levelLoop = setInterval( function () {
+    //levelLoopCount++;
+    //some functions here! 
+  }, tickSpeed*100);
+
+  particles['player'] = new Particle({type: 'player', color: '#f00', hp: 30});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.08, 'text': 'boss stage v2!', 'color': '#c49b29', 'zIndex': 0});
+  screenSettings.infoUi = "score: ${(particles.player ? particles.player.hp*4 : 0)}<br>hp: ${(particles.player ? particles.player.hp : 0)}";
+
+  levelVars.push(0);
+  //screenSettings.color = "#5ced58";
   levelTasks.activateAll();
   levelFunctions.activate(0);
 }
@@ -2195,7 +2335,7 @@ var levelNames = [
   'boom!', 'zigzag!', 'move!', 'speed!', 'boom v2!', '',
   'grid!', 'laser!', 'stop,go!', 'dash!', 'windmill!', '',
   'lava!', 'circle v2!', 'sprial!', 'boss stage!', 'acid!', '',
-  'turret!', 'fusion!', 'wall!', 'bounce v2!', '', '',
+  'turret!', 'fusion!', 'wall!', 'bounce v2!', 'boss stage v2!', '',
   'welcome v2!', 'bump!', 'star!', '', '', '',
 ];
 
@@ -2204,6 +2344,6 @@ var levelCreator = [
   'PillowPrism', 'PillowPrism', 'Spotky1004', 'Spotky1004', 'Spotky1004', '',
   'PillowPrism', 'Spotky1004', 'Spotky1004', 'Spotky1004', 'Spotky1004', '',
   'PillowPrism', 'Spotky1004', 'Spotky1004', 'RedMountain', 'Spotky1004', '',
-  'RedMountain', 'Spotky1004', 'Spotky1004', 'Spotky1004', '', '',
+  'RedMountain', 'Spotky1004', 'Spotky1004', 'Spotky1004', 'Spotky1004', '',
   'Spotky1004', 'Spotky1004', '', '', '', ''
 ];
