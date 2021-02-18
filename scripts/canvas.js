@@ -357,11 +357,16 @@ function updateScreen() {
         if (particles[name].zIndex != z || !particles[name].update(name)) continue;
         c.beginPath();
         resetCanvasSettings();
+        
+        // glow effect
+        if (particles[name].effects.includes('glow')) {
+          c.shadowColor = particles[name].color;
+          c.shadowBlur = 15/screenSettings.scale;
+        } else {
+          c.shadowColor = "rgba(0, 0, 0, 0)";
+        }
+
         c.lineWidth = 1;
-        /*var tempCol = hexToNum(this.color);
-        var tempHsv = rgbToHsv(tempCol[0], tempCol[1], tempCol[2]);
-        console.log(`${this.colorI}, ${speedI}, ${this.colorI*speedI}, ${tempHsv.h}`);
-        this.color = hsvToRgb(tempHsv.h+0.01, tempHsv.s, tempHsv.v);*/
         var c2 = particles[name].color;
         if (particles[name].hsvRotate) {
           c2 = hexToNum(c2);
@@ -447,17 +452,6 @@ function updateScreen() {
           }
           c.fill();
           c.stroke();
-          if (particles[name].effects.includes('glow')) {
-            var lastPos = [
-              maxLeng * (-(screenSettings.p[0]+(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 + p[0] / 2 * screenSettings.scale),
-              maxLeng * ((screenSettings.p[1]-(1-screenSettings.size)) / 2 * screenSettings.scale + 0.5 - p[1] / 2 * screenSettings.scale)
-            ];
-            var grd = c.createRadialGradient(lastPos[0], lastPos[1], maxLeng*Math.max(particles[name].getTotAbsSize()[0], particles[name].getTotAbsSize()[1])*0.25, lastPos[0], lastPos[1], maxLeng*Math.max(particles[name].getTotAbsSize()[0], particles[name].getTotAbsSize()[1]+0.0035));
-            grd.addColorStop(0, c2);
-            grd.addColorStop(1, hexToRgba(c2));
-            c.fillStyle = grd;
-            c.fillRect(lastPos[0]-maxLeng*0.03, lastPos[1]-maxLeng*0.03, maxLeng*0.06, maxLeng*0.06);
-          }
         }
       }
     }

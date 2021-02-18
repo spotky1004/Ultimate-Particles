@@ -1657,7 +1657,7 @@ function level_59() {
   }, tickSpeed*100);
 
   particles['player'] = new Particle({type: 'player', color: '#f00', hp: 30});
-  particles['text'] = new Particle({'type': 'text', 'absSize': 0.08, 'text': 'boss stage v2!', 'color': '#c49b29', 'zIndex': 0});
+  particles['text'] = new Particle({'type': 'text', 'absSize': 0.08, 'text': 'boss stage v2!', 'color': '#c49b29', 'zIndex': 0, effects: ['glow']});
   screenSettings.infoUi = "score: ${(particles.player ? particles.player.hp*4 : 0)}<br>hp: ${(particles.player ? particles.player.hp : 0)}";
 
   levelVars.push(0);
