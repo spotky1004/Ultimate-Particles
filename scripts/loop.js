@@ -7,7 +7,7 @@ window.onblur = function() {
   keypress = {};
 };
 window.onfocus = function() {
-  blured = 1;
+  blured = 0;
 };
 mainInterval = setInterval( function () {
   if (blured) return;
